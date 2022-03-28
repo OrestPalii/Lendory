@@ -12,7 +12,7 @@
         android:layout_height="190dp"
         android:layout_centerInParent="true"
         app:cardCornerRadius="25dp"
-        app:cardBackgroundColor="#EEEDE7">
+        app:cardBackgroundColor="@color/main">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -24,6 +24,7 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="#EEEDE7">
                 <ImageView
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/test"></ImageView>
@@ -40,6 +41,7 @@
                 android:textStyle="bold"
                 android:textSize="14dp"></TextView>
             <TextView
+                android:id="@+id/description"
                 android:layout_below="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

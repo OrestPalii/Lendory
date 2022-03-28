@@ -4,20 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
-    private String[] mData;
+    private ArrayList<Adv> list;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    MyRecyclerViewAdapter(Context context, String[] data) {
+    MyRecyclerViewAdapter(Context context, ArrayList<Adv> list) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+        this.list = list;
     }
 
     // inflates the cell layout from xml when needed
@@ -28,26 +32,26 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return new ViewHolder(view);
     }
 
-    // binds the data to the TextView in each cell
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //holder.myTextView.setText(mData[position]);
+        holder.name.setText(list.get(position).getName());
+        holder.description.setText(list.get(position).getDescription());
     }
 
-    // total number of cells
     @Override
     public int getItemCount() {
-        return mData.length;
+        return list.size();
     }
 
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        //TextView myTextView;
-
+        TextView name, description;
+        ImageView image;
         ViewHolder(View itemView) {
             super(itemView);
-            //myTextView = itemView.findViewById(R.id.info_text);
+            name = itemView.findViewById(R.id.name); description = itemView.findViewById(R.id.description);
+            image = itemView.findViewById(R.id.image);
             itemView.setOnClickListener(this);
         }
 
