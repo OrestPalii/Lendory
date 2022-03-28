@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
     <Button
         android:id="@+id/sender"
         android:layout_width="200dp"
@@ -18,12 +20,91 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/new_adv"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:alpha="0.5"></ImageView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            app:cardCornerRadius="25dp"
+            app:cardBackgroundColor="@color/main">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_horizontal"
+                    android:text="Нове Оголошення"
+                    android:textSize="25dp"
+                    android:textColor="@color/black"
+                    ></TextView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cancel"
+                    android:layout_width="152dp"
+                    android:layout_height="50dp"
+                    app:cardBackgroundColor="@color/green"
+                    app:cardCornerRadius="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="15dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Скасувати"
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"></TextView>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/send_button"
+                    android:layout_width="152dp"
+                    android:layout_height="50dp"
+                    app:cardBackgroundColor="@color/purple"
+                    app:cardCornerRadius="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="15dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Опублікувати"
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"></TextView>
+                </androidx.cardview.widget.CardView>
+                <EditText
+                    android:id="@+id/name_edit"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Заголовок оголошення"></EditText>
+                <EditText
+                    android:id="@+id/description_edit"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Опис оголошення"></EditText>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
 </RelativeLayout>

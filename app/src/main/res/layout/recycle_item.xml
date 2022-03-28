@@ -8,8 +8,8 @@
     android:orientation="vertical">
     <androidx.cardview.widget.CardView
         android:layout_margin="10dp"
-        android:layout_width="170dp"
-        android:layout_height="190dp"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
         android:layout_centerInParent="true"
         app:cardCornerRadius="25dp"
         app:cardBackgroundColor="@color/main">
@@ -18,9 +18,9 @@
             android:layout_height="match_parent">
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="7dp"
+                android:layout_margin="10dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="#EEEDE7">
                 <ImageView
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Назва оголошення"
-                android:layout_marginTop="117dp"
+                android:layout_marginTop="210dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="7dp"
                 android:textColor="@color/black"
