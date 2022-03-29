@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Adv {
     private String name, description, location, currency;
-    private int price, area, numberOfRooms, flor;
+    private int price, area, numberOfRooms, floor;
     private boolean volunteering;
     private ArrayList <String> images;
     private User creator;
@@ -68,12 +68,12 @@ public class Adv {
         this.numberOfRooms = numberOfRooms;
     }
 
-    public int getFlor() {
-        return flor;
+    public int getFloor() {
+        return floor;
     }
 
-    public void setFlor(int flor) {
-        this.flor = flor;
+    public void setFloor(int flor) {
+        this.floor = floor;
     }
 
     public boolean isVolunteering() {
@@ -100,7 +100,7 @@ public class Adv {
         this.creator = creator;
     }
 
-    public Adv(String name, String description, String location, String currency, int price, int area, int numberOfRooms, int flor, boolean volunteering, ArrayList<String> images, User creator) {
+    public Adv(String name, String description, String location, String currency, int price, int area, int numberOfRooms, int floor, boolean volunteering, ArrayList<String> images, User creator) {
         this.name = name;
         this.description = description;
         this.location = location;
@@ -108,7 +108,7 @@ public class Adv {
         this.price = price;
         this.area = area;
         this.numberOfRooms = numberOfRooms;
-        this.flor = flor;
+        this.floor = floor;
         this.volunteering = volunteering;
         this.images = images;
         this.creator = creator;
