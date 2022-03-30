@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/topPanel"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         app:cardCornerRadius="10dp"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
@@ -23,15 +23,14 @@
                 android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="60dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="50dp"
                 android:hint="Пошук"></EditText>
             <ImageView
                 android:background="@drawable/heart"
                 android:id="@+id/lup"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentRight="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"></ImageView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
