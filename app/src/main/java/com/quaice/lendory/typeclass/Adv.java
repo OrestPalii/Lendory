@@ -1,8 +1,5 @@
-package com.quaice.lendory;
+package com.quaice.lendory.typeclass;
 
-import android.net.Uri;
-
-import java.net.URL;
 import java.util.ArrayList;
 
 public class Adv {

@@ -9,11 +9,11 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/topPanel"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        app:cardCornerRadius="10dp"
+        android:layout_height="50dp"
+        app:cardCornerRadius="20dp"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/green">
+        app:cardBackgroundColor="#beb2f4">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -23,15 +23,27 @@
                 android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="50dp"
-                android:hint="Пошук"></EditText>
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="20dp"
+                android:hint="Пошук"
+                android:background="@null"></EditText>
+            <androidx.cardview.widget.CardView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                app:cardCornerRadius="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="6dp"
+                android:layout_centerHorizontal="true"
+                app:cardBackgroundColor="@color/white">
             <ImageView
-                android:background="@drawable/heart"
+                android:src="@drawable/search"
+                android:tint="#d65148"
                 android:id="@+id/lup"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"></ImageView>
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"></ImageView>
+            </androidx.cardview.widget.CardView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

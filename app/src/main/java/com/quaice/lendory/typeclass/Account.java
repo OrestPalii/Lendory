@@ -1,4 +1,4 @@
-package com.quaice.lendory;
+package com.quaice.lendory.typeclass;
 
 public class Account {
     private String name, phonenumber, password;
