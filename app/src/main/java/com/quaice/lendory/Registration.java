@@ -3,7 +3,9 @@ package com.quaice.lendory;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -45,6 +47,13 @@ public class Registration extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
         myRef = database.getReference("profiles");
 
+        SharedPreferences activityPreferences = getPreferences(Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = activityPreferences.edit();
+        if(activityPreferences.getBoolean("loggin", false)){
+            Intent intent = new Intent(Registration.this, MainActivity.class);
+            startActivity(intent);
+        }
+
         reg_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +94,9 @@ public class Registration extends AppCompatActivity {
                             && login_password.getText().toString().equals(you.getPassword())){
                             Intent intent = new Intent(Registration.this, MainActivity.class);
                             startActivity(intent);
+                            //Локал сейв
+                            editor.putBoolean("loggin", true);
+                            editor.commit();
                         }
                     }
 
