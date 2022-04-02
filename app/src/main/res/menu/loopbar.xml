@@ -6,16 +6,5 @@
         android:icon="@drawable/home"
         android:title="Головна"
         tools:ignore="HardcodedText,PrivateResource"/>
-    <item
-        android:icon="@drawable/heart"
-        android:title="Вибране"
-        tools:ignore="HardcodedText,PrivateResource"/>
-    <item
-        android:icon="@drawable/add"
-        android:title="Створити"
-        tools:ignore="HardcodedText,PrivateResource"/>
-    <item
-        android:icon="@drawable/profile"
-        android:title="Профіль"
-        tools:ignore="HardcodedText,PrivateResource"/>
+
 </menu>
