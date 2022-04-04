@@ -28,27 +28,32 @@ import com.quaice.lendory.typeclass.User;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    RelativeLayout sender;
-    CardView cancel, send, new_adv;
-    Context context;
-    EditText name_edit, desc_edit, search;
-    ArrayList<Adv> downloaded;
-    ArrayList<Adv> sorted;
-    ArrayList<ImageView> photos;
-    DatabaseReference myRef;
-    ArrayList<String> images;
+
+    private RelativeLayout sender;
+    private CardView cancel, send, new_adv;
+    private EditText name_edit, desc_edit, search;
+    private ArrayList<Adv> downloaded;
+    private ArrayList<Adv> sorted;
+    private ArrayList<ImageView> photos;
+    private DatabaseReference myRef;
+    private ArrayList<String> images;
+
+    private void init(){
+        images = new ArrayList<>();
+        photos = new ArrayList<>();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context = this;
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
         myRef = database.getReference("advertisement");
-
-        images = new ArrayList<>();
-        photos = new ArrayList<>();
-        photos.add(findViewById(R.id.first_image));photos.add(findViewById(R.id.second_image));
-        photos.add(findViewById(R.id.third_image));photos.add(findViewById(R.id.forth_image));
+        init();
+        photos.add(findViewById(R.id.first_image));
+        photos.add(findViewById(R.id.second_image));
+        photos.add(findViewById(R.id.third_image));
+        photos.add(findViewById(R.id.forth_image));
         search = findViewById(R.id.search);
         search.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -75,12 +80,14 @@ public class MainActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
         new_adv = findViewById(R.id.new_adw);
         sender = findViewById(R.id.add);
+
         sender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new_adv.setVisibility(View.VISIBLE);
             }
         });
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -120,20 +126,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {}
         });
-
     }
+
     void build_recycler(ArrayList<Adv> list){
         RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         MyRecyclerViewAdapter  adapter = new MyRecyclerViewAdapter(this, list);
         recyclerView.setAdapter(adapter);
     }
+
     void imageChooser() {
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -152,6 +160,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
 }
