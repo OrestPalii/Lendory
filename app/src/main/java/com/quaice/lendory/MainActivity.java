@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RelativeLayout sender;
-    private CardView cancel, send, new_adv;
+    private RelativeLayout sender, new_adv;
+    private CardView cancel, send;
     private EditText name_edit, desc_edit, search;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Adv cur = new Adv(name_edit.getText().toString(),desc_edit.getText().toString(),"Львів","$",1000,50,2,10,
                         false,images,new User("Антон", "+380976547419"));
+
                 myRef.child("" + cur.hashCode()).setValue(cur);
                 new_adv.setVisibility(View.INVISIBLE);
                 images = new ArrayList<>();
@@ -152,9 +153,11 @@ public class MainActivity extends AppCompatActivity {
                     photos.get(0).clearColorFilter();
                     photos.get(0).setImageResource(0);
                     photos.get(0).setImageURI(selectedImageUri);
+
                     FirebaseStorage storage = FirebaseStorage.getInstance("gs://lendory-b5d8b.appspot.com/");;
                     StorageReference ref = storage.getReference().child("images/" + photos.get(0).hashCode());
                     ref.putFile(selectedImageUri);
+
                     images.add("" + photos.get(0).hashCode());
                 }
             }
