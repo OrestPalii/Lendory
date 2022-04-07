@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".activities.MainActivity"
     android:background="@drawable/back">
 
     <RelativeLayout
@@ -462,7 +462,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:src="@drawable/sett"
+            android:src="@drawable/line_menu"
             android:layout_marginLeft="20dp"
             android:tint="#7d6bc5"></ImageView>
     </androidx.cardview.widget.CardView>
@@ -489,28 +489,31 @@
                 android:layout_marginLeft="20dp"
                 android:hint="Пошук"
                 android:background="@null"></EditText>
+
             <ImageView
-                android:src="@drawable/search"
+                android:tint="@color/purpleforicons"
                 android:id="@+id/lup"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="52dp"></ImageView>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="52dp"
+                android:src="@drawable/search"></ImageView>
+
             <ImageView
-                android:src="@drawable/sett"
                 android:id="@+id/sett"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"></ImageView>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/sett"
+                android:tint="@color/purpleforicons"></ImageView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="-10dp"
         android:layout_marginBottom="100dp"
         android:layout_below="@+id/topPanel"
         android:id="@+id/recycler"
@@ -529,7 +532,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/panel"
         android:layout_width="match_parent"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         app:cardCornerRadius="15dp"
@@ -738,7 +741,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/sett"
+                    android:src="@drawable/line_menu"
                     android:tint="#7d6bc5"></ImageView>
 
             </androidx.cardview.widget.CardView>

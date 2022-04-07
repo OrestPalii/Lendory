@@ -1,4 +1,4 @@
-package com.quaice.lendory;
+package com.quaice.lendory.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -30,6 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.quaice.lendory.MyRecyclerViewAdapter;
+import com.quaice.lendory.R;
 import com.quaice.lendory.typeclass.Adv;
 import com.quaice.lendory.typeclass.User;
 
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences activityPreferences;
     private SharedPreferences.Editor editor;
     private TextView your_name, your_phone;
+    private int photoposition;
 
     private void init(){
         images = new ArrayList<>();
@@ -164,7 +167,28 @@ public class MainActivity extends AppCompatActivity {
         photos.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageChooser();
+                imageChooser(0);
+            }
+        });
+
+        photos.get(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser(1);
+            }
+        });
+
+        photos.get(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser(2);
+            }
+        });
+
+        photos.get(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser(3);
             }
         });
 
@@ -251,11 +275,12 @@ public class MainActivity extends AppCompatActivity {
     void build_recycler(ArrayList<Adv> list){
         RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        MyRecyclerViewAdapter  adapter = new MyRecyclerViewAdapter(this, list);
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, list);
         recyclerView.setAdapter(adapter);
     }
 
-    void imageChooser() {
+    void imageChooser(int pos) {
+        photoposition = pos;
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
@@ -269,15 +294,15 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == 1) {
                 Uri selectedImageUri = data.getData();
                 if (null != selectedImageUri) {
-                    photos.get(0).clearColorFilter();
-                    photos.get(0).setImageResource(0);
-                    photos.get(0).setImageURI(selectedImageUri);
+                    photos.get(photoposition).clearColorFilter();
+                    photos.get(photoposition).setImageResource(0);
+                    photos.get(photoposition).setImageURI(selectedImageUri);
 
                     FirebaseStorage storage = FirebaseStorage.getInstance("gs://lendory-b5d8b.appspot.com/");;
-                    StorageReference ref = storage.getReference().child("images/" + photos.get(0).hashCode());
+                    StorageReference ref = storage.getReference().child("images/" + photos.get(photoposition).hashCode());
                     ref.putFile(selectedImageUri);
 
-                    images.add("" + photos.get(0).hashCode());
+                    images.add("" + photos.get(photoposition).hashCode());
                 }
             }
         }

@@ -1,14 +1,19 @@
 package com.quaice.lendory;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -16,12 +21,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.quaice.lendory.activities.AdvReview;
 import com.quaice.lendory.typeclass.Adv;
 
 import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
-
+    public static Adv current;
     private ArrayList<Adv> list;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
@@ -29,7 +35,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     Context context;
 
     // data is passed into the constructor
-    MyRecyclerViewAdapter(Context context, ArrayList<Adv> list) {
+    public MyRecyclerViewAdapter(Context context, ArrayList<Adv> list) {
         this.mInflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
@@ -46,7 +52,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(list.get(position).getName());
         holder.description.setText(list.get(position).getDescription());
         try{
@@ -60,6 +66,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 }
             });
         }catch (Exception e){}
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                current = list.get(position);
+                Intent intent = new Intent(context, AdvReview.class);
+                context.startActivity(intent);
+                //Toast.makeText(context, "" + list.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -72,11 +87,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView name, description;
         ImageView image;
+        CardView cardView;
         ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name); description = itemView.findViewById(R.id.description);
-            image = itemView.findViewById(R.id.image);
-            itemView.setOnClickListener(this);
+            image = itemView.findViewById(R.id.image);cardView = itemView.findViewById(R.id.card);
         }
 
         @Override

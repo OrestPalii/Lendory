@@ -1,8 +1,9 @@
 package com.quaice.lendory.typeclass;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Adv {
+public class Adv{
 
     private String name, description, location, currency;
     private int price, area, numberOfRooms, floor;
