@@ -19,7 +19,6 @@
             android:background="@color/black"
             android:alpha="0.7"></ImageView>
         <androidx.cardview.widget.CardView
-            android:visibility="visible"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_width="match_parent"
@@ -188,7 +187,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:hint="Назва"
-                                android:background="@null"></EditText>
+                                android:background="@null"
+                                android:maxLength="20"></EditText>
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/lockcard"
@@ -259,6 +259,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:tint="#a5a5a1"></ImageView>
                             <EditText
+                                android:inputType="number"
                                 android:id="@+id/area_edit"
                                 android:layout_marginRight="20dp"
                                 android:layout_marginLeft="45dp"
@@ -275,6 +276,7 @@
                                 android:layout_marginLeft="30dp"
                                 android:tint="#a5a5a1"></ImageView>
                             <EditText
+                                android:inputType="number"
                                 android:id="@+id/roomcount_edit"
                                 android:layout_marginRight="20dp"
                                 android:layout_marginLeft="65dp"
@@ -285,10 +287,50 @@
                                 android:background="@null"></EditText>
                         </RelativeLayout>
                         <RelativeLayout
-                            android:id="@+id/helpcard"
+                            android:id="@+id/floorcard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/roomcard"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="15dp">
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                app:cardCornerRadius="20dp">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/gradient"
+                                    android:text="Поверх"
+                                    android:textSize="25dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/white"
+                                    android:gravity="center_vertical"
+                                    android:paddingLeft="15dp"></TextView>
+                            </androidx.cardview.widget.CardView>
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/lvl"
+                                android:layout_marginTop="55dp"
+                                android:layout_marginLeft="10dp"
+                                android:tint="#a5a5a1"></ImageView>
+                            <EditText
+                                android:id="@+id/floor_edit"
+                                android:inputType="number"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginLeft="45dp"
+                                android:layout_marginTop="45dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:hint="Поверх"
+                                android:background="@null"></EditText>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/helpcard"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/floorcard"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="15dp">
                             <androidx.cardview.widget.CardView
@@ -353,6 +395,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:tint="#a5a5a1"></ImageView>
                             <EditText
+                                android:inputType="number"
                                 android:id="@+id/price_edit"
                                 android:layout_marginRight="20dp"
                                 android:layout_marginLeft="45dp"
@@ -410,12 +453,28 @@
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/menu_show"
+        android:layout_width="65dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="-15dp"
+        app:cardCornerRadius="20dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/sett"
+            android:layout_marginLeft="20dp"
+            android:tint="#7d6bc5"></ImageView>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_alignLeft="@+id/menu_show"
         android:id="@+id/topPanel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:cardCornerRadius="15dp"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="75dp"
         app:cardBackgroundColor="@color/white">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -486,8 +545,8 @@
             android:id="@+id/home"
             android:layout_width="wrap_content"
             android:layout_height="65dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp">
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp">
         <ImageView
             android:id="@+id/mainimage"
             android:layout_width="35dp"
@@ -504,32 +563,12 @@
                 android:textColor="@color/main_purple"></TextView>
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/liked"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp">
-            <ImageView
-                android:id="@+id/likedimage"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/bookmark"
-                android:tint="@color/main_purple"></ImageView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Вподобане"
-                android:layout_below="@+id/likedimage"
-                android:textColor="@color/main_purple"></TextView>
-        </RelativeLayout>
-        <RelativeLayout
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="65dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp">
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp">
+
             <ImageView
                 android:id="@+id/addimage"
                 android:layout_width="35dp"
@@ -546,34 +585,35 @@
                 android:textColor="@color/main_purple"></TextView>
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/profile"
+            android:id="@+id/liked"
             android:layout_width="wrap_content"
             android:layout_height="65dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp">
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp">
             <ImageView
-                android:id="@+id/profileimage"
+                android:id="@+id/likedimage"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/user"
+                android:src="@drawable/bookmark"
                 android:tint="@color/main_purple"></ImageView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Профіль"
-                android:layout_below="@+id/profileimage"
+                android:text="Вподобане"
+                android:layout_below="@+id/likedimage"
                 android:textColor="@color/main_purple"></TextView>
         </RelativeLayout>
     </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/menu"
         android:visibility="invisible"
         android:layout_width="270dp"
         android:layout_height="match_parent"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="30dp"
         android:layout_marginLeft="-30dp"
         app:cardBackgroundColor="#7d6bc5">
         <ImageView
@@ -603,6 +643,7 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
             <TextView
+                android:id="@+id/ur_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
@@ -615,6 +656,7 @@
                 android:textSize="25dp"
                 android:textColor="@color/white"></TextView>
             <TextView
+                android:id="@+id/ur_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
@@ -686,15 +728,17 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
+                android:id="@+id/menu_hide"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 app:cardCornerRadius="20dp"
                 android:layout_margin="10dp">
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:layout_width="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/sett"
-                    android:layout_margin="5dp"
                     android:tint="#7d6bc5"></ImageView>
 
             </androidx.cardview.widget.CardView>

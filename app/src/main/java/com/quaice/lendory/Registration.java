@@ -20,19 +20,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.quaice.lendory.typeclass.Account;
 
 public class Registration extends AppCompatActivity {
-    private FirebaseAuth ref;
-    EditText login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
-    CardView reg, login;
-    CardView reg_but, log_but;
-    TextView reg_text, log_text;
-    DatabaseReference myRef;
-    Account you;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
-
-        ref = FirebaseAuth.getInstance();
+    private EditText login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
+    private CardView reg, login;
+    private CardView reg_but, log_but;
+    private TextView reg_text, log_text;
+    private DatabaseReference myRef;
+    private Account you;
+    private FirebaseDatabase database;
+    private SharedPreferences.Editor editor;
+    void init(){
         login_phonenumber = findViewById(R.id.loginphonenumber);
         login_password = findViewById(R.id.loginpassword);
         reg_phonenumber = findViewById(R.id.regphonenumber);
@@ -44,11 +40,18 @@ public class Registration extends AppCompatActivity {
         log_but = findViewById(R.id.logn_but);
         reg_text = findViewById(R.id.regtext);
         log_text = findViewById(R.id.logtext);
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
+        database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
         myRef = database.getReference("profiles");
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_registration);
+        init();
         SharedPreferences activityPreferences = getPreferences(Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = activityPreferences.edit();
+        editor = activityPreferences.edit();
+
         if(activityPreferences.getBoolean("loggin", false)){
             Intent intent = new Intent(Registration.this, MainActivity.class);
             startActivity(intent);
@@ -61,6 +64,7 @@ public class Registration extends AppCompatActivity {
                 login.setVisibility(View.INVISIBLE);
             }
         });
+
         log_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +86,7 @@ public class Registration extends AppCompatActivity {
                 reg.setVisibility(View.INVISIBLE);login.setVisibility(View.VISIBLE);
             }
         });
+
         log_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +101,8 @@ public class Registration extends AppCompatActivity {
                             startActivity(intent);
                             //Локал сейв
                             editor.putBoolean("loggin", true);
+                            editor.putString("user_name", reg_name.getText().toString());
+                            editor.putString("phone_number", login_phonenumber.getText().toString());
                             editor.commit();
                         }
                     }
@@ -105,7 +112,6 @@ public class Registration extends AppCompatActivity {
                 });
             }
         });
-        DataSnapshot dataSnapshot;
     }
 }
 
