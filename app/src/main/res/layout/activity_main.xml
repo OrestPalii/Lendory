@@ -514,7 +514,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="80dp"
         android:layout_below="@+id/topPanel"
         android:id="@+id/recycler"
         android:layout_centerHorizontal="true"
@@ -532,83 +532,73 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/panel"
         android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_height="80dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="-40dp"
+        android:layout_marginLeft="30dp"
         android:layout_alignParentBottom="true"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
         app:cardBackgroundColor="@color/white">
     <LinearLayout
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:gravity="center">
-        <RelativeLayout
-            android:id="@+id/home"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp">
+
         <ImageView
             android:id="@+id/mainimage"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
             android:src="@drawable/home"
-            android:tint="@color/main_purple"></ImageView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Головна"
-                android:layout_below="@+id/mainimage"
-                android:textColor="@color/main_purple"></TextView>
-        </RelativeLayout>
-        <RelativeLayout
+            android:tint="@color/purpleforicons"
+            android:layout_marginRight="30dp"></ImageView>
+        <androidx.cardview.widget.CardView
             android:id="@+id/add"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp">
-
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient"></ImageView>
             <ImageView
+                android:layout_centerInParent="true"
                 android:id="@+id/addimage"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/plus"
-                android:tint="@color/main_purple"></ImageView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Створити"
-                android:layout_below="@+id/addimage"
-                android:textColor="@color/main_purple"></TextView>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/liked"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp">
-            <ImageView
-                android:id="@+id/likedimage"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/bookmark"
-                android:tint="@color/main_purple"></ImageView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Вподобане"
-                android:layout_below="@+id/likedimage"
-                android:textColor="@color/main_purple"></TextView>
-        </RelativeLayout>
+                android:tint="@color/white"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"></ImageView>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+        <ImageView
+            android:layout_marginLeft="30dp"
+            android:id="@+id/likedimage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/bookmark"
+            android:tint="@color/purpleforicons"></ImageView>
     </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="70dp">
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:layout_width="200dp"
+                android:layout_height="2dp"
+                android:background="@drawable/gradient"></ImageView>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView

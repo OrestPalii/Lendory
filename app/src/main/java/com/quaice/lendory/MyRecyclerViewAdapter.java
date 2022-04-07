@@ -65,6 +65,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     }
                 }
             });
+            ref.child(list.get(position).getImages().get(1)+"/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downUri = task.getResult();
+                        Glide.with(context).load(downUri.toString()).into(holder.second_image);
+                    }
+                }
+            });
         }catch (Exception e){}
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,9 +81,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 current = list.get(position);
                 Intent intent = new Intent(context, AdvReview.class);
                 context.startActivity(intent);
-                //Toast.makeText(context, "" + list.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
+        int counter = list.get(position).getImages().size()-1;
+        holder.count.setText("+" + counter);
     }
 
     @Override
@@ -85,13 +95,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView name, description;
-        ImageView image;
-        CardView cardView;
+        private TextView name, description, count;
+        private ImageView image, second_image;
+        private CardView cardView;
         ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name); description = itemView.findViewById(R.id.description);
             image = itemView.findViewById(R.id.image);cardView = itemView.findViewById(R.id.card);
+            second_image = itemView.findViewById(R.id.image_more); count = itemView.findViewById(R.id.image_count);
         }
 
         @Override

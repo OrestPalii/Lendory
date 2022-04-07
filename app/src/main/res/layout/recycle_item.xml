@@ -37,12 +37,14 @@
                             android:background="@drawable/test"
                             android:scaleType="centerCrop"></ImageView>
                         <ImageView
+                            android:id="@+id/image_more"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@color/black"
                             android:alpha="0.5"
                             android:scaleType="centerCrop"></ImageView>
                         <TextView
+                            android:id="@+id/image_count"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/poppins"
                             android:layout_width="match_parent"

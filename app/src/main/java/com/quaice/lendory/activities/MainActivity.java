@@ -39,8 +39,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RelativeLayout sender, new_adv;
-    private CardView cancel, send, menu_show, menu_hide, menu;
+    private RelativeLayout new_adv;
+    private CardView cancel, send, menu_show, menu_hide, menu, sender;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
