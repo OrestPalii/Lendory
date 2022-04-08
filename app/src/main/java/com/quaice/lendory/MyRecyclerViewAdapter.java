@@ -62,9 +62,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.name.setText(list.get(position).getName());
         holder.description.setText(list.get(position).getDescription());
         if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
-            holder.like.setBackgroundResource(R.drawable.liked_heart);
+            holder.like.setImageResource(R.drawable.liked_heart);
         else
-            holder.like.setBackgroundResource(R.drawable.heart);
+            holder.like.setImageResource(R.drawable.heart);
 
         try{
             ref.child(list.get(position).getImages().get(0)+"/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -111,11 +111,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 if (liked) {
                     MainActivity.yourAccount.removenewliked(list.get(position).getHashnumber());
                     acc.child(MainActivity.yourAccount.getPhonenumber()).setValue( MainActivity.yourAccount);
-                    holder.like.setBackgroundResource(R.drawable.heart);
+                    holder.like.setImageResource(R.drawable.heart);
                 }else{
                     MainActivity.yourAccount.addnewliked(list.get(position).getHashnumber());
                     acc.child(MainActivity.yourAccount.getPhonenumber()).setValue( MainActivity.yourAccount);
-                    holder.like.setBackgroundResource(R.drawable.liked_heart);
+                    holder.like.setImageResource(R.drawable.liked_heart);
                 }
             }
         });

@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout new_adv;
     private CardView cancel, send, menu_show, menu_hide, menu, sender;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search;
+    private ImageView homepagebut, likedpagebut;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> images;
     private TextView your_name, your_phone;
     private int photoposition;
-
     public static Account yourAccount;
 
     private void init(){
@@ -79,8 +79,19 @@ public class MainActivity extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         your_name = findViewById(R.id.ur_name);
         your_phone = findViewById(R.id.ur_phone);
+        homepagebut = findViewById(R.id.mainimage);
+        likedpagebut = findViewById(R.id.likedimage);
         your_name.setText(Registration.name_str);
         your_phone.setText(Registration.phone_str);
+        homepagebut.setImageResource(R.drawable.selectedhome);
+        likedpagebut.setImageResource(R.drawable.heart);
+    }
+
+    private boolean areElementEmpty(TextView textView){
+       if(textView.getText().toString().equals(""))
+           return true;
+       else
+           return false;
     }
 
     private Adv createNewAdv(){
@@ -96,24 +107,24 @@ public class MainActivity extends AppCompatActivity {
                 price = Integer.parseInt(price_edit.getText().toString());
             }catch (Exception e){};
         }
-
         //Перевірка заповнення полів
-        if(name_edit.getText().toString().equals(""))
+        if(areElementEmpty(name_edit))
             somethingNotFilled = true;
-        if(desc_edit.getText().toString().equals(""))
+        if(areElementEmpty(desc_edit))
             somethingNotFilled = true;
-        if(lock_edit.getText().toString().equals(""))
+        if(areElementEmpty(lock_edit))
             somethingNotFilled = true;
-        if(area_edit.getText().toString().equals(""))
+        if(areElementEmpty(area_edit))
             somethingNotFilled = true;
-        if(room_edit.getText().toString().equals(""))
+        if(areElementEmpty(room_edit))
             somethingNotFilled = true;
-        if(floor_edit.getText().toString().equals(""))
+        if(areElementEmpty(floor_edit))
             somethingNotFilled = true;
-
         if(!somethingNotFilled) {
-            Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(), lock_edit.getText().toString(),
-                    "$", price, Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
+            //змінні
+            Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(),
+                    lock_edit.getText().toString(), "$", price,
+                    Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
                     Integer.parseInt(floor_edit.getText().toString()), vol, images,
                     new User(yourAccount.getName(), yourAccount.getPhonenumber()));
             return cur;
@@ -146,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    if(search.getText().toString().equals("")){
+                    if(areElementEmpty(search)){
                         build_recycler(downloaded);
                     }else {
                         sorted = new ArrayList<>();
@@ -284,6 +295,21 @@ public class MainActivity extends AppCompatActivity {
                 menu.startAnimation(animate);
             }
         });
+
+        homepagebut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                homepagebut.setImageResource(R.drawable.selectedhome);
+                likedpagebut.setImageResource(R.drawable.heart);
+            }
+        });
+        likedpagebut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                homepagebut.setImageResource(R.drawable.home);
+                likedpagebut.setImageResource(R.drawable.liked_heart);
+            }
+        });
     }
 
     void build_recycler(ArrayList<Adv> list){
@@ -311,11 +337,10 @@ public class MainActivity extends AppCompatActivity {
                     photos.get(photoposition).clearColorFilter();
                     photos.get(photoposition).setImageResource(0);
                     photos.get(photoposition).setImageURI(selectedImageUri);
-
+                    //const
                     FirebaseStorage storage = FirebaseStorage.getInstance("gs://lendory-b5d8b.appspot.com/");;
                     StorageReference ref = storage.getReference().child("images/" + photos.get(photoposition).hashCode());
                     ref.putFile(selectedImageUri);
-
                     images.add("" + photos.get(photoposition).hashCode());
                 }
             }

@@ -143,8 +143,8 @@
                             android:id="@+id/heart"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/heart"
-                            android:layout_margin="5dp">
+                            android:layout_margin="5dp"
+                            android:tint="@color/purpleforicons">
                         </ImageView>
                     </androidx.cardview.widget.CardView>
                 </RelativeLayout>

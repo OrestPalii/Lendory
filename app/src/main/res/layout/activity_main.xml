@@ -550,7 +550,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/home"
             android:tint="@color/purpleforicons"
             android:layout_marginRight="30dp"></ImageView>
         <androidx.cardview.widget.CardView
@@ -586,7 +585,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/bookmark"
             android:tint="@color/purpleforicons"></ImageView>
     </LinearLayout>
         <RelativeLayout
