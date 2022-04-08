@@ -5,10 +5,19 @@ import java.util.ArrayList;
 
 public class Adv{
 
-    private String name, description, location, currency;
+    private String name, description, location, currency, hashnumber;
     private int price, area, numberOfRooms, floor;
     private boolean volunteering;
     private ArrayList <String> images;
+
+    public String getHashnumber() {
+        return hashnumber;
+    }
+
+    public void setHashnumber(String hashnumber) {
+        this.hashnumber = hashnumber;
+    }
+
     private User creator;
 
     public String getCurrency() {
@@ -114,6 +123,21 @@ public class Adv{
         if(volunteering)
             this.price = 0;
     }
+    public Adv(String name, String description, String location, String currency, String hashnumber, int price, int area, int numberOfRooms, int floor, boolean volunteering, ArrayList<String> images, User creator) {
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.currency = currency;
+        this.hashnumber = hashnumber;
+        this.price = price;
+        this.area = area;
+        this.numberOfRooms = numberOfRooms;
+        this.floor = floor;
+        this.volunteering = volunteering;
+        this.images = images;
+        this.creator = creator;
+    }
+
 
     public Adv() {
         if(volunteering)

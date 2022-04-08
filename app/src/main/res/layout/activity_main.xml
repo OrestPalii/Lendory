@@ -514,7 +514,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginBottom="80dp"
+
         android:layout_below="@+id/topPanel"
         android:id="@+id/recycler"
         android:layout_centerHorizontal="true"

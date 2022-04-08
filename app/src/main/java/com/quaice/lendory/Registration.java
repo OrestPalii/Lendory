@@ -19,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.quaice.lendory.activities.MainActivity;
 import com.quaice.lendory.typeclass.Account;
 
+import java.util.ArrayList;
+
 public class Registration extends AppCompatActivity {
     private EditText login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
     private CardView reg, login;
@@ -28,6 +30,7 @@ public class Registration extends AppCompatActivity {
     private Account you;
     private FirebaseDatabase database;
     private SharedPreferences.Editor editor;
+    public static String name_str, phone_str;
     void init(){
         login_phonenumber = findViewById(R.id.loginphonenumber);
         login_password = findViewById(R.id.loginpassword);
@@ -52,7 +55,10 @@ public class Registration extends AppCompatActivity {
         SharedPreferences activityPreferences = getPreferences(Activity.MODE_PRIVATE);
         editor = activityPreferences.edit();
 
+
         if(activityPreferences.getBoolean("loggin", false)){
+            name_str = activityPreferences.getString("user_name", "");
+            phone_str = activityPreferences.getString("phone_number", "");
             Intent intent = new Intent(Registration.this, MainActivity.class);
             startActivity(intent);
         }
@@ -76,12 +82,14 @@ public class Registration extends AppCompatActivity {
         reg_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ArrayList<String> arr = new ArrayList<>();
+                arr.add("ThisHashCodeWillNeverBeUsed");
                 myRef = database.getReference("profiles");
                 if(!reg_name.getText().toString().equals("") && !reg_phonenumber.getText().toString().equals("") &&
                         !reg_password.getText().toString().equals("")) {
                     myRef.child(reg_phonenumber.getText().toString()).setValue(new Account(
                             reg_name.getText().toString(), reg_phonenumber.getText().toString(),
-                            reg_password.getText().toString()));
+                            reg_password.getText().toString(), arr));
                 }
                 reg.setVisibility(View.INVISIBLE);login.setVisibility(View.VISIBLE);
             }

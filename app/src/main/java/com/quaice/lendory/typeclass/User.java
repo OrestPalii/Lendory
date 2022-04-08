@@ -1,5 +1,7 @@
 package com.quaice.lendory.typeclass;
 
+import java.util.ArrayList;
+
 public class User {
     private String name, phoneNumber;
 
@@ -24,6 +26,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public User() {
-    }
+    public User() {}
+
 }

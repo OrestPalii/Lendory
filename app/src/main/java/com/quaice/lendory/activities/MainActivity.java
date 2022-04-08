@@ -32,6 +32,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.quaice.lendory.MyRecyclerViewAdapter;
 import com.quaice.lendory.R;
+import com.quaice.lendory.Registration;
+import com.quaice.lendory.typeclass.Account;
 import com.quaice.lendory.typeclass.Adv;
 import com.quaice.lendory.typeclass.User;
 
@@ -45,12 +47,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef, acc;
     private ArrayList<String> images;
-    SharedPreferences activityPreferences;
-    private SharedPreferences.Editor editor;
     private TextView your_name, your_phone;
     private int photoposition;
+
+    public static Account yourAccount;
 
     private void init(){
         images = new ArrayList<>();
@@ -77,9 +79,8 @@ public class MainActivity extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         your_name = findViewById(R.id.ur_name);
         your_phone = findViewById(R.id.ur_phone);
-        activityPreferences = getPreferences(Activity.MODE_PRIVATE);
-        your_name.setText(activityPreferences.getString("user_name", ""));
-        your_phone.setText(activityPreferences.getString("phone_number", ""));
+        your_name.setText(Registration.name_str);
+        your_phone.setText(Registration.phone_str);
     }
 
     private Adv createNewAdv(){
@@ -95,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 price = Integer.parseInt(price_edit.getText().toString());
             }catch (Exception e){};
         }
-        editor = activityPreferences.edit();
 
         //Перевірка заповнення полів
         if(name_edit.getText().toString().equals(""))
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(), lock_edit.getText().toString(),
                     "$", price, Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
                     Integer.parseInt(floor_edit.getText().toString()), vol, images,
-                    new User(activityPreferences.getString("user_name", ""), activityPreferences.getString("phone_number", "")));
+                    new User(yourAccount.getName(), yourAccount.getPhonenumber()));
             return cur;
         }else{
             Toast.makeText(this, "Заповніть усі поля!", Toast.LENGTH_SHORT).show();
@@ -130,6 +130,18 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
         myRef = database.getReference("advertisement");
         init();
+        acc = database.getReference("profiles/"+your_phone.getText().toString());
+        acc.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    yourAccount = dataSnapshot.getValue(Account.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+
+        });
+
         search.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -197,6 +209,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Adv cur = createNewAdv();
                 if(cur != null) {
+                    String hn = "" + cur.hashCode();
+                    cur.setHashnumber(hn);
                     myRef.child("" + cur.hashCode()).setValue(cur);
                     new_adv.setVisibility(View.INVISIBLE);
                     images = new ArrayList<>();
