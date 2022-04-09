@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
     private RelativeLayout new_adv;
-    private CardView cancel, send, menu_show, menu_hide, menu, sender;
+    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search;
     private ImageView homepagebut, likedpagebut;
     private ArrayList<Adv> downloaded;
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         your_phone = findViewById(R.id.ur_phone);
         homepagebut = findViewById(R.id.mainimage);
         likedpagebut = findViewById(R.id.likedimage);
-        your_name.setText(Registration.name_str);
+        logout = findViewById(R.id.logout_card);
         your_phone.setText(Registration.phone_str);
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
@@ -170,7 +170,8 @@ public class MainActivity extends AppCompatActivity {
         acc.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                    yourAccount = dataSnapshot.getValue(Account.class);
+                yourAccount = dataSnapshot.getValue(Account.class);
+                your_name.setText(yourAccount.getName());
             }
 
             @Override
@@ -336,6 +337,17 @@ public class MainActivity extends AppCompatActivity {
                 homepagebut.setImageResource(R.drawable.home);
                 likedpagebut.setImageResource(R.drawable.liked_heart);
                 showliked();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Registration.editor.putBoolean("loggin", false);
+                Registration.editor.putString("user_name", "");
+                Registration.editor.putString("phone_number", "");
+                Registration.editor.commit();
+                finish();
             }
         });
     }

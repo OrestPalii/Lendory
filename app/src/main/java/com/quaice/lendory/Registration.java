@@ -29,7 +29,7 @@ public class Registration extends AppCompatActivity {
     private DatabaseReference myRef;
     private Account you;
     private FirebaseDatabase database;
-    private SharedPreferences.Editor editor;
+    public static SharedPreferences.Editor editor;
     public static String name_str, phone_str;
     void init(){
         login_phonenumber = findViewById(R.id.loginphonenumber);
@@ -54,7 +54,6 @@ public class Registration extends AppCompatActivity {
         init();
         SharedPreferences activityPreferences = getPreferences(Activity.MODE_PRIVATE);
         editor = activityPreferences.edit();
-
 
         if(activityPreferences.getBoolean("loggin", false)){
             name_str = activityPreferences.getString("user_name", "");
