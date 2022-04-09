@@ -526,7 +526,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="invisible"
+        android:layout_below="@+id/topPanel"
+        android:id="@+id/likedrecycler"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
 
 
     <androidx.cardview.widget.CardView
@@ -718,17 +730,22 @@
                         android:textColor="#7d6bc5"></TextView>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/menu_hide"
                 android:layout_width="60dp"
                 android:layout_height="50dp"
-                app:cardCornerRadius="20dp"
-                android:layout_margin="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="20dp">
+
                 <ImageView
                     android:layout_width="30dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_height="match_parent"
                     android:src="@drawable/line_menu"
                     android:tint="#7d6bc5"></ImageView>
 

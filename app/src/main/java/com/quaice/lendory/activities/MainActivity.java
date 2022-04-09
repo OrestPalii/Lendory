@@ -40,7 +40,7 @@ import com.quaice.lendory.typeclass.User;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    private RecyclerView recyclerView, likerecycler;
     private RelativeLayout new_adv;
     private CardView cancel, send, menu_show, menu_hide, menu, sender;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search;
@@ -53,10 +53,35 @@ public class MainActivity extends AppCompatActivity {
     private TextView your_name, your_phone;
     private int photoposition;
     public static Account yourAccount;
+    private ArrayList<Adv> likedByYou;
+
+    private void showliked(){
+        likedByYou = new ArrayList<>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                downloaded = new ArrayList<>();
+                for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
+                    for(int i = 0; i < yourAccount.getLiked().size(); i++){
+                        if(yourAccount.getLiked().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
+                            likedByYou.add(dataSnapshotchild.getValue(Adv.class));
+                    }
+                }
+                build_recycler(likedByYou, likerecycler);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
+        recyclerView.setVisibility(View.INVISIBLE);
+        likerecycler.setVisibility(View.VISIBLE);
+    }
 
     private void init(){
         images = new ArrayList<>();
         photos = new ArrayList<>();
+        recyclerView = findViewById(R.id.recycler);
+        likerecycler = findViewById(R.id.likedrecycler);
         photos.add(findViewById(R.id.first_image));
         photos.add(findViewById(R.id.second_image));
         photos.add(findViewById(R.id.third_image));
@@ -158,14 +183,14 @@ public class MainActivity extends AppCompatActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     if(areElementEmpty(search)){
-                        build_recycler(downloaded);
+                        build_recycler(downloaded, recyclerView);
                     }else {
                         sorted = new ArrayList<>();
                         for (int i = 0; i < downloaded.size(); i++) {
                             if (downloaded.get(i).getName().contains(search.getText().toString()))
                                 sorted.add(downloaded.get(i));
                         }
-                        build_recycler(sorted);
+                        build_recycler(sorted, recyclerView);
                     }
                     return true;
                 }
@@ -236,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
                     downloaded.add(dataSnapshotchild.getValue(Adv.class));
                 }
-                build_recycler(downloaded);
+                build_recycler(downloaded, recyclerView);
             }
 
             @Override
@@ -301,6 +326,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 homepagebut.setImageResource(R.drawable.selectedhome);
                 likedpagebut.setImageResource(R.drawable.heart);
+                recyclerView.setVisibility(View.VISIBLE);
+                likerecycler.setVisibility(View.INVISIBLE);
             }
         });
         likedpagebut.setOnClickListener(new View.OnClickListener() {
@@ -308,12 +335,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 homepagebut.setImageResource(R.drawable.home);
                 likedpagebut.setImageResource(R.drawable.liked_heart);
+                showliked();
             }
         });
     }
 
-    void build_recycler(ArrayList<Adv> list){
-        RecyclerView recyclerView = findViewById(R.id.recycler);
+    void build_recycler(ArrayList<Adv> list, RecyclerView recyclerView){
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, list);
         recyclerView.setAdapter(adapter);

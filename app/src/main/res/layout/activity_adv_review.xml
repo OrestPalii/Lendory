@@ -6,11 +6,111 @@
     android:layout_height="match_parent"
     tools:context=".activities.AdvReview"
     android:background="@drawable/back">
-    
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="150dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient"></ImageView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="130dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:id="@+id/name"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:fontFamily="@font/poppins"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="description sdfgsdfgsdgsdgsdgsdgsdgshjkbdfgjhsdflgjsdfghsfdhg/"
+                android:id="@+id/description"
+                android:textColor="@color/white"
+                android:layout_below="@+id/name"
+                android:textSize="16dp"
+                android:fontFamily="@font/poppins"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lviv, sdfsdf"
+                android:id="@+id/location"
+                android:textColor="@color/white"
+                android:layout_below="@+id/description"
+                android:textSize="16dp"
+                android:fontFamily="@font/poppins"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"></TextView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="210dp"
+                android:layout_height="70dp"
+                app:cardCornerRadius="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:id="@+id/profilecard">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                            <ImageView
+                                android:id="@+id/iconprof"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/user"
+                                android:tint="@color/purpleforicons"
+                                android:layout_marginLeft="10dp"></ImageView>
+
+                        <TextView
+                            android:id="@+id/profilename"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="60dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Someone"
+                            android:textColor="@color/purpleforicons"
+                            android:textSize="25dp"
+                            android:layout_alignParentRight="true"></TextView>
+                        <TextView
+                            android:id="@+id/profilephone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="60dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="-10dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="+380975647826"
+                            android:layout_below="@id/profilename"
+                            android:textColor="@color/purpleforicons"
+                            android:textSize="15dp"
+                            android:layout_alignParentRight="true"></TextView>
+                    </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_margin="15dp"
+        android:layout_margin="25dp"
         app:cardCornerRadius="20dp">
         <ImageView
             android:layout_width="match_parent"
@@ -19,6 +119,20 @@
             android:background="@drawable/test"></ImageView>
     </androidx.cardview.widget.CardView>
 
-    <Cr
+    <androidx.cardview.widget.CardView
+        android:id="@+id/backcard"
+        android:layout_width="65dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="7dp"
+        app:cardCornerRadius="20dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/back_arrow"
+            android:tint="#7d6bc5"></ImageView>
+    </androidx.cardview.widget.CardView>
+
 
 </RelativeLayout>
