@@ -108,6 +108,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/imagecard"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_margin="25dp"
@@ -133,6 +134,4 @@
             android:src="@drawable/back_arrow"
             android:tint="#7d6bc5"></ImageView>
     </androidx.cardview.widget.CardView>
-
-
 </RelativeLayout>

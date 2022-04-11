@@ -21,5 +21,7 @@ task clean(type: Delete) {
 allprojects {
     repositories {
         google()  // Google's Maven repository
+        mavenCentral()
+        maven { url 'https://www.jitpack.io' }
     }
 }
