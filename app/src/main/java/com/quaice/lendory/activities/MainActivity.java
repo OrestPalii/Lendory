@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ImageView> photos;
     private DatabaseReference myRef, acc;
     private ArrayList<String> images;
-    private TextView your_name, your_phone;
+    private TextView your_name, your_phone, currency;
     private int photoposition;
     public static Account yourAccount;
     private ArrayList<Adv> likedByYou;
+    private RadioButton yesbut, nobut;
 
     private void showliked(){
         likedByYou = new ArrayList<>();
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         lock_edit = findViewById(R.id.location_edit);
         area_edit = findViewById(R.id.area_edit);
         room_edit = findViewById(R.id.roomcount_edit);
-        help_edit = findViewById(R.id.elp_edit);
+        //help_edit = findViewById(R.id.elp_edit);
         price_edit = findViewById(R.id.price_edit);
         floor_edit = findViewById(R.id.floor_edit);
         cancel = findViewById(R.id.cancel);
@@ -103,9 +105,13 @@ public class MainActivity extends AppCompatActivity {
         homepagebut = findViewById(R.id.mainimage);
         likedpagebut = findViewById(R.id.likedimage);
         logout = findViewById(R.id.logout_card);
+        yesbut = findViewById(R.id.yesrad);
+        nobut = findViewById(R.id.norad);
+        currency = findViewById(R.id.currency);
         your_phone.setText(Registration.phone_str);
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
+        name_edit.setHeight(0);
     }
 
     private boolean areElementEmpty(TextView textView){
@@ -119,15 +125,15 @@ public class MainActivity extends AppCompatActivity {
         int price = 0;
         boolean vol = false;
         boolean somethingNotFilled = false;
-        if(help_edit.getText().toString().contains("Так")) {
-            price = 0;
-            vol = true;
-        }
-        else {
+//        if(help_edit.getText().toString().contains("Так")) {
+//            price = 0;
+//            vol = true;
+//        }
+//        else {
             try {
                 price = Integer.parseInt(price_edit.getText().toString());
             }catch (Exception e){};
-        }
+        //}
         //Перевірка заповнення полів
         if(areElementEmpty(name_edit))
             somethingNotFilled = true;
@@ -142,9 +148,19 @@ public class MainActivity extends AppCompatActivity {
         if(areElementEmpty(floor_edit))
             somethingNotFilled = true;
         if(!somethingNotFilled) {
+            if(yesbut.isChecked()) {
+                vol = true;
+                try {
+                    price = Integer.parseInt(price_edit.getText().toString());
+                }catch (Exception e){};
+            }
+            else {
+                vol = false;
+                price = 0;
+            }
             //змінні
             Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(),
-                    lock_edit.getText().toString(), "$", price,
+                    lock_edit.getText().toString(), currency.getText().toString(), price,
                     Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
                     Integer.parseInt(floor_edit.getText().toString()), vol, images,
                     new User(yourAccount.getName(), yourAccount.getPhonenumber()));
@@ -344,6 +360,25 @@ public class MainActivity extends AppCompatActivity {
                 Registration.editor.putString("phone_number", "");
                 Registration.editor.commit();
                 finish();
+            }
+        });
+
+        currency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean can = true;
+                if(currency.getText().toString().equals("₴") && can) {
+                    currency.setText("$");
+                    can = false;
+                }
+                if(currency.getText().toString().equals("$") && can) {
+                    currency.setText("€");
+                    can = false;
+                }
+                if(currency.getText().toString().equals("€") && can) {
+                    currency.setText("₴");
+                    can = false;
+                }
             }
         });
     }

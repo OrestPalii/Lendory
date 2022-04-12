@@ -3,13 +3,20 @@ package com.quaice.lendory.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,12 +34,13 @@ import java.util.ArrayList;
 public class AdvReview extends AppCompatActivity {
     private Adv cur;
     private ImageView mainImage;
-    private TextView name, description, location, sellername, sellerphone;
-    private CardView sellercard, backcard, imagecard, infocard;
+    private TextView name, description, location, floor, sellername, sellerphone, price;
+    private CardView sellercard, backcard, imagecard, infocard, profilecard;
     private ViewPager viewPager;
     private ViewPagerAdapters adapter;
     private StorageReference mImageStorage, ref;
     private ArrayList<String> images;
+    private static final int MY_PERMISSION_REQUEST_CODE_CALL_PHONE = 555;
 
     private void init(){
         cur = MyRecyclerViewAdapter.current;
@@ -43,6 +51,8 @@ public class AdvReview extends AppCompatActivity {
         description.setText(cur.getDescription());
         location = findViewById(R.id.location);
         location.setText(cur.getLocation());
+        floor = findViewById(R.id.floor);
+        floor.setText(cur.getFloor() + " Поверх");
         sellername = findViewById(R.id.profilename);
         sellername.setText(cur.getCreator().getName());
         sellerphone = findViewById(R.id.profilephone);
@@ -53,6 +63,10 @@ public class AdvReview extends AppCompatActivity {
         infocard = findViewById(R.id.infocard);
         viewPager = findViewById(R.id.view_pager);
         mainImage = findViewById(R.id.main_image);
+        price = findViewById(R.id.price);
+        profilecard = findViewById(R.id.profilecard);
+        price.setText(cur.getPrice() + " " + cur.getCurrency());
+        //price.setTextSize(name.getTextSizeUnit(), name.getTextSize());
         mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
         ref = mImageStorage.child("images/");
         ref.child(cur.getImages().get(0) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -94,6 +108,12 @@ public class AdvReview extends AppCompatActivity {
                 }
             }
         });
+        profilecard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                askPermissionAndCall();
+            }
+        });
     }
 
     private void show_image(int n){
@@ -121,4 +141,47 @@ public class AdvReview extends AppCompatActivity {
         images = new ArrayList<>();
         show_image(0);
     }
+
+    private void askPermissionAndCall() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) { // 23
+            int sendSmsPermisson = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.CALL_PHONE);
+            if (sendSmsPermisson != PackageManager.PERMISSION_GRANTED) {
+                this.requestPermissions(
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        MY_PERMISSION_REQUEST_CODE_CALL_PHONE
+                );
+                return;
+            }
+        }
+        this.callNow();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void callNow() {
+        String phoneNumber = this.cur.getCreator().getPhoneNumber();
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+        try {
+            this.startActivity(callIntent);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_CODE_CALL_PHONE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    this.callNow();
+                }
+                else {}
+                break;
+            }
+        }
+    }
+
 }

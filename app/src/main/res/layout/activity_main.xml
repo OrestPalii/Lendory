@@ -355,15 +355,28 @@
                                 android:layout_marginTop="55dp"
                                 android:layout_marginLeft="10dp"
                                 android:tint="#a5a5a1"></ImageView>
-                            <EditText
-                                android:id="@+id/elp_edit"
+                            <RadioGroup
                                 android:layout_marginRight="20dp"
                                 android:layout_marginLeft="45dp"
                                 android:layout_marginTop="45dp"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:hint="Так/Ні"
-                                android:background="@null"></EditText>
+                                android:layout_height="40dp">
+                                <RadioButton
+                                    android:id="@+id/yesrad"
+                                    android:checked="true"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:text="Так"
+                                    android:textSize="20dp"></RadioButton>
+                                <RadioButton
+                                    android:id="@+id/norad"
+                                    android:layout_marginTop="-40dp"
+                                    android:layout_marginLeft="80dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:text="Ні"
+                                    android:textSize="20dp"></RadioButton>
+                            </RadioGroup>
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/rentcard"
@@ -397,13 +410,34 @@
                             <EditText
                                 android:inputType="number"
                                 android:id="@+id/price_edit"
-                                android:layout_marginRight="20dp"
+                                android:layout_marginRight="65dp"
                                 android:layout_marginLeft="45dp"
                                 android:layout_marginTop="45dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:hint="Орендна плата"
                                 android:background="@null"></EditText>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="40dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="45dp"
+                                android:layout_alignParentRight="true"
+                                app:cardCornerRadius="15dp">
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/gradient"></ImageView>
+
+                                <TextView
+                                    android:id="@+id/currency"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="₴"
+                                    android:textColor="@color/white"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold"></TextView>
+                            </androidx.cardview.widget.CardView>
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/desccard"
@@ -514,8 +548,6 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-
-        android:layout_below="@+id/topPanel"
         android:id="@+id/recycler"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -525,7 +557,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
+        app:spanCount="2"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        android:paddingTop="60dp"
+        android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="invisible"
         android:layout_below="@+id/topPanel"
@@ -545,68 +581,76 @@
         android:id="@+id/panel"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_marginBottom="-40dp"
-        android:layout_marginLeft="30dp"
         android:layout_alignParentBottom="true"
-        app:cardCornerRadius="50dp"
         android:layout_centerHorizontal="true"
-        app:cardBackgroundColor="@color/white">
-    <LinearLayout
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:gravity="center">
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="-40dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="50dp">
 
-        <ImageView
-            android:id="@+id/mainimage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:tint="@color/purpleforicons"
-            android:layout_marginRight="30dp"></ImageView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/add"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            app:cardCornerRadius="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/gradient"></ImageView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:visibility="visible">
+
             <ImageView
-                android:layout_centerInParent="true"
-                android:id="@+id/addimage"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:id="@+id/mainimage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/plus"
-                android:tint="@color/white"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"></ImageView>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-        <ImageView
-            android:layout_marginLeft="30dp"
-            android:id="@+id/likedimage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:tint="@color/purpleforicons"></ImageView>
-    </LinearLayout>
+                android:layout_marginRight="30dp"
+                android:tint="@color/purpleforicons"></ImageView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/add"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                app:cardCornerRadius="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradient"></ImageView>
+
+                    <ImageView
+                        android:id="@+id/addimage"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/plus"
+                        android:tint="@color/white"></ImageView>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/likedimage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="30dp"
+                android:tint="@color/purpleforicons"></ImageView>
+        </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:layout_marginTop="70dp">
+
             <ImageView
-                android:layout_centerHorizontal="true"
                 android:layout_width="200dp"
                 android:layout_height="2dp"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/gradient"></ImageView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

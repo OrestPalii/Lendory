@@ -61,17 +61,17 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="50dp"
                         android:layout_marginBottom="-3dp"
                         android:fontFamily="@font/poppins"
                         android:gravity="center"
-                        android:text="Learn More"
+                        android:text="Більше"
                         android:textAllCaps="true"
                         android:textColor="#ce89db"
-                        android:textSize="20dp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold"
+                        android:autoSizeTextType="uniform"></TextView>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
@@ -107,14 +107,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="-13dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="17dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:fontFamily="@font/poppins"
                         android:text="Lorem ipsum dolor sit amet,
                     consectetur adipiscing elit."
                         android:textColor="@color/white"
-                        android:textSize="20dp"></TextView>
+                        android:textSize="16dp"></TextView>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -162,11 +162,11 @@
                             android:layout_height="match_parent">
                             <TextView
                                 android:layout_marginTop="5dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginLeft="10dp"
                                 android:ellipsize="end"
                                 android:id="@+id/location"
-                                android:gravity="center"
+                                android:gravity="left|center_vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/poppins"
