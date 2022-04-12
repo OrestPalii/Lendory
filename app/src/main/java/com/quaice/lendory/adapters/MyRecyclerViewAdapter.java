@@ -1,10 +1,9 @@
-package com.quaice.lendory;
+package com.quaice.lendory.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.quaice.lendory.R;
 import com.quaice.lendory.activities.AdvReview;
 import com.quaice.lendory.activities.MainActivity;
+import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Adv;
 
 import java.util.ArrayList;
@@ -43,9 +44,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         this.mInflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
-        mImageStorage = FirebaseStorage.getInstance("gs://lendory-b5d8b.appspot.com/").getReference();
+        mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
         ref = mImageStorage.child("images/");
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
+        FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         acc = database.getReference("profiles");
     }
 
@@ -61,33 +62,38 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(list.get(position).getName());
         holder.description.setText(list.get(position).getDescription());
+        holder.location.setText(list.get(position).getLocation());
         if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
             holder.like.setImageResource(R.drawable.liked_heart);
         else
             holder.like.setImageResource(R.drawable.heart);
 
         try{
-            ref.child(list.get(position).getImages().get(0)+"/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downUri = task.getResult();
-                        Glide.with(context).load(downUri.toString()).into(holder.image);
+            if(0 < list.get(position).getImages().size()) {
+                ref.child(list.get(position).getImages().get(0) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downUri = task.getResult();
+                            Glide.with(context).load(downUri.toString()).into(holder.image);
+                            if(1 < list.get(position).getImages().size()) {
+                                ref.child(list.get(position).getImages().get(1) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Uri> task) {
+                                        if (task.isSuccessful()) {
+                                            Uri downUri = task.getResult();
+                                            Glide.with(context).load(downUri.toString()).into(holder.second_image);
+                                        }
+                                    }
+                                });
+                            }
+                        }
                     }
-                }
-            });
-
-            ref.child(list.get(position).getImages().get(1)+"/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downUri = task.getResult();
-                        Glide.with(context).load(downUri.toString()).into(holder.second_image);
-                    }
-                }
-            });
-
-        }catch (Exception e){}
+                });
+            }
+        }catch (Exception e){
+            Toast.makeText(context, "SDFDSF", Toast.LENGTH_SHORT).show();
+        }
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +135,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView name, description, count;
+        private TextView name, description, count, location;
         private ImageView image, second_image, like;
         private CardView cardView;
         ViewHolder(View itemView) {
@@ -141,6 +147,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             second_image = itemView.findViewById(R.id.image_more);
             count = itemView.findViewById(R.id.image_count);
             like = itemView.findViewById(R.id.heart);
+            location = itemView.findViewById(R.id.location);
         }
 
         @Override

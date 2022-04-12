@@ -5,12 +5,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -30,9 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.quaice.lendory.MyRecyclerViewAdapter;
+import com.quaice.lendory.adapters.MyRecyclerViewAdapter;
 import com.quaice.lendory.R;
 import com.quaice.lendory.Registration;
+import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Account;
 import com.quaice.lendory.typeclass.Adv;
 import com.quaice.lendory.typeclass.User;
@@ -163,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
+        FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         myRef = database.getReference("advertisement");
         init();
         acc = database.getReference("profiles/"+your_phone.getText().toString());
@@ -172,6 +168,19 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 yourAccount = dataSnapshot.getValue(Account.class);
                 your_name.setText(yourAccount.getName());
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        downloaded = new ArrayList<>();
+                        for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
+                            downloaded.add(dataSnapshotchild.getValue(Adv.class));
+                        }
+                        build_recycler(downloaded, recyclerView);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {}
+                });
             }
 
             @Override
@@ -255,19 +264,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                downloaded = new ArrayList<>();
-                for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
-                    downloaded.add(dataSnapshotchild.getValue(Adv.class));
-                }
-                build_recycler(downloaded, recyclerView);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {}
-        });
 
         menu_show.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -377,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
                     photos.get(photoposition).setImageResource(0);
                     photos.get(photoposition).setImageURI(selectedImageUri);
                     //const
-                    FirebaseStorage storage = FirebaseStorage.getInstance("gs://lendory-b5d8b.appspot.com/");;
+                    FirebaseStorage storage = FirebaseStorage.getInstance(Const.STORAGE_URL);;
                     StorageReference ref = storage.getReference().child("images/" + photos.get(photoposition).hashCode());
                     ref.putFile(selectedImageUri);
                     images.add("" + photos.get(photoposition).hashCode());

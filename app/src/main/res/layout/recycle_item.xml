@@ -28,21 +28,20 @@
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_alignParentBottom="true"
-                        app:cardCornerRadius="20dp"
+                        app:cardCornerRadius="30dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginBottom="30dp">
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/test"
-                            android:scaleType="centerCrop"></ImageView>
                         <ImageView
                             android:id="@+id/image_more"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/black"
-                            android:alpha="0.5"
+                            android:src="@drawable/test"
                             android:scaleType="centerCrop"></ImageView>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/black"
+                            android:alpha="0.5"></ImageView>
                         <TextView
                             android:id="@+id/image_count"
                             android:layout_marginTop="10dp"
@@ -102,10 +101,13 @@
                         android:textSize="25dp"></TextView>
 
                     <TextView
+                        android:ellipsize="end"
                         android:id="@+id/description"
                         android:layout_below="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="-13dp"
+                        android:layout_marginBottom="16dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:fontFamily="@font/poppins"
@@ -132,13 +134,13 @@
                         android:scaleType="fitXY"
                         android:background="@drawable/test"></ImageView>
                     <androidx.cardview.widget.CardView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
                         app:cardCornerRadius="15dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp">
                         <ImageView
                             android:id="@+id/heart"
                             android:layout_width="match_parent"
@@ -146,6 +148,33 @@
                             android:layout_margin="5dp"
                             android:tint="@color/purpleforicons">
                         </ImageView>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="180dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginBottom="10dp">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:ellipsize="end"
+                                android:id="@+id/location"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/poppins"
+                                android:text="LVIV Shevchenka 15"
+                                android:lines="1"
+                                android:textColor="@color/purpleforicons"
+                                android:autoSizeTextType="uniform"></TextView>
+                        </RelativeLayout>
                     </androidx.cardview.widget.CardView>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
