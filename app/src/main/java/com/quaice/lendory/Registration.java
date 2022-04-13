@@ -83,13 +83,15 @@ public class Registration extends AppCompatActivity {
             public void onClick(View view) {
                 ArrayList<String> arr = new ArrayList<>();
                 arr.add("ThisHashCodeWillNeverBeUsed");
+                ArrayList<String> arrer = new ArrayList<>();
+                arrer.add("ThisHashCodeWillNeverBeUsedToo");
                 myRef = database.getReference("profiles");
                 if(!reg_name.getText().toString().equals("") && !reg_phonenumber.getText().toString().equals("") &&
                         !reg_password.getText().toString().equals("")) {
 
                     myRef.child(reg_phonenumber.getText().toString()).setValue(new Account(
                             reg_name.getText().toString(), reg_phonenumber.getText().toString(),
-                            reg_password.getText().toString(), arr));
+                            reg_password.getText().toString(), arr, arrer));
                 }
                 reg.setVisibility(View.INVISIBLE);login.setVisibility(View.VISIBLE);
             }

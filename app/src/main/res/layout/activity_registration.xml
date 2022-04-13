@@ -7,6 +7,12 @@
     tools:context=".Registration"
     android:background="@color/purple">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/waves"
+        android:scaleType="centerCrop"
+        android:tint="@color/purpleforicons"></ImageView>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

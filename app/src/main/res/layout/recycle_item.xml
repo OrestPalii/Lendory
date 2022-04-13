@@ -140,12 +140,31 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginRight="8dp"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/likecard">
                         <ImageView
                             android:id="@+id/heart"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:tint="@color/purpleforicons">
+                        </ImageView>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/settings"
+                        android:visibility="invisible"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        app:cardCornerRadius="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/settings"
                             android:tint="@color/purpleforicons">
                         </ImageView>
                     </androidx.cardview.widget.CardView>

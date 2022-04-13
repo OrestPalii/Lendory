@@ -35,22 +35,22 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private ArrayList<Adv> list;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    StorageReference mImageStorage, ref;
     private DatabaseReference acc;
+    private boolean yourlist;
+    StorageReference mImageStorage, ref;
     Context context;
 
-    // data is passed into the constructor
-    public MyRecyclerViewAdapter(Context context, ArrayList<Adv> list) {
+    public MyRecyclerViewAdapter(Context context, ArrayList<Adv> list, boolean yourlist) {
         this.mInflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
+        this.yourlist = yourlist;
         mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
         ref = mImageStorage.child("images/");
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         acc = database.getReference("profiles");
     }
 
-    // inflates the cell layout from xml when needed
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,6 +63,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.name.setText(list.get(position).getName());
         holder.description.setText(list.get(position).getDescription());
         holder.location.setText(list.get(position).getLocation());
+
+        if (yourlist){
+            holder.settcard.setVisibility(View.VISIBLE);
+            holder.likecard.setVisibility(View.INVISIBLE);
+        }
+
         if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
             holder.like.setImageResource(R.drawable.liked_heart);
         else
@@ -91,9 +97,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     }
                 });
             }
-        }catch (Exception e){
-            Toast.makeText(context, "SDFDSF", Toast.LENGTH_SHORT).show();
-        }
+        }catch (Exception e){}
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,12 +136,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return list.size();
     }
 
-
-    // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView name, description, count, location;
         private ImageView image, second_image, like;
-        private CardView cardView;
+        private CardView cardView, settcard, likecard;
         ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
@@ -148,6 +150,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             count = itemView.findViewById(R.id.image_count);
             like = itemView.findViewById(R.id.heart);
             location = itemView.findViewById(R.id.location);
+            settcard = itemView.findViewById(R.id.settings);
+            likecard = itemView.findViewById(R.id.likecard);
         }
 
         @Override
@@ -156,12 +160,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
     }
 
-    // allows clicks events to be caught
     void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
-    // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }

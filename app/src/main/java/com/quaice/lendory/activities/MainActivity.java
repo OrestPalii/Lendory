@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -38,8 +40,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
-    private RelativeLayout new_adv;
-    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout;
+    private RelativeLayout new_adv, rentcard;
+    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, settingscard;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search;
     private ImageView homepagebut, likedpagebut;
     private ArrayList<Adv> downloaded;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public static Account yourAccount;
     private ArrayList<Adv> likedByYou;
     private RadioButton yesbut, nobut;
+    private boolean canrefresh = true;
 
     private void showliked(){
         likedByYou = new ArrayList<>();
@@ -108,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         yesbut = findViewById(R.id.yesrad);
         nobut = findViewById(R.id.norad);
         currency = findViewById(R.id.currency);
+        rentcard = findViewById(R.id.rentcard);
+        settingscard = findViewById(R.id.settingscard);
         your_phone.setText(Registration.phone_str);
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
@@ -187,11 +192,14 @@ public class MainActivity extends AppCompatActivity {
                 myRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        downloaded = new ArrayList<>();
-                        for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
-                            downloaded.add(dataSnapshotchild.getValue(Adv.class));
+                        if(canrefresh) {
+                            downloaded = new ArrayList<>();
+                            for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
+                                downloaded.add(dataSnapshotchild.getValue(Adv.class));
+                            }
+                            build_recycler(downloaded, recyclerView);
+                            canrefresh = false;
                         }
-                        build_recycler(downloaded, recyclerView);
                     }
 
                     @Override
@@ -274,6 +282,8 @@ public class MainActivity extends AppCompatActivity {
                     String hn = "" + cur.hashCode();
                     cur.setHashnumber(hn);
                     myRef.child("" + cur.hashCode()).setValue(cur);
+                    yourAccount.addnewAdv(hn);
+                    acc.setValue(yourAccount);
                     new_adv.setVisibility(View.INVISIBLE);
                     images = new ArrayList<>();
                 }
@@ -381,11 +391,44 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        yesbut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    Animation anim = new ScaleAnimation(
+                            1f, 1f,
+                            1f, 0f,
+                            Animation.RELATIVE_TO_SELF, 0.5f,
+                            Animation.RELATIVE_TO_SELF, 0f);
+                    anim.setFillAfter(true);
+                    anim.setDuration(250);
+                    rentcard.startAnimation(anim);
+                }else {
+                    Animation anim = new ScaleAnimation(
+                            1f, 1f,
+                            0f, 1f,
+                            Animation.RELATIVE_TO_SELF, 0.5f,
+                            Animation.RELATIVE_TO_SELF, 0f);
+                    anim.setFillAfter(true);
+                    anim.setDuration(250);
+                    rentcard.startAnimation(anim);
+                }
+            }
+        });
+
+        settingscard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, YourAdverts.class);
+                startActivity(intent);
+            }
+        });
     }
 
     void build_recycler(ArrayList<Adv> list, RecyclerView recyclerView){
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, list);
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, list, false);
         recyclerView.setAdapter(adapter);
     }
 
