@@ -146,7 +146,7 @@
                             android:id="@+id/heart"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="5dp"
+                            android:layout_margin="7dp"
                             android:tint="@color/purpleforicons">
                         </ImageView>
                     </androidx.cardview.widget.CardView>
@@ -163,8 +163,8 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:src="@drawable/settings"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/edit"
                             android:tint="@color/purpleforicons">
                         </ImageView>
                     </androidx.cardview.widget.CardView>
@@ -181,8 +181,8 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:src="@drawable/settings"
+                            android:layout_margin="7dp"
+                            android:src="@drawable/delete"
                             android:tint="@color/purpleforicons">
                         </ImageView>
                     </androidx.cardview.widget.CardView>

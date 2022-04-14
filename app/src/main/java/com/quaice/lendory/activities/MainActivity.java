@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public static Account yourAccount;
     private ArrayList<Adv> likedByYou;
     private RadioButton yesbut, nobut;
-    private boolean canrefresh = true;
+    public static boolean canrefresh = true;
 
     private void showliked(){
         likedByYou = new ArrayList<>();

@@ -45,7 +45,7 @@ public class YourAdverts extends AppCompatActivity {
     private CardView backcard;
     public static DatabaseReference myRef;
     private ArrayList<Adv> downloaded;
-    private boolean canupdate = true;
+    public static boolean canupdate = true;
     public static EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit;
     private CardView cancel, send;
     public static RelativeLayout new_adv;
@@ -57,8 +57,11 @@ public class YourAdverts extends AppCompatActivity {
     private int photoposition;
     public static String hashNumber;
     public static StorageReference mImageStorage, ref;
+    public static Adv curentedit;
 
     public static void showEditDialog(Adv curedit, Context context){
+        curentedit = curedit;
+        images = curedit.getImages();
         boolean vol = curedit.isVolunteering();
         name_edit.setText(curedit.getName());
         desc_edit.setText(curedit.getDescription());
@@ -95,7 +98,7 @@ public class YourAdverts extends AppCompatActivity {
         }
     }
 
-    private Adv createNewAdv(){
+    private Adv createNewAdv(Adv redcur){
         int price = 0;
         boolean vol = false;
         boolean somethingNotFilled = false;
@@ -151,6 +154,8 @@ public class YourAdverts extends AppCompatActivity {
     }
 
     public static void deleteAdv(){
+        canupdate = true;
+        MainActivity.canrefresh = true;
         myRef.child("" + hashNumber).removeValue();
     }
 
@@ -190,10 +195,12 @@ public class YourAdverts extends AppCompatActivity {
                 if (canupdate){
                     downloaded = new ArrayList<>();
                     for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
-                        for (int i = 0; i < MainActivity.yourAccount.getCreated().size(); i++) {
-                            if (MainActivity.yourAccount.getCreated().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
-                                downloaded.add(dataSnapshotchild.getValue(Adv.class));
-                        }
+                        try {
+                            for (int i = 0; i < MainActivity.yourAccount.getCreated().size(); i++) {
+                                if (MainActivity.yourAccount.getCreated().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
+                                    downloaded.add(dataSnapshotchild.getValue(Adv.class));
+                            }
+                        }catch (Exception e){break;}
                     }
                     build_recycler(downloaded, recyclerView);
                     canupdate = false;
@@ -264,13 +271,14 @@ public class YourAdverts extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Adv cur = createNewAdv();
+                Adv cur = createNewAdv(curentedit);
                 if(cur != null) {
                     cur.setHashnumber(hashNumber);
                     myRef.child("" + hashNumber).setValue(cur);
                     new_adv.setVisibility(View.INVISIBLE);
                     images = new ArrayList<>();
                     canupdate = true;
+                    MainActivity.canrefresh = true;
                 }
             }
         });
@@ -308,7 +316,10 @@ public class YourAdverts extends AppCompatActivity {
                     FirebaseStorage storage = FirebaseStorage.getInstance(Const.STORAGE_URL);;
                     StorageReference ref = storage.getReference().child("images/" + photos.get(photoposition).hashCode());
                     ref.putFile(selectedImageUri);
-                    images.add("" + photos.get(photoposition).hashCode());
+                    if (images.size()>photoposition)
+                        images.set(photoposition,"" + photos.get(photoposition).hashCode());
+                    else
+                        images.add("" + photos.get(photoposition).hashCode());
                 }
             }
         }
