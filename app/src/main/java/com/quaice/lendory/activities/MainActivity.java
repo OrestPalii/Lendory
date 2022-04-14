@@ -163,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
                 vol = false;
                 price = 0;
             }
+            if (images.size() == 0){
+                images.add("NoImages");
+            }
             //змінні
             Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(),
                     lock_edit.getText().toString(), currency.getText().toString(), price,
@@ -286,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
                     acc.setValue(yourAccount);
                     new_adv.setVisibility(View.INVISIBLE);
                     images = new ArrayList<>();
+                    canrefresh = true;
                 }
             }
         });

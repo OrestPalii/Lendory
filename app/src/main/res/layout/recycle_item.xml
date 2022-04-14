@@ -169,6 +169,25 @@
                         </ImageView>
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/delete"
+                        android:visibility="invisible"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        app:cardCornerRadius="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="62dp"
+                        android:layout_marginBottom="8dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/settings"
+                            android:tint="@color/purpleforicons">
+                        </ImageView>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/lockcard"
                         android:layout_width="180dp"
                         android:layout_height="40dp"
                         app:cardCornerRadius="15dp"

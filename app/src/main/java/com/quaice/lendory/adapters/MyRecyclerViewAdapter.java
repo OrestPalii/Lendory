@@ -25,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.quaice.lendory.R;
 import com.quaice.lendory.activities.AdvReview;
 import com.quaice.lendory.activities.MainActivity;
+import com.quaice.lendory.activities.YourAdverts;
 import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Adv;
 
@@ -66,7 +67,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         if (yourlist){
             holder.settcard.setVisibility(View.VISIBLE);
+            holder.delcard.setVisibility(View.VISIBLE);
             holder.likecard.setVisibility(View.INVISIBLE);
+            holder.lockcard.setVisibility(View.INVISIBLE);
         }
 
         if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
@@ -129,6 +132,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 }
             }
         });
+        holder.settcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                YourAdverts.hashNumber = list.get(position).getHashnumber();
+                YourAdverts.showEditDialog(list.get(position), context);
+            }
+        });
+        holder.delcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                YourAdverts.hashNumber = list.get(position).getHashnumber();
+                YourAdverts.deleteAdv();
+            }
+        });
     }
 
     @Override
@@ -139,7 +156,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView name, description, count, location;
         private ImageView image, second_image, like;
-        private CardView cardView, settcard, likecard;
+        private CardView cardView, settcard, likecard, delcard, lockcard;
         ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
@@ -152,6 +169,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             location = itemView.findViewById(R.id.location);
             settcard = itemView.findViewById(R.id.settings);
             likecard = itemView.findViewById(R.id.likecard);
+            delcard = itemView.findViewById(R.id.delete);
+            lockcard = itemView.findViewById(R.id.lockcard);
         }
 
         @Override
