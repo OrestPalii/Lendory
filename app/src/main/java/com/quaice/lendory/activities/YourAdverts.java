@@ -59,110 +59,7 @@ public class YourAdverts extends AppCompatActivity {
     public static StorageReference mImageStorage, ref;
     public static Adv curentedit;
 
-    public static void showEditDialog(Adv curedit, Context context){
-        curentedit = curedit;
-        images = curedit.getImages();
-        boolean vol = curedit.isVolunteering();
-        name_edit.setText(curedit.getName());
-        desc_edit.setText(curedit.getDescription());
-        lock_edit.setText(curedit.getLocation());
-        area_edit.setText("" + curedit.getArea());
-        room_edit.setText("" + curedit.getNumberOfRooms());
-        floor_edit.setText("" + curedit.getFloor());
-        price_edit.setText("" + curedit.getPrice());
-        if (vol)
-            yesbut.setChecked(true);
-        else
-            yesbut.setChecked(false);
-        show_image(curedit,0, context);
-        new_adv.setVisibility(View.VISIBLE);
-    }
-
-    public static void show_image(Adv cur, int n, Context context){
-        if (n < cur.getImages().size()) {
-            ref.child(cur.getImages().get(n) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downUri = task.getResult();
-                        if(!downUri.toString().equals("NoImages")) {
-                            Glide.with(context).load(downUri.toString()).into(photos.get(n));
-                            int ni = n + 1;
-                            show_image(cur, ni, context);
-                        }
-                    }
-                }
-            });
-        }else{
-
-        }
-    }
-
-    private Adv createNewAdv(Adv redcur){
-        int price = 0;
-        boolean vol = false;
-        boolean somethingNotFilled = false;
-        try {
-            price = Integer.parseInt(price_edit.getText().toString());
-        }catch (Exception e){};
-        //}
-        //Перевірка заповнення полів
-        if(areElementEmpty(name_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(desc_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(lock_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(area_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(room_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(floor_edit))
-            somethingNotFilled = true;
-        if(!somethingNotFilled) {
-            if(yesbut.isChecked()) {
-                vol = true;
-                try {
-                    price = Integer.parseInt(price_edit.getText().toString());
-                }catch (Exception e){};
-            }
-            else {
-                vol = false;
-                price = 0;
-            }
-            if (images.size() == 0){
-                images.add("NoImages");
-            }
-            //змінні
-            Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(),
-                    lock_edit.getText().toString(), currency.getText().toString(), price,
-                    Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
-                    Integer.parseInt(floor_edit.getText().toString()), vol, images,
-                    new User(MainActivity.yourAccount.getName(), MainActivity.yourAccount.getPhonenumber()));
-            return cur;
-        }else{
-            Toast.makeText(this, "Заповніть усі поля!", Toast.LENGTH_SHORT).show();
-            return  null;
-        }
-    }
-
-    private boolean areElementEmpty(TextView textView){
-        if(textView.getText().toString().equals(""))
-            return true;
-        else
-            return false;
-    }
-
-    public static void deleteAdv(){
-        canupdate = true;
-        MainActivity.canrefresh = true;
-        myRef.child("" + hashNumber).removeValue();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_your_adverts);
+    private void init(){
         recyclerView = findViewById(R.id.recycler);
         backcard = findViewById(R.id.backcard);
         name_edit = findViewById(R.id.name_edit);
@@ -178,17 +75,25 @@ public class YourAdverts extends AppCompatActivity {
         rentcard = findViewById(R.id.rentcard);
         currency = findViewById(R.id.currency);
         send = findViewById(R.id.send_button);
-        images = new ArrayList<>();
-        photos = new ArrayList<>();
         photos.add(findViewById(R.id.first_image));
         photos.add(findViewById(R.id.second_image));
         photos.add(findViewById(R.id.third_image));
         photos.add(findViewById(R.id.forth_image));
-
+        images = new ArrayList<>();
+        photos = new ArrayList<>();
+        canupdate = true;
         mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
         ref = mImageStorage.child("images/");
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         myRef = database.getReference("advertisement");
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_your_adverts);
+        init();
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -323,5 +228,105 @@ public class YourAdverts extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public static void showEditDialog(Adv curedit, Context context){
+        curentedit = curedit;
+        images = curedit.getImages();
+        boolean vol = curedit.isVolunteering();
+        name_edit.setText(curedit.getName());
+        desc_edit.setText(curedit.getDescription());
+        lock_edit.setText(curedit.getLocation());
+        area_edit.setText("" + curedit.getArea());
+        room_edit.setText("" + curedit.getNumberOfRooms());
+        floor_edit.setText("" + curedit.getFloor());
+        price_edit.setText("" + curedit.getPrice());
+        if (vol)
+            yesbut.setChecked(true);
+        else
+            yesbut.setChecked(false);
+        show_image(curedit,0, context);
+        new_adv.setVisibility(View.VISIBLE);
+    }
+
+    public static void show_image(Adv cur, int n, Context context){
+        if (n < cur.getImages().size()) {
+            ref.child(cur.getImages().get(n) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downUri = task.getResult();
+                        if(!downUri.toString().equals("NoImages")) {
+                            Glide.with(context).load(downUri.toString()).into(photos.get(n));
+                            int ni = n + 1;
+                            show_image(cur, ni, context);
+                        }
+                    }
+                }
+            });
+        }else{
+
+        }
+    }
+
+    private Adv createNewAdv(Adv redcur){
+        int price = 0;
+        boolean vol = false;
+        boolean somethingNotFilled = false;
+        try {
+            price = Integer.parseInt(price_edit.getText().toString());
+        }catch (Exception e){};
+        //}
+        //Перевірка заповнення полів
+        if(areElementEmpty(name_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(desc_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(lock_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(area_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(room_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(floor_edit))
+            somethingNotFilled = true;
+        if(!somethingNotFilled) {
+            if(yesbut.isChecked()) {
+                vol = true;
+                try {
+                    price = Integer.parseInt(price_edit.getText().toString());
+                }catch (Exception e){};
+            }
+            else {
+                vol = false;
+                price = 0;
+            }
+            if (images.size() == 0){
+                images.add("NoImages");
+            }
+            //змінні
+            Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(),
+                    lock_edit.getText().toString(), currency.getText().toString(), price,
+                    Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
+                    Integer.parseInt(floor_edit.getText().toString()), vol, images,
+                    new User(MainActivity.yourAccount.getName(), MainActivity.yourAccount.getPhonenumber()));
+            return cur;
+        }else{
+            Toast.makeText(this, "Заповніть усі поля!", Toast.LENGTH_SHORT).show();
+            return  null;
+        }
+    }
+
+    private boolean areElementEmpty(TextView textView){
+        if(textView.getText().toString().equals(""))
+            return true;
+        else
+            return false;
+    }
+
+    public static void deleteAdv(){
+        canupdate = true;
+        MainActivity.canrefresh = true;
+        myRef.child("" + hashNumber).removeValue();
     }
 }

@@ -37,9 +37,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private DatabaseReference acc;
+    private Context context;
     private boolean yourlist;
-    StorageReference mImageStorage, ref;
-    Context context;
+    public StorageReference mImageStorage, ref;
 
     public MyRecyclerViewAdapter(Context context, ArrayList<Adv> list, boolean yourlist) {
         this.mInflater = LayoutInflater.from(context);

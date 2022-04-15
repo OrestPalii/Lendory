@@ -66,7 +66,6 @@ public class AdvReview extends AppCompatActivity {
         price = findViewById(R.id.price);
         profilecard = findViewById(R.id.profilecard);
         price.setText(cur.getPrice() + " " + cur.getCurrency());
-        //price.setTextSize(name.getTextSizeUnit(), name.getTextSize());
         mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
         ref = mImageStorage.child("images/");
         ref.child(cur.getImages().get(0) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {

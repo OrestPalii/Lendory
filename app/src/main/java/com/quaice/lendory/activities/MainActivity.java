@@ -56,28 +56,6 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton yesbut, nobut;
     public static boolean canrefresh = true;
 
-    private void showliked(){
-        likedByYou = new ArrayList<>();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                downloaded = new ArrayList<>();
-                for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
-                    for(int i = 0; i < yourAccount.getLiked().size(); i++){
-                        if(yourAccount.getLiked().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
-                            likedByYou.add(dataSnapshotchild.getValue(Adv.class));
-                    }
-                }
-                build_recycler(likedByYou, likerecycler);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {}
-        });
-        recyclerView.setVisibility(View.INVISIBLE);
-        likerecycler.setVisibility(View.VISIBLE);
-    }
-
     private void init(){
         images = new ArrayList<>();
         photos = new ArrayList<>();
@@ -119,65 +97,6 @@ public class MainActivity extends AppCompatActivity {
         name_edit.setHeight(0);
     }
 
-    private boolean areElementEmpty(TextView textView){
-       if(textView.getText().toString().equals(""))
-           return true;
-       else
-           return false;
-    }
-
-    private Adv createNewAdv(){
-        int price = 0;
-        boolean vol = false;
-        boolean somethingNotFilled = false;
-//        if(help_edit.getText().toString().contains("Так")) {
-//            price = 0;
-//            vol = true;
-//        }
-//        else {
-            try {
-                price = Integer.parseInt(price_edit.getText().toString());
-            }catch (Exception e){};
-        //}
-        //Перевірка заповнення полів
-        if(areElementEmpty(name_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(desc_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(lock_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(area_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(room_edit))
-            somethingNotFilled = true;
-        if(areElementEmpty(floor_edit))
-            somethingNotFilled = true;
-        if(!somethingNotFilled) {
-            if(yesbut.isChecked()) {
-                vol = true;
-                try {
-                    price = Integer.parseInt(price_edit.getText().toString());
-                }catch (Exception e){};
-            }
-            else {
-                vol = false;
-                price = 0;
-            }
-            if (images.size() == 0){
-                images.add("NoImages");
-            }
-            //змінні
-            Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(),
-                    lock_edit.getText().toString(), currency.getText().toString(), price,
-                    Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
-                    Integer.parseInt(floor_edit.getText().toString()), vol, images,
-                    new User(yourAccount.getName(), yourAccount.getPhonenumber()));
-            return cur;
-        }else{
-            Toast.makeText(this, "Заповніть усі поля!", Toast.LENGTH_SHORT).show();
-            return  null;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -462,5 +381,87 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private boolean areElementEmpty(TextView textView){
+        if(textView.getText().toString().equals(""))
+            return true;
+        else
+            return false;
+    }
+
+    private Adv createNewAdv(){
+        int price = 0;
+        boolean vol = false;
+        boolean somethingNotFilled = false;
+//        if(help_edit.getText().toString().contains("Так")) {
+//            price = 0;
+//            vol = true;
+//        }
+//        else {
+        try {
+            price = Integer.parseInt(price_edit.getText().toString());
+        }catch (Exception e){};
+        //}
+        //Перевірка заповнення полів
+        if(areElementEmpty(name_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(desc_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(lock_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(area_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(room_edit))
+            somethingNotFilled = true;
+        if(areElementEmpty(floor_edit))
+            somethingNotFilled = true;
+        if(!somethingNotFilled) {
+            if(yesbut.isChecked()) {
+                vol = true;
+                try {
+                    price = Integer.parseInt(price_edit.getText().toString());
+                }catch (Exception e){};
+            }
+            else {
+                vol = false;
+                price = 0;
+            }
+            if (images.size() == 0){
+                images.add("NoImages");
+            }
+            //змінні
+            Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(),
+                    lock_edit.getText().toString(), currency.getText().toString(), price,
+                    Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
+                    Integer.parseInt(floor_edit.getText().toString()), vol, images,
+                    new User(yourAccount.getName(), yourAccount.getPhonenumber()));
+            return cur;
+        }else{
+            Toast.makeText(this, "Заповніть усі поля!", Toast.LENGTH_SHORT).show();
+            return  null;
+        }
+    }
+
+    private void showliked(){
+        likedByYou = new ArrayList<>();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                downloaded = new ArrayList<>();
+                for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
+                    for(int i = 0; i < yourAccount.getLiked().size(); i++){
+                        if(yourAccount.getLiked().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
+                            likedByYou.add(dataSnapshotchild.getValue(Adv.class));
+                    }
+                }
+                build_recycler(likedByYou, likerecycler);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
+        recyclerView.setVisibility(View.INVISIBLE);
+        likerecycler.setVisibility(View.VISIBLE);
     }
 }
