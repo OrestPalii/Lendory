@@ -31,7 +31,6 @@ public class Registration extends AppCompatActivity {
     private FirebaseDatabase database;
     public static SharedPreferences.Editor editor;
     public static String name_str, phone_str;
-    
     void init(){
         login_phonenumber = findViewById(R.id.loginphonenumber);
         login_password = findViewById(R.id.loginpassword);

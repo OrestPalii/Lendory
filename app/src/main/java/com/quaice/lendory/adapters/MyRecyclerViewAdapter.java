@@ -64,12 +64,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.name.setText(list.get(position).getName());
         holder.description.setText(list.get(position).getDescription());
         holder.location.setText(list.get(position).getLocation());
+        if(list.get(position).isVolunteering())
+            holder.price.setText("Безкоштовно");
+        else
+            holder.price.setText("" + list.get(position).getPrice() + " " + list.get(position).getCurrency());
+
 
         if (yourlist){
             holder.settcard.setVisibility(View.VISIBLE);
             holder.delcard.setVisibility(View.VISIBLE);
             holder.likecard.setVisibility(View.INVISIBLE);
             holder.lockcard.setVisibility(View.INVISIBLE);
+            holder.pricecard.setVisibility(View.INVISIBLE);
         }
 
         if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
@@ -154,9 +160,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView name, description, count, location;
+        private TextView name, description, count, location, price;
         private ImageView image, second_image, like;
-        private CardView cardView, settcard, likecard, delcard, lockcard;
+        private CardView cardView, settcard, likecard, delcard, lockcard, pricecard;
         ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
@@ -171,6 +177,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             likecard = itemView.findViewById(R.id.likecard);
             delcard = itemView.findViewById(R.id.delete);
             lockcard = itemView.findViewById(R.id.lockcard);
+            price = itemView.findViewById(R.id.price);
+            pricecard = itemView.findViewById(R.id.price_card);
         }
 
         @Override

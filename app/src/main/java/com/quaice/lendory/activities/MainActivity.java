@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout new_adv, rentcard;
     private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, settingscard;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search;
-    private ImageView homepagebut, likedpagebut;
+    private ImageView homepagebut, likedpagebut, searchbutton;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public static Account yourAccount;
     private ArrayList<Adv> likedByYou;
     private RadioButton yesbut, nobut;
+    private Button canceler;
     public static boolean canrefresh = true;
 
     private void init(){
@@ -90,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
         nobut = findViewById(R.id.norad);
         currency = findViewById(R.id.currency);
         rentcard = findViewById(R.id.rentcard);
+        searchbutton = findViewById(R.id.lupsearch);
         settingscard = findViewById(R.id.settingscard);
+        canceler = findViewById(R.id.canceler);
         your_phone.setText(Registration.phone_str);
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
@@ -136,18 +141,11 @@ public class MainActivity extends AppCompatActivity {
 
         search.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(canceler.getVisibility() == View.INVISIBLE)
+                    canceler.setVisibility(View.VISIBLE);
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    if(areElementEmpty(search)){
-                        build_recycler(downloaded, recyclerView);
-                    }else {
-                        sorted = new ArrayList<>();
-                        for (int i = 0; i < downloaded.size(); i++) {
-                            if (downloaded.get(i).getName().contains(search.getText().toString()))
-                                sorted.add(downloaded.get(i));
-                        }
-                        build_recycler(sorted, recyclerView);
-                    }
+                    search();
                     return true;
                 }
                 return false;
@@ -217,53 +215,13 @@ public class MainActivity extends AppCompatActivity {
         menu_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                menu.setVisibility(View.VISIBLE);
-                TranslateAnimation animate = new TranslateAnimation(-1000, 0, 0, 0);
-                animate.setDuration(500);
-                animate.setFillAfter(true);
-                animate.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        menu_hide.setEnabled(false);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        menu_hide.setEnabled(true);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                menu.startAnimation(animate);
+                showpanel();
             }
         });
         menu_hide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TranslateAnimation animate = new TranslateAnimation(0, -1000, 0, 0);
-                animate.setDuration(500);
-                animate.setFillAfter(false);
-                animate.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        menu_show.setEnabled(false);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        menu.setVisibility(View.INVISIBLE);
-                        menu_show.setEnabled(true);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                menu.startAnimation(animate);
+                hidepanel();
             }
         });
 
@@ -343,8 +301,29 @@ public class MainActivity extends AppCompatActivity {
         settingscard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hidepanel();
                 Intent intent = new Intent(MainActivity.this, YourAdverts.class);
                 startActivity(intent);
+            }
+        });
+
+        searchbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search();
+            }
+        });
+
+        canceler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(menu.getVisibility() == View.VISIBLE)
+                    hidepanel();
+                else {
+                    search.setEnabled(false);
+                    search.setEnabled(true);
+                }
+                view.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -394,11 +373,6 @@ public class MainActivity extends AppCompatActivity {
         int price = 0;
         boolean vol = false;
         boolean somethingNotFilled = false;
-//        if(help_edit.getText().toString().contains("Так")) {
-//            price = 0;
-//            vol = true;
-//        }
-//        else {
         try {
             price = Integer.parseInt(price_edit.getText().toString());
         }catch (Exception e){};
@@ -425,7 +399,6 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 vol = false;
-                price = 0;
             }
             if (images.size() == 0){
                 images.add("NoImages");
@@ -463,5 +436,69 @@ public class MainActivity extends AppCompatActivity {
         });
         recyclerView.setVisibility(View.INVISIBLE);
         likerecycler.setVisibility(View.VISIBLE);
+    }
+
+    private void hidepanel(){
+        TranslateAnimation animate = new TranslateAnimation(0, -1000, 0, 0);
+        animate.setDuration(500);
+        animate.setFillAfter(false);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                menu_show.setEnabled(false);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                menu.setVisibility(View.INVISIBLE);
+                menu_show.setEnabled(true);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        menu.startAnimation(animate);
+    }
+
+    private void showpanel(){
+        canceler.setVisibility(View.VISIBLE);
+        menu.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(-1000, 0, 0, 0);
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                menu_hide.setEnabled(false);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                menu_hide.setEnabled(true);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        menu.startAnimation(animate);
+    }
+
+    private void search(){
+        search.setEnabled(false);
+        search.setEnabled(true);
+        if(areElementEmpty(search)){
+            build_recycler(downloaded, recyclerView);
+        }else {
+            sorted = new ArrayList<>();
+            for (int i = 0; i < downloaded.size(); i++) {
+                if (downloaded.get(i).getName().contains(search.getText().toString()))
+                    sorted.add(downloaded.get(i));
+            }
+            build_recycler(sorted, recyclerView);
+        }
     }
 }

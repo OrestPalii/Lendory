@@ -75,12 +75,12 @@ public class YourAdverts extends AppCompatActivity {
         rentcard = findViewById(R.id.rentcard);
         currency = findViewById(R.id.currency);
         send = findViewById(R.id.send_button);
+        images = new ArrayList<>();
+        photos = new ArrayList<>();
         photos.add(findViewById(R.id.first_image));
         photos.add(findViewById(R.id.second_image));
         photos.add(findViewById(R.id.third_image));
         photos.add(findViewById(R.id.forth_image));
-        images = new ArrayList<>();
-        photos = new ArrayList<>();
         canupdate = true;
         mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
         ref = mImageStorage.child("images/");
@@ -183,6 +183,7 @@ public class YourAdverts extends AppCompatActivity {
                     new_adv.setVisibility(View.INVISIBLE);
                     images = new ArrayList<>();
                     canupdate = true;
+                    refresh();
                     MainActivity.canrefresh = true;
                 }
             }
@@ -228,6 +229,30 @@ public class YourAdverts extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void refresh(){
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (canupdate){
+                    downloaded = new ArrayList<>();
+                    for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
+                        try {
+                            for (int i = 0; i < MainActivity.yourAccount.getCreated().size(); i++) {
+                                if (MainActivity.yourAccount.getCreated().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
+                                    downloaded.add(dataSnapshotchild.getValue(Adv.class));
+                            }
+                        }catch (Exception e){break;}
+                    }
+                    build_recycler(downloaded, recyclerView);
+                    canupdate = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
     }
 
     public static void showEditDialog(Adv curedit, Context context){
@@ -299,7 +324,6 @@ public class YourAdverts extends AppCompatActivity {
             }
             else {
                 vol = false;
-                price = 0;
             }
             if (images.size() == 0){
                 images.add("NoImages");

@@ -20,11 +20,12 @@
         android:layout_height="match_parent"
         android:elevation="5dp"
         android:visibility="invisible">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/black"
-            android:alpha="0.7"></ImageView>
+            android:alpha="0.7"
+            android:background="@color/black"></ImageView>
         <androidx.cardview.widget.CardView
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
@@ -493,6 +494,29 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:spanCount="2"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        android:paddingTop="60dp"
+        android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/canceler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="invisible"></Button>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/menu_show"
         android:layout_width="65dp"
@@ -526,15 +550,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="5dp"
                 android:background="@null"
                 android:hint="Пошук"
                 android:inputType="text"
-                android:maxLines="1"></EditText>
+                android:maxLines="1"
+                android:layout_toLeftOf="@+id/lupsearch"></EditText>
 
             <ImageView
                 android:tint="@color/purpleforicons"
-                android:id="@+id/lup"
+                android:id="@+id/lupsearch"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
@@ -553,23 +578,6 @@
                 android:tint="@color/purpleforicons"></ImageView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:spanCount="2"
-        android:clipToPadding="false"
-        android:paddingBottom="100dp"
-        android:paddingTop="60dp"
-        android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="invisible"
         android:layout_below="@+id/topPanel"
@@ -807,7 +815,5 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
-
 
 </RelativeLayout>

@@ -89,32 +89,40 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/gradient"
                     android:rotation="-90"></ImageView>
+
                     <TextView
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginTop="60dp"
-                        android:layout_marginLeft="8dp"
-                        android:text="NAME"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="25dp"></TextView>
-
-                    <TextView
-                        android:ellipsize="end"
-                        android:id="@+id/description"
-                        android:layout_below="@+id/name"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="-13dp"
-                        android:layout_marginBottom="17dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:fontFamily="@font/poppins"
-                        android:text="Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit."
+                        android:layout_marginTop="60dp"
+                        android:text="NAME"
+                        android:gravity="center_vertical"
+                        android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="16dp"></TextView>
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="18dp"
+                        android:autoSizeMaxTextSize="25dp"
+                        android:ellipsize="end"
+                        android:lines="1"></TextView>
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/name"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="-13dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="17dp"
+                        android:fontFamily="@font/poppins"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="13dp"
+                        android:autoSizeMaxTextSize="16dp"
+                        android:ellipsize="end"></TextView>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -193,25 +201,56 @@
                         app:cardCornerRadius="15dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
+                        android:layout_marginRight="176dp"
+                        android:layout_marginBottom="10dp">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/location"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="10dp"
+                                android:autoSizeTextType="uniform"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="left|center_vertical"
+                                android:lines="1"
+                                android:text="LVIV Shevchenka 15"
+                                android:textColor="@color/purpleforicons"></TextView>
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/price_card"
+                        android:layout_width="110dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginRight="60dp"
                         android:layout_marginBottom="10dp">
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                             <TextView
-                                android:layout_marginTop="5dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginLeft="10dp"
-                                android:ellipsize="end"
-                                android:id="@+id/location"
-                                android:gravity="left|center_vertical"
+                                android:id="@+id/price"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginRight="10dp"
+                                android:autoSizeTextType="uniform"
+                                android:ellipsize="end"
                                 android:fontFamily="@font/poppins"
-                                android:text="LVIV Shevchenka 15"
+                                android:gravity="center"
+                                android:autoSizeMaxTextSize="18dp"
+                                android:autoSizeMinTextSize="10dp"
                                 android:lines="1"
-                                android:textColor="@color/purpleforicons"
-                                android:autoSizeTextType="uniform"></TextView>
+                                android:text=""
+                                android:textColor="@color/purpleforicons"></TextView>
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
                 </RelativeLayout>
