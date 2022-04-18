@@ -43,9 +43,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
     private RelativeLayout new_adv, rentcard;
-    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, settingscard;
+    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, settingscard, filtercard;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search;
-    private ImageView homepagebut, likedpagebut, searchbutton;
+    private ImageView homepagebut, likedpagebut, searchbutton, filterShow;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
         searchbutton = findViewById(R.id.lupsearch);
         settingscard = findViewById(R.id.settingscard);
         canceler = findViewById(R.id.canceler);
+        filtercard = findViewById(R.id.filterpanel);
+        filterShow = findViewById(R.id.sett);
         your_phone.setText(Registration.phone_str);
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
@@ -322,8 +324,24 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     search.setEnabled(false);
                     search.setEnabled(true);
+                    if(filtercard.getVisibility() == View.VISIBLE)
+                        filterview(0, -1000);
                 }
                 view.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        filterShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(canceler.getVisibility() == View.INVISIBLE) {
+                    filterview(-1000, 0);
+                    canceler.setVisibility(View.VISIBLE);
+                }
+                else {
+                    filterview(0, -1000);
+                    canceler.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
@@ -485,6 +503,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         menu.startAnimation(animate);
+    }
+
+    private void filterview(int startY, int endY){
+        filtercard.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(0, 0, startY, endY);
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        filtercard.startAnimation(animate);
     }
 
     private void search(){
