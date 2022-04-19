@@ -1,5 +1,6 @@
 package com.quaice.lendory.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23,6 +24,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         myRef = database.getReference("advertisement");
         init();
+        setTheme(R.style.Dark);
         acc = database.getReference("profiles/"+your_phone.getText().toString());
         acc.addValueEventListener(new ValueEventListener() {
             @Override
@@ -334,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
         filterShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(canceler.getVisibility() == View.INVISIBLE) {
+                if(filtercard.getVisibility() == View.INVISIBLE) {
                     filterview(-1000, 0);
                     canceler.setVisibility(View.VISIBLE);
                 }
@@ -372,9 +377,17 @@ public class MainActivity extends AppCompatActivity {
                     photos.get(photoposition).setImageURI(selectedImageUri);
                     //const
                     FirebaseStorage storage = FirebaseStorage.getInstance(Const.STORAGE_URL);;
-                    StorageReference ref = storage.getReference().child("images/" + photos.get(photoposition).hashCode());
-                    ref.putFile(selectedImageUri);
-                    images.add("" + photos.get(photoposition).hashCode());
+                    StorageReference ref = storage.getReference();
+                    ref.child("images/" + photos.get(photoposition).hashCode()).putFile(selectedImageUri);
+                    ref.child("images/" + photos.get(photoposition).hashCode()).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                Uri downUri = task.getResult();
+                                images.add("" + task.getResult());
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -506,10 +519,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void filterview(int startY, int endY){
-        filtercard.setVisibility(View.VISIBLE);
+        //filtercard.setVisibility(View.VISIBLE);
         TranslateAnimation animate = new TranslateAnimation(0, 0, startY, endY);
         animate.setDuration(500);
-        animate.setFillAfter(true);
+        animate.setFillAfter(false);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(startY == 0){
+                    filtercard.setEnabled(false);
+                    filtercard.setVisibility(View.INVISIBLE);
+                }else {
+                    filtercard.setEnabled(true);
+                    filtercard.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         filtercard.startAnimation(animate);
     }
 

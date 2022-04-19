@@ -276,21 +276,9 @@ public class YourAdverts extends AppCompatActivity {
 
     public static void show_image(Adv cur, int n, Context context){
         if (n < cur.getImages().size()) {
-            ref.child(cur.getImages().get(n) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downUri = task.getResult();
-                        if(!downUri.toString().equals("NoImages")) {
-                            Glide.with(context).load(downUri.toString()).into(photos.get(n));
-                            int ni = n + 1;
-                            show_image(cur, ni, context);
-                        }
-                    }
-                }
-            });
-        }else{
-
+            Glide.with(context).load(cur.getImages().get(n)).into(photos.get(n));
+            int ni = n + 1;
+            show_image(cur, ni, context);
         }
     }
 

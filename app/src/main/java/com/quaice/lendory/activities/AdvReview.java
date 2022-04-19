@@ -38,8 +38,6 @@ public class AdvReview extends AppCompatActivity {
     private CardView sellercard, backcard, imagecard, infocard, profilecard;
     private ViewPager viewPager;
     private ViewPagerAdapters adapter;
-    private StorageReference mImageStorage, ref;
-    private ArrayList<String> images;
     private static final int MY_PERMISSION_REQUEST_CODE_CALL_PHONE = 555;
 
     private void init(){
@@ -66,16 +64,8 @@ public class AdvReview extends AppCompatActivity {
         price = findViewById(R.id.price);
         profilecard = findViewById(R.id.profilecard);
         price.setText(cur.getPrice() + " " + cur.getCurrency());
-        mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
-        ref = mImageStorage.child("images/");
-        ref.child(cur.getImages().get(0) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Glide.with(AdvReview.this).load(task.getResult()).into(mainImage);
-                }
-            }
-        });
+        if(0 < cur.getImages().size())
+            Glide.with(AdvReview.this).load(cur.getImages().get(0)).into(mainImage);
     }
 
     @Override
@@ -115,30 +105,16 @@ public class AdvReview extends AppCompatActivity {
         });
     }
 
-    private void show_image(int n){
-        if (n < cur.getImages().size()) {
-            ref.child(cur.getImages().get(n) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downUri = task.getResult();
-                        images.add(downUri.toString());
-                        int ni = n + 1;
-                        show_image(ni);
-                    }
-                }
-            });
-        }else{
-            adapter = new ViewPagerAdapters(AdvReview.this, images);
+    private void show_image(){
+            adapter = new ViewPagerAdapters(AdvReview.this, cur.getImages());
             viewPager.setAdapter(adapter);
             imagecard.setVisibility(View.INVISIBLE);
             infocard.setVisibility(View.INVISIBLE);
             viewPager.setVisibility(View.VISIBLE);
-        }
     }
     private void showpager(){
-        images = new ArrayList<>();
-        show_image(0);
+        //images = new ArrayList<>();
+        show_image();
     }
 
     private void askPermissionAndCall() {

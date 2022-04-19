@@ -562,6 +562,7 @@
                 android:textSize="18dp"></TextView>
 
             <LinearLayout
+                android:elevation="100dp"
                 android:id="@+id/pricefiltercard"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -602,6 +603,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:elevation="100dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pricefiltercard">
@@ -641,12 +643,14 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:elevation="100dp"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="10dp">
 
                 <androidx.cardview.widget.CardView
+                    android:elevation="100dp"
                     android:id="@+id/cleancard"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -666,6 +670,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:elevation="100dp"
                     android:id="@+id/usecard"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

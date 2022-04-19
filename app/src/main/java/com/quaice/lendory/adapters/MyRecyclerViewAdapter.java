@@ -39,15 +39,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private DatabaseReference acc;
     private Context context;
     private boolean yourlist;
-    public StorageReference mImageStorage, ref;
+    //public StorageReference mImageStorage, ref;
 
     public MyRecyclerViewAdapter(Context context, ArrayList<Adv> list, boolean yourlist) {
         this.mInflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
         this.yourlist = yourlist;
-        mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
-        ref = mImageStorage.child("images/");
+        //mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
+        //ref = mImageStorage.child("images/");
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         acc = database.getReference("profiles");
     }
@@ -85,26 +85,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         try{
             if(0 < list.get(position).getImages().size()) {
-                ref.child(list.get(position).getImages().get(0) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            Uri downUri = task.getResult();
-                            Glide.with(context).load(downUri.toString()).into(holder.image);
-                            if(1 < list.get(position).getImages().size()) {
-                                ref.child(list.get(position).getImages().get(1) + "/").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Uri> task) {
-                                        if (task.isSuccessful()) {
-                                            Uri downUri = task.getResult();
-                                            Glide.with(context).load(downUri.toString()).into(holder.second_image);
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
+                Glide.with(context).load(list.get(position).getImages().get(0).toString()).into(holder.image);
+            }
+            if(1 < list.get(position).getImages().size()) {
+                Glide.with(context).load(list.get(position).getImages().get(1).toString()).into(holder.second_image);
             }
         }catch (Exception e){}
 
