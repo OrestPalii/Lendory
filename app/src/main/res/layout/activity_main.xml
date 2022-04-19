@@ -520,11 +520,11 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/filterpanel"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="385dp"
         android:layout_marginTop="-20dp"
         android:visibility="invisible"
-        app:cardBackgroundColor="@color/main"
-        app:cardCornerRadius="30dp">
+        app:cardCornerRadius="30dp"
+        app:cardBackgroundColor="#e8e8e8">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -538,68 +538,78 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/lockfiltercard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 app:cardCornerRadius="20dp">
-
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient"></ImageView>
                 <EditText
+                    android:id="@+id/searchlock"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:hint="Місцезнаходження"></EditText>
+                    android:hint="Місцезнаходження"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:backgroundTint="@color/white"></EditText>
             </androidx.cardview.widget.CardView>
 
-            <TextView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lockfiltercard"
-                android:layout_marginLeft="28dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Ціна"
-                android:textSize="18dp"></TextView>
+                app:cardCornerRadius="20dp"
+                android:layout_below="@+id/lockfiltercard">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient"></ImageView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="28dp"
+                    android:layout_marginRight="10dp"
+                    android:text="Ціна"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"></TextView>
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:elevation="100dp"
                 android:id="@+id/pricefiltercard"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/lockfiltercard"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginRight="10dp">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="20dp">
 
                     <EditText
+                        android:id="@+id/searchmin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-                        android:hint="Мінімум"></EditText>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="20dp">
+                        android:hint="Мінімум"
+                        android:layout_weight="1"></EditText>
 
                     <EditText
+                        android:id="@+id/searchmax"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-                        android:hint="Максимум"></EditText>
-                </androidx.cardview.widget.CardView>
+                        android:hint="Максимум"
+                        android:layout_weight="1"></EditText>
             </LinearLayout>
 
             <RelativeLayout
@@ -608,37 +618,51 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pricefiltercard">
 
-                <TextView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="28dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="Допомога біженцям?"
-                    android:textSize="18dp"></TextView>
+                    app:cardCornerRadius="20dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradient"></ImageView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Допомога біженцям?"
+                        android:textSize="18dp"
+                        android:textColor="@color/white"></TextView>
+                </androidx.cardview.widget.CardView>
 
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="24dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="40dp"
                     android:layout_marginRight="26dp">
 
-                    <RadioButton
-                        android:id="@+id/filteryes"
+                    <CheckBox
+                        android:id="@+id/searchyes"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:text="Так"
-                        android:textSize="18dp"></RadioButton>
+                        android:textSize="18dp"
+                        android:checked="true"></CheckBox>
 
-                    <RadioButton
-                        android:id="@+id/filterno"
+                    <CheckBox
+                        android:id="@+id/searchno"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_marginLeft="80dp"
                         android:layout_marginTop="-40dp"
                         android:checked="true"
                         android:text="Ні"
-                        android:textSize="18dp"></RadioButton>
+                        android:textSize="18dp"></CheckBox>
                 </RadioGroup>
             </RelativeLayout>
 
@@ -657,15 +681,29 @@
                     android:layout_below="@+id/desccard"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    app:cardBackgroundColor="@color/green"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="15dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradient"></ImageView>
+                <androidx.cardview.widget.CardView
+                    android:elevation="100dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/desccard"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="13dp"
+                    android:layout_margin="3dp"
+                    app:cardBackgroundColor="#e8e8e8"></androidx.cardview.widget.CardView>
 
                     <TextView
+                        android:id="@+id/seachcanel"
+                        android:elevation="100dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Очистити"
-                        android:textColor="@color/white"
+                        android:textColor="@color/purpleforicons"
                         android:textSize="20dp"></TextView>
                 </androidx.cardview.widget.CardView>
 
@@ -677,15 +715,30 @@
                     android:layout_below="@+id/desccard"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    app:cardBackgroundColor="@color/purple"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="15dp">
+                    <ImageView
+                        android:rotation="180"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradient"></ImageView>
+                    <androidx.cardview.widget.CardView
+                        android:elevation="100dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/desccard"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="13dp"
+                        android:layout_margin="3dp"
+                        app:cardBackgroundColor="#e8e8e8"></androidx.cardview.widget.CardView>
 
                     <TextView
+                        android:id="@+id/searchuse"
+                        android:elevation="100dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Застосувати"
-                        android:textColor="@color/white"
+                        android:textColor="@color/purpleforicons"
                         android:textSize="20dp"></TextView>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -697,7 +750,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="-15dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="match_parent"
@@ -714,7 +768,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="75dp"
-        app:cardBackgroundColor="@color/white">
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="5dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -854,7 +909,8 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="30dp"
         android:layout_marginLeft="-30dp"
-        app:cardBackgroundColor="#7d6bc5">
+        app:cardBackgroundColor="#7d6bc5"
+        app:cardElevation="10dp">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

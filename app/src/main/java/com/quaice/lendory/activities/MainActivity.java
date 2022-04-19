@@ -16,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,18 +49,20 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
     private RelativeLayout new_adv, rentcard;
     private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, settingscard, filtercard;
-    private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search;
+    private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search, search_lockation,
+        search_min_price, search_max_price;
     private ImageView homepagebut, likedpagebut, searchbutton, filterShow;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
     private DatabaseReference myRef, acc;
     private ArrayList<String> images;
-    private TextView your_name, your_phone, currency;
+    private TextView your_name, your_phone, currency, search_cancel, search_use;
     private int photoposition;
     public static Account yourAccount;
     private ArrayList<Adv> likedByYou;
-    private RadioButton yesbut, nobut;
+    private RadioButton yesbut;
+    private CheckBox search_yes, search_no;
     private Button canceler;
     public static boolean canrefresh = true;
 
@@ -94,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         likedpagebut = findViewById(R.id.likedimage);
         logout = findViewById(R.id.logout_card);
         yesbut = findViewById(R.id.yesrad);
-        nobut = findViewById(R.id.norad);
         currency = findViewById(R.id.currency);
         rentcard = findViewById(R.id.rentcard);
         searchbutton = findViewById(R.id.lupsearch);
@@ -102,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
         canceler = findViewById(R.id.canceler);
         filtercard = findViewById(R.id.filterpanel);
         filterShow = findViewById(R.id.sett);
+        search_lockation = findViewById(R.id.searchlock);
+        search_min_price = findViewById(R.id.searchmin);
+        search_max_price = findViewById(R.id.searchmax);
+        search_yes = findViewById(R.id.searchyes);
+        search_no = findViewById(R.id.searchno);
+        search_cancel = findViewById(R.id.seachcanel);
+        search_use = findViewById(R.id.searchuse);
         your_phone.setText(Registration.phone_str);
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
@@ -349,6 +358,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        search_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search.setText("");
+                search_lockation.setText("");
+                search_min_price.setText("");
+                search_max_price.setText("");
+                search_yes.setChecked(true);
+                search_no.setChecked(true);
+                search();
+            }
+        });
+        search_use.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search();
+            }
+        });
     }
 
     void build_recycler(ArrayList<Adv> list, RecyclerView recyclerView){
@@ -393,7 +420,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean areElementEmpty(TextView textView){
+    private boolean areElementEmpty(EditText textView){
         if(textView.getText().toString().equals(""))
             return true;
         else
@@ -559,7 +586,41 @@ public class MainActivity extends AppCompatActivity {
                 if (downloaded.get(i).getName().contains(search.getText().toString()))
                     sorted.add(downloaded.get(i));
             }
-            build_recycler(sorted, recyclerView);
+            sort(sorted);
         }
+    }
+
+    private void sort(ArrayList<Adv> sorted){
+        if(!search_yes.isChecked()){
+            for (int i = 0; i < sorted.size(); i++) {
+                if(sorted.get(i).isVolunteering())
+                    sorted.remove(i);
+            }
+        }
+        if(!search_no.isChecked()){
+            for (int i = 0; i < sorted.size(); i++) {
+                if(!sorted.get(i).isVolunteering())
+                    sorted.remove(i);
+            }
+        }
+        if(!areElementEmpty(search_lockation)){
+            for (int i = 0; i < sorted.size(); i++) {
+                if(!sorted.get(i).getLocation().contains(search_lockation.getText().toString()))
+                    sorted.remove(i);
+            }
+        }
+        if(!areElementEmpty(search_min_price)){
+            for (int i = 0; i < sorted.size(); i++) {
+                if(sorted.get(i).getPrice()<Integer.parseInt(search_min_price.getText().toString()))
+                    sorted.remove(i);
+            }
+        }
+        if(!areElementEmpty(search_max_price)){
+            for (int i = 0; i < sorted.size(); i++) {
+                if(sorted.get(i).getPrice()>Integer.parseInt(search_max_price.getText().toString()))
+                    sorted.remove(i);
+            }
+        }
+        build_recycler(sorted, recyclerView);
     }
 }
