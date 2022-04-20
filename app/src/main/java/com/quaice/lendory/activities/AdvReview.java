@@ -35,7 +35,7 @@ public class AdvReview extends AppCompatActivity {
     private Adv cur;
     private ImageView mainImage;
     private TextView name, description, location, floor, sellername, sellerphone, price;
-    private CardView sellercard, backcard, imagecard, infocard, profilecard;
+    private CardView sellercard, backcard, imagecard, infocard, profilecard, sharecard;
     private ViewPager viewPager;
     private ViewPagerAdapters adapter;
     private static final int MY_PERMISSION_REQUEST_CODE_CALL_PHONE = 555;
@@ -62,6 +62,7 @@ public class AdvReview extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
         mainImage = findViewById(R.id.main_image);
         price = findViewById(R.id.price);
+        sharecard = findViewById(R.id.sharecard);
         profilecard = findViewById(R.id.profilecard);
         price.setText(cur.getPrice() + " " + cur.getCurrency());
         if(0 < cur.getImages().size())
@@ -103,6 +104,25 @@ public class AdvReview extends AppCompatActivity {
                 askPermissionAndCall();
             }
         });
+        sharecard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareURL();
+            }
+        });
+    }
+
+    private void shareURL(){
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, cur.getName());
+            String shareMessage = "https://lendory-b5d8b.firebaseapp.com/advertreview.html#"+ cur.getHashnumber();
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch(Exception e) {
+            //e.toString();
+        }
     }
 
     private void show_image(){

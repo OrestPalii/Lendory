@@ -1,6 +1,7 @@
-package com.quaice.lendory;
+package com.quaice.lendory.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 
 import android.app.Activity;
@@ -16,7 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.quaice.lendory.activities.MainActivity;
+import com.quaice.lendory.R;
 import com.quaice.lendory.typeclass.Account;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class Registration extends AppCompatActivity {
         log_text = findViewById(R.id.logtext);
         database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
         myRef = database.getReference("profiles");
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
     @Override

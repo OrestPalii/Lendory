@@ -2,6 +2,7 @@ package com.quaice.lendory.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +36,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.quaice.lendory.adapters.MyRecyclerViewAdapter;
 import com.quaice.lendory.R;
-import com.quaice.lendory.Registration;
 import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Account;
 import com.quaice.lendory.typeclass.Adv;
@@ -125,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         myRef = database.getReference("advertisement");
         init();
-        setTheme(R.style.Dark);
+        //setTheme(R.style.Dark);
         acc = database.getReference("profiles/"+your_phone.getText().toString());
         acc.addValueEventListener(new ValueEventListener() {
             @Override
