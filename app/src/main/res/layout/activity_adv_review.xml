@@ -190,7 +190,6 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/imagecard"
         android:layout_width="match_parent"
@@ -203,14 +202,52 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:background="@drawable/test"></ImageView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                app:cardCornerRadius="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="68dp"
+                android:layout_marginBottom="12dp"
+                android:id="@+id/sharecard">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/share"
+                    android:tint="@color/purpleforicons">
+                </ImageView>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                app:cardCornerRadius="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="12dp"
+                android:id="@+id/likecard">
+                <ImageView
+                    android:id="@+id/heart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/heart"
+                    android:tint="@color/purpleforicons">
+                </ImageView>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/backcard"
         android:layout_width="60dp"
         android:layout_height="50dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginLeft="7dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
         app:cardCornerRadius="20dp">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -225,31 +262,6 @@
                 android:layout_height="25dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/back_arrow"
-                android:tint="@color/white"></ImageView>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/sharecard"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_alignParentRight="true"
-        app:cardCornerRadius="20dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/gradient"></ImageView>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/share"
                 android:tint="@color/white"></ImageView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

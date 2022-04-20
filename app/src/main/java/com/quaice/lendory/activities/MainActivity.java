@@ -366,12 +366,17 @@ public class MainActivity extends AppCompatActivity {
                 search_yes.setChecked(true);
                 search_no.setChecked(true);
                 search();
+                canceler.setVisibility(View.INVISIBLE);
+                filterview(0, -1000);
+                build_recycler(downloaded, recyclerView);
             }
         });
         search_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 search();
+                canceler.setVisibility(View.INVISIBLE);
+                filterview(0, -1000);
             }
         });
     }
@@ -465,6 +470,7 @@ public class MainActivity extends AppCompatActivity {
                     Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
                     Integer.parseInt(floor_edit.getText().toString()), vol, images,
                     new User(yourAccount.getName(), yourAccount.getPhonenumber()));
+            cur.setTime(System.currentTimeMillis());
             return cur;
         }else{
             Toast.makeText(this, "Заповніть усі поля!", Toast.LENGTH_SHORT).show();
@@ -576,16 +582,16 @@ public class MainActivity extends AppCompatActivity {
     private void search(){
         search.setEnabled(false);
         search.setEnabled(true);
-        if(areElementEmpty(search)){
-            build_recycler(downloaded, recyclerView);
-        }else {
-            sorted = new ArrayList<>();
+        sorted = new ArrayList<>();
+        if(!areElementEmpty(search)) {
             for (int i = 0; i < downloaded.size(); i++) {
                 if (downloaded.get(i).getName().contains(search.getText().toString()))
                     sorted.add(downloaded.get(i));
             }
-            sort(sorted);
+        }else {
+            sorted.addAll(downloaded);
         }
+        sort(sorted);
     }
 
     private void sort(ArrayList<Adv> sorted){
@@ -601,9 +607,9 @@ public class MainActivity extends AppCompatActivity {
                     sorted.remove(i);
             }
         }
-        if(!areElementEmpty(search_lockation)){
+        if(!areElementEmpty(search_lockation)) {
             for (int i = 0; i < sorted.size(); i++) {
-                if(!sorted.get(i).getLocation().contains(search_lockation.getText().toString()))
+                if (!sorted.get(i).getLocation().contains(search_lockation.getText().toString()))
                     sorted.remove(i);
             }
         }

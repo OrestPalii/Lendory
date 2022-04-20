@@ -7,6 +7,7 @@ public class Account {
     private ArrayList<String> liked;
     private ArrayList<String> created;
 
+
     public Account(String name, String phonenumber, String password, ArrayList<String> liked, ArrayList<String> created) {
         this.name = name;
         this.phonenumber = phonenumber;

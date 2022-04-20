@@ -9,6 +9,15 @@ public class Adv{
     private int price, area, numberOfRooms, floor;
     private boolean volunteering;
     private ArrayList <String> images;
+    private long time;
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 
     public String getHashnumber() {
         return hashnumber;
