@@ -44,8 +44,12 @@ public class Account {
     public boolean checkifconsist(String hashnumber){
         try {
             for (int i = 0; i < liked.size(); i++) {
-                if (liked.get(i).equals(hashnumber)) {
-                    return true;
+                try {
+                    if (liked.get(i).equals(hashnumber)) {
+                        return true;
+                    }
+                }catch (NullPointerException e){
+                    continue;
                 }
             }
         }catch (Exception e){

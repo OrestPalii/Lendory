@@ -56,6 +56,8 @@ public class Registration extends AppCompatActivity {
         init();
         SharedPreferences activityPreferences = getPreferences(Activity.MODE_PRIVATE);
         editor = activityPreferences.edit();
+//        editor.putBoolean("loggin", false);
+//        editor.commit();
 
         if(activityPreferences.getBoolean("loggin", false)){
             name_str = activityPreferences.getString("user_name", "");
