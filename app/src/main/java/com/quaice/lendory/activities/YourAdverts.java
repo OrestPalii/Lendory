@@ -1,11 +1,9 @@
 package com.quaice.lendory.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,10 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,31 +28,29 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.quaice.lendory.R;
 import com.quaice.lendory.adapters.MyRecyclerViewAdapter;
-import com.quaice.lendory.adapters.ViewPagerAdapters;
 import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Adv;
 import com.quaice.lendory.typeclass.User;
-
 import java.util.ArrayList;
+import es.dmoral.toasty.Toasty;
 
 public class YourAdverts extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private CardView backcard;
-    public static DatabaseReference myRef;
+    private CardView backcard, cancel, send;
     private ArrayList<Adv> downloaded;
-    public static boolean canupdate = true;
-    public static EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit;
-    private CardView cancel, send;
-    public static RelativeLayout new_adv;
     private RelativeLayout rentcard;
+    private int photoposition;
+    public static DatabaseReference myRef;
+    public static EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit;
+    public static RelativeLayout new_adv;
     public static RadioButton yesbut;
     public static TextView currency;
     public static ArrayList<ImageView> photos;
     public static ArrayList<String> images;
-    private int photoposition;
     public static String hashNumber;
     public static StorageReference mImageStorage, ref;
     public static Adv curentedit;
+    public static boolean canupdate = true;
 
     private void init(){
         recyclerView = findViewById(R.id.recycler);
@@ -81,11 +74,11 @@ public class YourAdverts extends AppCompatActivity {
         photos.add(findViewById(R.id.second_image));
         photos.add(findViewById(R.id.third_image));
         photos.add(findViewById(R.id.forth_image));
-        canupdate = true;
         mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
         ref = mImageStorage.child("images/");
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         myRef = database.getReference("advertisement");
+        canupdate = true;
     }
 
     @Override
@@ -94,6 +87,7 @@ public class YourAdverts extends AppCompatActivity {
         setContentView(R.layout.activity_your_adverts);
         init();
 
+        //Download all created by you adverts
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,7 +96,8 @@ public class YourAdverts extends AppCompatActivity {
                     for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
                         try {
                             for (int i = 0; i < MainActivity.yourAccount.getCreated().size(); i++) {
-                                if (MainActivity.yourAccount.getCreated().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
+                                if (MainActivity.yourAccount.getCreated().get(i).
+                                        equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
                                     downloaded.add(dataSnapshotchild.getValue(Adv.class));
                             }
                         }catch (Exception e){break;}
@@ -115,12 +110,14 @@ public class YourAdverts extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {}
         });
+
         backcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
         yesbut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -145,33 +142,11 @@ public class YourAdverts extends AppCompatActivity {
                 }
             }
         });
-        photos.get(0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser(0);
-            }
-        });
 
-        photos.get(1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser(1);
-            }
-        });
-
-        photos.get(2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser(2);
-            }
-        });
-
-        photos.get(3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser(3);
-            }
-        });
+        photosOnClick(0);
+        photosOnClick(1);
+        photosOnClick(2);
+        photosOnClick(3);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,18 +169,7 @@ public class YourAdverts extends AppCompatActivity {
                 new_adv.setVisibility(View.INVISIBLE);
             }
         });
-    }
-    void build_recycler(ArrayList<Adv> list, RecyclerView recyclerView){
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, list, true);
-        recyclerView.setAdapter(adapter);
-    }
-    void imageChooser(int pos) {
-        photoposition = pos;
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
+
     }
 
     @Override
@@ -240,7 +204,8 @@ public class YourAdverts extends AppCompatActivity {
                     for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
                         try {
                             for (int i = 0; i < MainActivity.yourAccount.getCreated().size(); i++) {
-                                if (MainActivity.yourAccount.getCreated().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
+                                if (MainActivity.yourAccount.getCreated().get(i)
+                                        .equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
                                     downloaded.add(dataSnapshotchild.getValue(Adv.class));
                             }
                         }catch (Exception e){break;}
@@ -258,7 +223,6 @@ public class YourAdverts extends AppCompatActivity {
     public static void showEditDialog(Adv curedit, Context context){
         curentedit = curedit;
         images = curedit.getImages();
-        boolean vol = curedit.isVolunteering();
         name_edit.setText(curedit.getName());
         desc_edit.setText(curedit.getDescription());
         lock_edit.setText(curedit.getLocation());
@@ -266,7 +230,7 @@ public class YourAdverts extends AppCompatActivity {
         room_edit.setText("" + curedit.getNumberOfRooms());
         floor_edit.setText("" + curedit.getFloor());
         price_edit.setText("" + curedit.getPrice());
-        if (vol)
+        if (curedit.isVolunteering())
             yesbut.setChecked(true);
         else
             yesbut.setChecked(false);
@@ -284,13 +248,12 @@ public class YourAdverts extends AppCompatActivity {
 
     private Adv createNewAdv(Adv redcur){
         int price = 0;
-        boolean vol = false;
+        boolean vol;
         boolean somethingNotFilled = false;
         try {
             price = Integer.parseInt(price_edit.getText().toString());
         }catch (Exception e){};
-        //}
-        //Перевірка заповнення полів
+        //Filds review
         if(areElementEmpty(name_edit))
             somethingNotFilled = true;
         if(areElementEmpty(desc_edit))
@@ -316,7 +279,6 @@ public class YourAdverts extends AppCompatActivity {
             if (images.size() == 0){
                 images.add("NoImages");
             }
-            //змінні
             Adv cur = new Adv(name_edit.getText().toString(), desc_edit.getText().toString(),
                     lock_edit.getText().toString(), currency.getText().toString(), price,
                     Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
@@ -324,9 +286,22 @@ public class YourAdverts extends AppCompatActivity {
                     new User(MainActivity.yourAccount.getName(), MainActivity.yourAccount.getPhonenumber()));
             return cur;
         }else{
-            Toast.makeText(this, "Заповніть усі поля!", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Заповніть усі поля!", Toast.LENGTH_SHORT, true).show();
             return  null;
         }
+    }
+
+    void build_recycler(ArrayList<Adv> list, RecyclerView recyclerView){
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, list, true);
+        recyclerView.setAdapter(adapter);
+    }
+    void imageChooser(int pos) {
+        photoposition = pos;
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
     }
 
     private boolean areElementEmpty(TextView textView){
@@ -340,5 +315,14 @@ public class YourAdverts extends AppCompatActivity {
         canupdate = true;
         MainActivity.canrefresh = true;
         myRef.child("" + hashNumber).removeValue();
+    }
+
+    private void photosOnClick(int position){
+        photos.get(position).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser(position);
+            }
+        });
     }
 }

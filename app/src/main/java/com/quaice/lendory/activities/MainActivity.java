@@ -2,11 +2,9 @@ package com.quaice.lendory.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -40,8 +37,8 @@ import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Account;
 import com.quaice.lendory.typeclass.Adv;
 import com.quaice.lendory.typeclass.User;
-
 import java.util.ArrayList;
+import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
@@ -180,33 +177,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        photos.get(0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser(0);
-            }
-        });
-
-        photos.get(1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser(1);
-            }
-        });
-
-        photos.get(2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser(2);
-            }
-        });
-
-        photos.get(3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser(3);
-            }
-        });
+        photosOnClick(0);
+        photosOnClick(1);
+        photosOnClick(2);
+        photosOnClick(3);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,17 +216,18 @@ public class MainActivity extends AppCompatActivity {
         homepagebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homepagebut.setImageResource(R.drawable.selectedhome);
+                animateView(homepagebut, R.drawable.selectedhome);
                 likedpagebut.setImageResource(R.drawable.heart);
                 recyclerView.setVisibility(View.VISIBLE);
                 likerecycler.setVisibility(View.INVISIBLE);
             }
         });
+
         likedpagebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                animateView(likedpagebut, R.drawable.liked_heart);
                 homepagebut.setImageResource(R.drawable.home);
-                likedpagebut.setImageResource(R.drawable.liked_heart);
                 showliked();
             }
         });
@@ -282,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(currency.getText().toString().equals("€") && can) {
                     currency.setText("₴");
-                    can = false;
                 }
             }
         });
@@ -325,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 search();
+                animateView(searchbutton);
             }
         });
 
@@ -346,7 +321,9 @@ public class MainActivity extends AppCompatActivity {
         filterShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                animateView(filterShow);
                 if(filtercard.getVisibility() == View.INVISIBLE) {
+                    //Show hide anim method
                     filterview(-1000, 0);
                     canceler.setVisibility(View.VISIBLE);
                 }
@@ -356,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         search_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -371,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
                 build_recycler(downloaded, recyclerView);
             }
         });
+
         search_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -379,20 +358,7 @@ public class MainActivity extends AppCompatActivity {
                 filterview(0, -1000);
             }
         });
-    }
 
-    void build_recycler(ArrayList<Adv> list, RecyclerView recyclerView){
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, list, false);
-        recyclerView.setAdapter(adapter);
-    }
-
-    void imageChooser(int pos) {
-        photoposition = pos;
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
     }
 
     @Override
@@ -413,7 +379,6 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
                             if (task.isSuccessful()) {
-                                Uri downUri = task.getResult();
                                 images.add("" + task.getResult());
                             }
                         }
@@ -421,6 +386,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    void build_recycler(ArrayList<Adv> list, RecyclerView recyclerView){
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, list, false);
+        recyclerView.setAdapter(adapter);
+    }
+
+    void imageChooser(int pos) {
+        photoposition = pos;
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
     }
 
     private boolean areElementEmpty(EditText textView){
@@ -432,12 +411,11 @@ public class MainActivity extends AppCompatActivity {
 
     private Adv createNewAdv(){
         int price = 0;
-        boolean vol = false;
+        boolean vol;
         boolean somethingNotFilled = false;
         try {
             price = Integer.parseInt(price_edit.getText().toString());
         }catch (Exception e){};
-        //}
         //Перевірка заповнення полів
         if(areElementEmpty(name_edit))
             somethingNotFilled = true;
@@ -473,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
             cur.setTime(System.currentTimeMillis());
             return cur;
         }else{
-            Toast.makeText(this, "Заповніть усі поля!", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Заповніть усі поля!", Toast.LENGTH_SHORT, true).show();
             return  null;
         }
     }
@@ -486,8 +464,10 @@ public class MainActivity extends AppCompatActivity {
                 downloaded = new ArrayList<>();
                 for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
                     for(int i = 0; i < yourAccount.getLiked().size(); i++){
-                        if(yourAccount.getLiked().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
-                            likedByYou.add(dataSnapshotchild.getValue(Adv.class));
+                        try {
+                            if (yourAccount.getLiked().get(i).equals(dataSnapshotchild.getValue(Adv.class).getHashnumber()))
+                                likedByYou.add(dataSnapshotchild.getValue(Adv.class));
+                        }catch (NullPointerException e){}
                     }
                 }
                 build_recycler(likedByYou, likerecycler);
@@ -550,7 +530,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void filterview(int startY, int endY){
-        //filtercard.setVisibility(View.VISIBLE);
         TranslateAnimation animate = new TranslateAnimation(0, 0, startY, endY);
         animate.setDuration(500);
         animate.setFillAfter(false);
@@ -577,6 +556,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         filtercard.startAnimation(animate);
+    }
+
+    public static void animateView(View view){
+        Animation click = new ScaleAnimation(1f, 0.7f, 1f, 0.7f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        click.setDuration(200);
+        view.startAnimation(click);
+    }
+
+    public static void animateView(ImageView view, int image){
+        Animation click = new ScaleAnimation(1f, 0.7f, 1f, 0.7f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        click.setDuration(200);
+        click.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setImageResource(image);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(click);
     }
 
     private void search(){
@@ -627,4 +638,14 @@ public class MainActivity extends AppCompatActivity {
         }
         build_recycler(sorted, recyclerView);
     }
+
+    private void photosOnClick(int position){
+        photos.get(position).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser(position);
+            }
+        });
+    }
+
 }

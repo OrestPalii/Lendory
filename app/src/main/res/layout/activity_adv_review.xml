@@ -56,16 +56,17 @@
                             android:maxLines="2"
                             android:text="Name"
                             android:textColor="@color/purpleforicons"></TextView>
+
                         <TextView
-                            android:layout_centerVertical="true"
                             android:id="@+id/price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="6dp"
                             android:fontFamily="@font/poppins"
+                            android:gravity="center_vertical"
                             android:text="10000 $"
                             android:textColor="@color/purpleforicons"
                             android:textSize="20dp"></TextView>
@@ -126,6 +127,13 @@
                     android:fontFamily="@font/poppins"
                     android:layout_margin="6dp"></TextView>
             </androidx.cardview.widget.CardView>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent_black"
+                    android:visibility="invisible"></androidx.viewpager.widget.ViewPager>
             </RelativeLayout>
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -201,7 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:background="@drawable/test"></ImageView>
+            android:background="@drawable/noimage"></ImageView>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -264,12 +272,5 @@
                 android:tint="@color/white"></ImageView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent_black"
-        android:visibility="invisible"></androidx.viewpager.widget.ViewPager>
 
 </RelativeLayout>

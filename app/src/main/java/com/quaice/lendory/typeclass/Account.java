@@ -7,7 +7,6 @@ public class Account {
     private ArrayList<String> liked;
     private ArrayList<String> created;
 
-
     public Account(String name, String phonenumber, String password, ArrayList<String> liked, ArrayList<String> created) {
         this.name = name;
         this.phonenumber = phonenumber;
@@ -30,6 +29,7 @@ public class Account {
     public void addnewliked(String hashnumber){
         liked.add(hashnumber);
     }
+
     public void removenewliked(String hashnumber){
         liked.remove(hashnumber);
     }
@@ -37,6 +37,7 @@ public class Account {
     public void addnewAdv(String hashnumber){
         created.add(hashnumber);
     }
+
     public void removeAdv(String hashnumber){
         created.remove(hashnumber);
     }
@@ -58,10 +59,7 @@ public class Account {
         return false;
     }
 
-    public Account() {
-        //created = new ArrayList<>();
-    }
-
+    public Account() {}
 
     public String getName() {
         return name;

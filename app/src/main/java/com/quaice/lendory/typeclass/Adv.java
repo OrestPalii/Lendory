@@ -1,15 +1,13 @@
 package com.quaice.lendory.typeclass;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Adv{
-
+    private ArrayList <String> images;
     private String name, description, location, currency, hashnumber;
     private int price, area, numberOfRooms, floor;
-    private boolean volunteering;
-    private ArrayList <String> images;
     private long time;
+    private boolean volunteering;
 
     public long getTime() {
         return time;

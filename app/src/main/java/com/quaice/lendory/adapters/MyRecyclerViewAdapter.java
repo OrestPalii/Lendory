@@ -3,51 +3,38 @@ package com.quaice.lendory.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.quaice.lendory.R;
 import com.quaice.lendory.activities.AdvReview;
 import com.quaice.lendory.activities.MainActivity;
 import com.quaice.lendory.activities.YourAdverts;
 import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Adv;
-
 import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
     public static Adv current;
     private ArrayList<Adv> list;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
     private DatabaseReference acc;
     private Context context;
     private boolean yourlist;
-    //public StorageReference mImageStorage, ref;
 
     public MyRecyclerViewAdapter(Context context, ArrayList<Adv> list, boolean yourlist) {
         this.mInflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
         this.yourlist = yourlist;
-        //mImageStorage = FirebaseStorage.getInstance(Const.STORAGE_URL).getReference();
-        //ref = mImageStorage.child("images/");
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         acc = database.getReference("profiles");
     }
@@ -68,7 +55,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.price.setText("Безкоштовно");
         else
             holder.price.setText("" + list.get(position).getPrice() + " " + list.get(position).getCurrency());
-
 
         if (yourlist){
             holder.settcard.setVisibility(View.VISIBLE);
@@ -96,6 +82,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             @Override
             public void onClick(View view) {
                 current = list.get(position);
+                AdvReview.HolderLike = holder.like;
                 Intent intent = new Intent(context, AdvReview.class);
                 context.startActivity(intent);
             }
@@ -120,6 +107,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     acc.child(MainActivity.yourAccount.getPhonenumber()).setValue( MainActivity.yourAccount);
                     holder.like.setImageResource(R.drawable.liked_heart);
                 }
+
+                MainActivity.animateView(holder.like);
             }
         });
         holder.settcard.setOnClickListener(new View.OnClickListener() {
@@ -166,13 +155,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
 
         @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-        }
-    }
-
-    void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
+        public void onClick(View view) {}
     }
 
     public interface ItemClickListener {

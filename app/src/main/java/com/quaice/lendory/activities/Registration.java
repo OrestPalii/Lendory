@@ -1,9 +1,7 @@
 package com.quaice.lendory.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,16 +9,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.quaice.lendory.R;
+import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Account;
-
 import java.util.ArrayList;
+import es.dmoral.toasty.Toasty;
 
 public class Registration extends AppCompatActivity {
     private EditText login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
@@ -32,6 +31,7 @@ public class Registration extends AppCompatActivity {
     private FirebaseDatabase database;
     public static SharedPreferences.Editor editor;
     public static String name_str, phone_str;
+
     void init(){
         login_phonenumber = findViewById(R.id.loginphonenumber);
         login_password = findViewById(R.id.loginpassword);
@@ -44,7 +44,7 @@ public class Registration extends AppCompatActivity {
         log_but = findViewById(R.id.logn_but);
         reg_text = findViewById(R.id.regtext);
         log_text = findViewById(R.id.logtext);
-        database = FirebaseDatabase.getInstance("https://lendory-b5d8b-default-rtdb.firebaseio.com/");
+        database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         myRef = database.getReference("profiles");
 //        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
@@ -85,19 +85,20 @@ public class Registration extends AppCompatActivity {
         reg_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> arr = new ArrayList<>();
-                arr.add("ThisHashCodeWillNeverBeUsed");
-                ArrayList<String> arrer = new ArrayList<>();
-                arrer.add("ThisHashCodeWillNeverBeUsedToo");
+                ArrayList<String> likedEmpty = new ArrayList<>();
+                likedEmpty.add("ThisHashCodeWillNeverBeUsed");
+                ArrayList<String> createdEmpty = new ArrayList<>();
+                createdEmpty.add("ThisHashCodeWillNeverBeUsedToo");
                 myRef = database.getReference("profiles");
                 if(!reg_name.getText().toString().equals("") && !reg_phonenumber.getText().toString().equals("") &&
                         !reg_password.getText().toString().equals("")) {
 
                     myRef.child(reg_phonenumber.getText().toString()).setValue(new Account(
                             reg_name.getText().toString(), reg_phonenumber.getText().toString(),
-                            reg_password.getText().toString(), arr, arrer));
+                            reg_password.getText().toString(), likedEmpty, createdEmpty));
                 }
-                reg.setVisibility(View.INVISIBLE);login.setVisibility(View.VISIBLE);
+                reg.setVisibility(View.INVISIBLE);
+                login.setVisibility(View.VISIBLE);
             }
         });
 
@@ -109,15 +110,19 @@ public class Registration extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         you = dataSnapshot.getValue(Account.class);
-                        if(login_phonenumber.getText().toString().equals(you.getPhonenumber())
-                            && login_password.getText().toString().equals(you.getPassword())){
-                            Intent intent = new Intent(Registration.this, MainActivity.class);
-                            startActivity(intent);
-                            //Локал сейв
-                            editor.putBoolean("loggin", true);
-                            editor.putString("user_name", reg_name.getText().toString());
-                            editor.putString("phone_number", login_phonenumber.getText().toString());
-                            editor.commit();
+                        try {
+                            if (login_phonenumber.getText().toString().equals(you.getPhonenumber())
+                                    && login_password.getText().toString().equals(you.getPassword())) {
+                                Intent intent = new Intent(Registration.this, MainActivity.class);
+                                startActivity(intent);
+                                //Local save
+                                editor.putBoolean("loggin", true);
+                                editor.putString("user_name", reg_name.getText().toString());
+                                editor.putString("phone_number", login_phonenumber.getText().toString());
+                                editor.commit();
+                            }
+                        }catch (NullPointerException e){
+                            Toasty.error(Registration.this, "Хибний номер телефону чи пароль", Toast.LENGTH_SHORT, true).show();
                         }
                     }
 

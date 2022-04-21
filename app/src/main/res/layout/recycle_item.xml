@@ -35,7 +35,7 @@
                             android:id="@+id/image_more"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/test"
+                            android:src="@drawable/noimage"
                             android:scaleType="centerCrop"></ImageView>
                         <ImageView
                             android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/test"
+                        android:background="@drawable/noimage"
                         android:scaleType="fitXY"></ImageView>
                     <androidx.cardview.widget.CardView
                         android:layout_width="46dp"

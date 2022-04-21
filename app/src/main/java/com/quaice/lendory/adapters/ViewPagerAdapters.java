@@ -3,13 +3,10 @@ package com.quaice.lendory.adapters;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
-
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class ViewPagerAdapters extends PagerAdapter {
@@ -35,10 +32,9 @@ public class ViewPagerAdapters extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         PhotoView zoomableImageView = new PhotoView(context);
         try {
-            Picasso.get().load(imageUrls.get(position).toString()).into(zoomableImageView);
+            Picasso.get().load(imageUrls.get(position)).into(zoomableImageView);
             container.addView(zoomableImageView);
-        } catch (Exception e) {
-        }
+        }catch (Exception e) {}
         return zoomableImageView;
     }
 
