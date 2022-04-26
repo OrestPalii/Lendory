@@ -63,6 +63,7 @@ public class Registration extends AppCompatActivity {
             name_str = activityPreferences.getString("user_name", "");
             phone_str = activityPreferences.getString("phone_number", "");
             Intent intent = new Intent(Registration.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
 
@@ -114,12 +115,15 @@ public class Registration extends AppCompatActivity {
                             if (login_phonenumber.getText().toString().equals(you.getPhonenumber())
                                     && login_password.getText().toString().equals(you.getPassword())) {
                                 Intent intent = new Intent(Registration.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 //Local save
                                 editor.putBoolean("loggin", true);
                                 editor.putString("user_name", reg_name.getText().toString());
                                 editor.putString("phone_number", login_phonenumber.getText().toString());
                                 editor.commit();
+                                name_str = activityPreferences.getString("user_name", "");
+                                phone_str = activityPreferences.getString("phone_number", "");
                             }
                         }catch (NullPointerException e){
                             Toasty.error(Registration.this, "Хибний номер телефону чи пароль", Toast.LENGTH_SHORT, true).show();

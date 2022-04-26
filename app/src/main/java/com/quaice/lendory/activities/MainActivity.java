@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         lock_edit = findViewById(R.id.location_edit);
         area_edit = findViewById(R.id.area_edit);
         room_edit = findViewById(R.id.roomcount_edit);
-        //help_edit = findViewById(R.id.elp_edit);
         price_edit = findViewById(R.id.price_edit);
         floor_edit = findViewById(R.id.floor_edit);
         cancel = findViewById(R.id.cancel);
@@ -195,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
                     new_adv.setVisibility(View.INVISIBLE);
                     images = new ArrayList<>();
                     canrefresh = true;
+                    //Toasty.success(MainActivity.this, "Оголошння створено", Toast.LENGTH_SHORT, true).show();
                 }
             }
         });
@@ -206,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 showpanel();
             }
         });
+
         menu_hide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -606,6 +607,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sort(ArrayList<Adv> sorted){
+        ArrayList<Adv> preSorted = new ArrayList<>();
         if(!search_yes.isChecked()){
             for (int i = 0; i < sorted.size(); i++) {
                 if(sorted.get(i).isVolunteering())
@@ -624,18 +626,23 @@ public class MainActivity extends AppCompatActivity {
                     sorted.remove(i);
             }
         }
-        if(!areElementEmpty(search_min_price)){
-            for (int i = 0; i < sorted.size(); i++) {
-                if(sorted.get(i).getPrice()<Integer.parseInt(search_min_price.getText().toString()))
-                    sorted.remove(i);
+        int min, max;
+        for (int i = 0; i < sorted.size(); i++) {
+            try {
+                min = Integer.parseInt(search_min_price.getText().toString());
+            }catch (Exception e){
+                min = 0;
             }
-        }
-        if(!areElementEmpty(search_max_price)){
-            for (int i = 0; i < sorted.size(); i++) {
-                if(sorted.get(i).getPrice()>Integer.parseInt(search_max_price.getText().toString()))
-                    sorted.remove(i);
+            try {
+                max = Integer.parseInt(search_max_price.getText().toString());
+            }catch (Exception e){
+                max = 1000000000;
             }
+            if(sorted.get(i).getPrice()>=min &
+                    sorted.get(i).getPrice()<=max)
+                preSorted.add(sorted.get(i));
         }
+        sorted = preSorted;
         build_recycler(sorted, recyclerView);
     }
 

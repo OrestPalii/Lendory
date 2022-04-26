@@ -507,8 +507,7 @@
         app:spanCount="2"
         android:clipToPadding="false"
         android:paddingBottom="100dp"
-        android:paddingTop="60dp"
-        android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
+        android:paddingTop="60dp"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/canceler"
@@ -524,7 +523,7 @@
         android:layout_marginTop="-20dp"
         android:visibility="invisible"
         app:cardCornerRadius="30dp"
-        app:cardBackgroundColor="#e8e8e8">
+        app:cardBackgroundColor="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -692,9 +691,10 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/desccard"
                     android:layout_weight="1"
-                    app:cardCornerRadius="13dp"
+                    app:cardCornerRadius="14dp"
                     android:layout_margin="3dp"
-                    app:cardBackgroundColor="#e8e8e8"></androidx.cardview.widget.CardView>
+                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="2dp"></androidx.cardview.widget.CardView>
 
                     <TextView
                         android:id="@+id/seachcanel"
@@ -727,9 +727,10 @@
                         android:layout_height="match_parent"
                         android:layout_below="@+id/desccard"
                         android:layout_weight="1"
-                        app:cardCornerRadius="13dp"
+                        app:cardCornerRadius="14dp"
                         android:layout_margin="3dp"
-                        app:cardBackgroundColor="#e8e8e8"></androidx.cardview.widget.CardView>
+                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="2dp"></androidx.cardview.widget.CardView>
 
                     <TextView
                         android:id="@+id/searchuse"
@@ -811,7 +812,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="invisible"
-        android:layout_below="@+id/topPanel"
         android:id="@+id/likedrecycler"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -821,7 +821,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
+        app:spanCount="2"
+        android:paddingTop="60dp"></androidx.recyclerview.widget.RecyclerView>
 
 
     <androidx.cardview.widget.CardView
@@ -952,7 +953,10 @@
                 android:textStyle="bold"
                 android:layout_marginTop="205dp"
                 android:gravity="center"
-                android:textSize="25dp"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMaxTextSize="25dp"
+                android:autoSizeMinTextSize="20dp"
+                android:singleLine="true"
                 android:textColor="@color/white"></TextView>
             <TextView
                 android:id="@+id/ur_phone"
