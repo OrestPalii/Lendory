@@ -65,13 +65,13 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="50dp"
                         android:layout_marginBottom="-3dp"
+                        android:autoSizeTextType="uniform"
                         android:fontFamily="@font/poppins"
                         android:gravity="center"
                         android:text="Більше"
                         android:textAllCaps="true"
-                        android:textColor="#ce89db"
-                        android:textStyle="bold"
-                        android:autoSizeTextType="uniform"></TextView>
+                        android:textColor="@color/purpleforicons"
+                        android:textStyle="bold"></TextView>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView

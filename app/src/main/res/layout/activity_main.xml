@@ -43,7 +43,7 @@
                     android:gravity="center_horizontal"
                     android:text="Нове Оголошення"
                     android:textSize="25dp"
-                    android:textColor="@color/main_purple"
+                    android:textColor="@color/purpleforicons"
                     android:textStyle=""
                     android:layout_marginTop="5dp"
                     android:textAllCaps="true"></TextView>
@@ -134,7 +134,7 @@
                             android:id="@+id/send_button"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            app:cardBackgroundColor="@color/purple"
+                            app:cardBackgroundColor="@color/purpleforicons"
                             app:cardCornerRadius="10dp"
                             android:layout_below="@+id/desccard"
                             android:layout_weight="1"
@@ -413,7 +413,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="40dp"
                                     android:text="Так"
-                                    android:textSize="20dp"></RadioButton>
+                                    android:textSize="20dp"
+                                    android:buttonTint="@color/purpleforicons"></RadioButton>
                                 <RadioButton
                                     android:id="@+id/norad"
                                     android:checked="true"
@@ -422,7 +423,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="40dp"
                                     android:text="Ні"
-                                    android:textSize="20dp"></RadioButton>
+                                    android:textSize="20dp"
+                                    android:buttonTint="@color/purpleforicons"></RadioButton>
                             </RadioGroup>
                         </RelativeLayout>
                         <RelativeLayout
@@ -651,7 +653,8 @@
                         android:layout_height="40dp"
                         android:text="Так"
                         android:textSize="18dp"
-                        android:checked="true"></CheckBox>
+                        android:checked="true"
+                        android:buttonTint="@color/purpleforicons"></CheckBox>
 
                     <CheckBox
                         android:id="@+id/searchno"
@@ -661,7 +664,8 @@
                         android:layout_marginTop="-40dp"
                         android:checked="true"
                         android:text="Ні"
-                        android:textSize="18dp"></CheckBox>
+                        android:textSize="18dp"
+                        android:buttonTint="@color/purpleforicons"></CheckBox>
                 </RadioGroup>
             </RelativeLayout>
 
@@ -910,7 +914,7 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="30dp"
         android:layout_marginLeft="-30dp"
-        app:cardBackgroundColor="#7d6bc5"
+        app:cardBackgroundColor="@color/purpleforicons"
         app:cardElevation="10dp">
         <ImageView
             android:layout_width="match_parent"
@@ -987,7 +991,8 @@
                         android:layout_height="40dp"
                         android:src="@drawable/logout"
                         android:layout_centerVertical="true"
-                        android:layout_margin="10dp"></ImageView>
+                        android:layout_margin="10dp"
+                        android:tint="@color/purpleforicons"></ImageView>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -998,11 +1003,11 @@
                         android:layout_marginTop="11dp"
                         android:gravity="center_vertical"
                         android:textSize="18dp"
-                        android:textColor="#7d6bc5"></TextView>
+                        android:textColor="@color/purpleforicons"></TextView>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/settingscard"
+                android:id="@+id/mailcard"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="13dp"
@@ -1016,9 +1021,42 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:src="@drawable/mail"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"
+                        android:tint="@color/purpleforicons"></ImageView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="Служба Підтримки"
+                        android:layout_marginTop="13dp"
+                        android:gravity="center_vertical"
+                        android:textSize="16dp"
+                        android:textColor="@color/purpleforicons"></TextView>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settingscard"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="245dp"
+                android:layout_alignParentBottom="true"
+                app:cardCornerRadius="15dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/settings"
                         android:layout_centerVertical="true"
-                        android:layout_margin="10dp"></ImageView>
+                        android:layout_margin="10dp"
+                        android:tint="@color/purpleforicons"></ImageView>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1029,7 +1067,39 @@
                         android:layout_marginTop="13dp"
                         android:gravity="center_vertical"
                         android:textSize="17dp"
-                        android:textColor="#7d6bc5"></TextView>
+                        android:textColor="@color/purpleforicons"></TextView>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/helpcarder"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="175dp"
+                android:layout_alignParentBottom="true"
+                app:cardCornerRadius="15dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/flag"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"
+                        android:tint="@color/purpleforicons"></ImageView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="Допомога ЗСУ"
+                        android:layout_marginTop="13dp"
+                        android:gravity="center_vertical"
+                        android:textSize="17dp"
+                        android:textColor="@color/purpleforicons"></TextView>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -1049,7 +1119,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:src="@drawable/line_menu"
-                    android:tint="#7d6bc5"></ImageView>
+                    android:tint="@color/purpleforicons"></ImageView>
 
             </androidx.cardview.widget.CardView>
         </RelativeLayout>

@@ -43,7 +43,7 @@ import es.dmoral.toasty.Toasty;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
     private RelativeLayout new_adv, rentcard;
-    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, settingscard, filtercard;
+    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, helpcard, mailcard, settingscard, filtercard;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search, search_lockation,
         search_min_price, search_max_price;
     private ImageView homepagebut, likedpagebut, searchbutton, filterShow;
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         homepagebut = findViewById(R.id.mainimage);
         likedpagebut = findViewById(R.id.likedimage);
         logout = findViewById(R.id.logout_card);
+        helpcard = findViewById(R.id.helpcarder);
+        mailcard = findViewById(R.id.mailcard);
         yesbut = findViewById(R.id.yesrad);
         currency = findViewById(R.id.currency);
         rentcard = findViewById(R.id.rentcard);
@@ -240,7 +242,29 @@ public class MainActivity extends AppCompatActivity {
                 Registration.editor.putString("user_name", "");
                 Registration.editor.putString("phone_number", "");
                 Registration.editor.commit();
-                finish();
+                Intent intent = new Intent(MainActivity.this, Registration.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+        helpcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://bank.gov.ua/ua/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi"));
+                startActivity(i);
+            }
+        });
+
+        mailcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:"));
+                intent.putExtra(Intent.EXTRA_EMAIL, "lendory@gmail.com");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "");
+                startActivity(intent);
             }
         });
 
@@ -608,24 +632,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void sort(ArrayList<Adv> sorted){
         ArrayList<Adv> preSorted = new ArrayList<>();
-        if(!search_yes.isChecked()){
+        if(search_yes.isChecked()){
+            preSorted = new ArrayList<>();
             for (int i = 0; i < sorted.size(); i++) {
                 if(sorted.get(i).isVolunteering())
-                    sorted.remove(i);
+                    preSorted.add(sorted.get(i));
             }
+            sorted = preSorted;
         }
-        if(!search_no.isChecked()){
+        if(search_no.isChecked()){
+            preSorted = new ArrayList<>();
             for (int i = 0; i < sorted.size(); i++) {
                 if(!sorted.get(i).isVolunteering())
-                    sorted.remove(i);
+                    preSorted.add(sorted.get(i));
             }
+            sorted = preSorted;
         }
         if(!areElementEmpty(search_lockation)) {
+            preSorted = new ArrayList<>();
             for (int i = 0; i < sorted.size(); i++) {
-                if (!sorted.get(i).getLocation().contains(search_lockation.getText().toString()))
-                    sorted.remove(i);
+                if (sorted.get(i).getLocation().contains(search_lockation.getText().toString()))
+                    preSorted.add(sorted.get(i));
             }
+            sorted = preSorted;
         }
+        preSorted = new ArrayList<>();
         int min, max;
         for (int i = 0; i < sorted.size(); i++) {
             try {

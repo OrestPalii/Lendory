@@ -405,7 +405,7 @@
                                 android:background="@null"></EditText>
                         </RelativeLayout>
                         <RelativeLayout
-                            android:id="@+id/helpcard"
+                            android:id="@+id/helpcarder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/desccard"
@@ -460,7 +460,7 @@
                             android:id="@+id/rentcard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/helpcard"
+                            android:layout_below="@id/helpcarder"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginBottom="15dp">
