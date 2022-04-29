@@ -1,5 +1,6 @@
 package com.quaice.lendory.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,6 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.quaice.lendory.R;
 import com.quaice.lendory.adapters.MyRecyclerViewAdapter;
 import com.quaice.lendory.constants.Const;
@@ -53,6 +57,7 @@ public class YourAdverts extends AppCompatActivity {
     public static boolean canupdate = true;
 
     private void init(){
+        canupdate = true;
         recyclerView = findViewById(R.id.recycler);
         backcard = findViewById(R.id.backcard);
         name_edit = findViewById(R.id.name_edit);
@@ -92,6 +97,7 @@ public class YourAdverts extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (canupdate){
+                    //Toast.makeText(YourAdverts.this, "dsfdsffds" + dataSnapshot.getChildrenCount(), Toast.LENGTH_SHORT).show();
                     downloaded = new ArrayList<>();
                     for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
                         try {
@@ -101,6 +107,7 @@ public class YourAdverts extends AppCompatActivity {
                                     downloaded.add(dataSnapshotchild.getValue(Adv.class));
                             }
                         }catch (Exception e){break;}
+                        //Toast.makeText(YourAdverts.this, "" + dataSnapshotchild.getValue(Adv.class).getName(), Toast.LENGTH_SHORT).show();
                     }
                     build_recycler(downloaded, recyclerView);
                     canupdate = false;
@@ -185,11 +192,22 @@ public class YourAdverts extends AppCompatActivity {
                     //const
                     FirebaseStorage storage = FirebaseStorage.getInstance(Const.STORAGE_URL);;
                     StorageReference ref = storage.getReference().child("images/" + photos.get(photoposition).hashCode());
-                    ref.putFile(selectedImageUri);
-                    if (images.size()>photoposition)
-                        images.set(photoposition,"" + photos.get(photoposition).hashCode());
-                    else
-                        images.add("" + photos.get(photoposition).hashCode());
+                    ref.putFile(selectedImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            ref.child("images/" + photos.get(photoposition).hashCode()).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    if (task.isSuccessful()) {
+                                        if (images.size()>photoposition)
+                                            images.set(photoposition,"" + task.getResult());
+                                        else
+                                            images.add("" + task.getResult());
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }
             }
         }

@@ -87,7 +87,7 @@ public class Adv{
         return floor;
     }
 
-    public void setFloor(int flor) {
+    public void setFloor(int floor) {
         this.floor = floor;
     }
 

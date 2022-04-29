@@ -132,13 +132,6 @@
                     android:fontFamily="@font/poppins"
                     android:layout_margin="6dp"></TextView>
             </androidx.cardview.widget.CardView>
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/view_pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/transparent_black"
-                    android:visibility="invisible"></androidx.viewpager.widget.ViewPager>
             </RelativeLayout>
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -277,5 +270,12 @@
                 android:tint="@color/white"></ImageView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_black"
+        android:visibility="invisible"></androidx.viewpager.widget.ViewPager>
 
 </RelativeLayout>

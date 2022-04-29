@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +24,8 @@ import es.dmoral.toasty.Toasty;
 
 public class Registration extends AppCompatActivity {
     private EditText login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
-    private CardView reg, login;
+    private RelativeLayout reg;
+    private CardView login;
     private CardView reg_but, log_but;
     private TextView reg_text, log_text;
     private DatabaseReference myRef;

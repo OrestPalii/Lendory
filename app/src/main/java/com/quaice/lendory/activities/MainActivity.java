@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.quaice.lendory.adapters.MyRecyclerViewAdapter;
 import com.quaice.lendory.R;
 import com.quaice.lendory.constants.Const;
@@ -60,8 +61,12 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox search_yes, search_no;
     private Button canceler;
     public static boolean canrefresh = true;
+    FirebaseStorage storage;
+    StorageReference ref;
 
     private void init(){
+        storage = FirebaseStorage.getInstance(Const.STORAGE_URL);;
+        ref = storage.getReference();
         images = new ArrayList<>();
         photos = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler);
@@ -111,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
         name_edit.setHeight(0);
+        canrefresh = true;
     }
 
 
@@ -128,27 +134,27 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 yourAccount = dataSnapshot.getValue(Account.class);
                 your_name.setText(yourAccount.getName());
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(canrefresh) {
-                            downloaded = new ArrayList<>();
-                            for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
-                                downloaded.add(dataSnapshotchild.getValue(Adv.class));
-                            }
-                            build_recycler(downloaded, recyclerView);
-                            canrefresh = false;
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {}
-                });
             }
 
             @Override
             public void onCancelled(DatabaseError error) {}
 
+        });
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(canrefresh) {
+                    downloaded = new ArrayList<>();
+                    for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
+                        downloaded.add(dataSnapshotchild.getValue(Adv.class));
+                    }
+                    build_recycler(downloaded, recyclerView);
+                    canrefresh = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
         });
 
         search.setOnKeyListener(new View.OnKeyListener() {
@@ -396,16 +402,19 @@ public class MainActivity extends AppCompatActivity {
                     photos.get(photoposition).clearColorFilter();
                     photos.get(photoposition).setImageResource(0);
                     photos.get(photoposition).setImageURI(selectedImageUri);
+
                     //const
-                    FirebaseStorage storage = FirebaseStorage.getInstance(Const.STORAGE_URL);;
-                    StorageReference ref = storage.getReference();
-                    ref.child("images/" + photos.get(photoposition).hashCode()).putFile(selectedImageUri);
-                    ref.child("images/" + photos.get(photoposition).hashCode()).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    ref.child("images/" + photos.get(photoposition).hashCode()).putFile(selectedImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                images.add("" + task.getResult());
-                            }
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            ref.child("images/" + photos.get(photoposition).hashCode()).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    if (task.isSuccessful()) {
+                                        images.add("" + task.getResult());
+                                    }
+                                }
+                            });
                         }
                     });
                 }

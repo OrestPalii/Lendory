@@ -5,14 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.Registration"
-    android:background="@color/purple">
+    android:background="@drawable/regbutton">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/waves"
-        android:scaleType="centerCrop"
-        android:tint="@color/purpleforicons"></ImageView>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,71 +78,114 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="440dp"
         android:layout_centerInParent="true"
-        app:cardBackgroundColor="@color/main"
-        android:layout_margin="30dp"
-        app:cardCornerRadius="25dp"
         android:visibility="visible"
         android:id="@+id/register">
+        <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:layout_alignParentBottom="true"
+        app:cardBackgroundColor="@color/purpleforicons"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:cardCornerRadius="25dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Lendory"
-            android:textSize="40dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            android:textColor="@color/purple"></TextView>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/reg_name"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:text="Прізвище Ім'я"
+            android:textSize="22dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:layout_marginTop="60dp"
-            android:hint="Ім'я і Прізвище"></EditText>
-        <EditText
+            android:textColor="@color/white"></TextView>
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/regphonenumber"
-            android:layout_below="@+id/reg_name"
-            android:inputType="phone"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:hint="Номер телефону"></EditText>
-        <EditText
+            android:layout_marginTop="95dp"
+            app:cardCornerRadius="20dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/reg_name"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@null"></EditText>
+        </androidx.cardview.widget.CardView>
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/regphonenumber"
-            android:id="@+id/regpassword"
+            android:layout_height="wrap_content"
+            android:text="Номер телефону"
+            android:textSize="22dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="130dp"
+            android:textColor="@color/white"></TextView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:hint="Пароль"></EditText>
+            android:layout_marginTop="165dp"
+            app:cardCornerRadius="20dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/regphonenumber"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@null"></EditText>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Пароль"
+            android:textSize="22dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="200dp"
+            android:textColor="@color/white"></TextView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/regpasscard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="235dp"
+            app:cardCornerRadius="20dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/regpassword"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@null"></EditText>
+        </androidx.cardview.widget.CardView>
+
+
         <androidx.cardview.widget.CardView
             android:id="@+id/reg_but"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_below="@id/regpassword"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/green"
-            app:cardCornerRadius="10dp">
+            android:layout_below="@id/regpasscard"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="18dp">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Зареєструватися"
-                android:textSize="25dp"
+                android:layout_height="40dp"
+                android:text="Зареєструватись"
+                android:textSize="22dp"
                 android:gravity="center"
-                android:textStyle="bold"></TextView>
+                android:textColor="@color/purpleforicons"></TextView>
         </androidx.cardview.widget.CardView>
         <TextView
             android:id="@+id/logtext"
@@ -157,10 +194,22 @@
             android:text="У мене вже є акаунт"
             android:gravity="center"
             android:textSize="16dp"
-            android:textStyle="bold"
             android:layout_below="@id/reg_but"
-            android:textColor="@color/green"></TextView>
+            android:textColor="@color/white"></TextView>
     </RelativeLayout>
     </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_centerHorizontal="true"
+            app:cardCornerRadius="500dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:src="@drawable/user"
+                android:tint="@color/purpleforicons"></ImageView>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
 </RelativeLayout>
