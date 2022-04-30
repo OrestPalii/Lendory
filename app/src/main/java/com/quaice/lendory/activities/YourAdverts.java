@@ -36,6 +36,8 @@ import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Adv;
 import com.quaice.lendory.typeclass.User;
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
 
 public class YourAdverts extends AppCompatActivity {
@@ -167,6 +169,7 @@ public class YourAdverts extends AppCompatActivity {
                     canupdate = true;
                     refresh();
                     MainActivity.canrefresh = true;
+                    advCreatroCleaner();
                 }
             }
         });
@@ -304,7 +307,11 @@ public class YourAdverts extends AppCompatActivity {
                     new User(MainActivity.yourAccount.getName(), MainActivity.yourAccount.getPhonenumber()));
             return cur;
         }else{
-            Toasty.error(this, "Заповніть усі поля!", Toast.LENGTH_SHORT, true).show();
+            new SweetAlertDialog(YourAdverts.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Увага!")
+                    .setContentText("Заповніть усі поля")
+                    .show();
+            //Toasty.error(this, "Заповніть усі поля!", Toast.LENGTH_SHORT, true).show();
             return  null;
         }
     }
@@ -329,10 +336,14 @@ public class YourAdverts extends AppCompatActivity {
             return false;
     }
 
-    public static void deleteAdv(){
+    public static void deleteAdv(Context context){
         canupdate = true;
         MainActivity.canrefresh = true;
         myRef.child("" + hashNumber).removeValue();
+        new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("")
+                .setContentText("Оголошення успішно видалене")
+                .show();
     }
 
     private void photosOnClick(int position){
@@ -342,5 +353,22 @@ public class YourAdverts extends AppCompatActivity {
                 imageChooser(position);
             }
         });
+    }
+    public void advCreatroCleaner(){
+        for(int i = 0; i < photos.size(); i++) {
+            photos.get(photoposition).clearColorFilter();
+            photos.get(photoposition).setImageResource(R.drawable.plus_img);
+            photos.get(photoposition).setImageURI(null);
+        }
+        name_edit.setText("");
+        desc_edit.setText("");
+        lock_edit.setText("");
+        currency.setText("");
+        price_edit.setText("");
+        area_edit.setText("");
+        room_edit.setText("");
+        floor_edit.setText("");
+        yesbut.setChecked(false);
+        images = new ArrayList<>();
     }
 }

@@ -7,62 +7,89 @@
     tools:context=".activities.Registration"
     android:background="@drawable/regbutton">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="445dp"
         android:layout_centerInParent="true"
-        app:cardBackgroundColor="@color/main"
-        android:layout_margin="30dp"
-        app:cardCornerRadius="25dp"
-        android:id="@+id/login"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:id="@+id/login">
+        <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        app:cardBackgroundColor="@color/purpleforicons"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:cardCornerRadius="25dp">
         <RelativeLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Lendory"
-                android:textSize="40dp"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:textColor="@color/purple"></TextView>
-            <EditText
+                android:layout_height="wrap_content"
+                android:text="Номер телефону"
+                android:textSize="22dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="40dp"
+                android:textColor="@color/white"></TextView>
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/loginphonenumber"
-                android:inputType="phone"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="60dp"
-                android:hint="Номер телефону"></EditText>
-            <EditText
+                android:layout_marginTop="75dp"
+                app:cardCornerRadius="20dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/loginphonenumber"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@null"></EditText>
+            </androidx.cardview.widget.CardView>
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/loginphonenumber"
-                android:id="@+id/loginpassword"
+                android:layout_height="wrap_content"
+                android:text="Пароль"
+                android:textSize="22dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="110dp"
+                android:textColor="@color/white"></TextView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/logpasscard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:hint="Пароль"></EditText>
+                android:layout_marginTop="140dp"
+                app:cardCornerRadius="20dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/loginpassword"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@null"></EditText>
+            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/logn_but"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_below="@id/loginpassword"
-                android:layout_marginTop="10dp"
-                app:cardBackgroundColor="@color/green"
-                app:cardCornerRadius="10dp">
+                android:layout_below="@id/logpasscard"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="18dp">
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:text="Увійти"
-                    android:textSize="25dp"
+                    android:textSize="22dp"
                     android:gravity="center"
-                    android:textStyle="bold"></TextView>
+                    android:textColor="@color/purpleforicons"></TextView>
             </androidx.cardview.widget.CardView>
             <TextView
                 android:id="@+id/regtext"
@@ -70,17 +97,29 @@
                 android:layout_height="50dp"
                 android:text="Зареєструватись"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:textSize="16dp"
                 android:layout_below="@id/logn_but"
-                android:textColor="@color/green"></TextView>
+                android:textColor="@color/white"></TextView>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_centerHorizontal="true"
+            app:cardCornerRadius="500dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:src="@drawable/user"
+                android:tint="@color/purpleforicons"></ImageView>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="445dp"
         android:layout_centerInParent="true"
         android:visibility="visible"
         android:id="@+id/register">

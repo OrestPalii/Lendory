@@ -113,16 +113,16 @@
                         android:layout_height="match_parent"
                         android:layout_below="@+id/name"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginTop="-13dp"
+                        android:layout_marginTop="-5dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginBottom="17dp"
+                        android:autoSizeMaxTextSize="16dp"
+                        android:autoSizeMinTextSize="13dp"
+                        android:autoSizeTextType="uniform"
+                        android:ellipsize="end"
                         android:fontFamily="@font/poppins"
                         android:text=""
-                        android:textColor="@color/white"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeMinTextSize="13dp"
-                        android:autoSizeMaxTextSize="16dp"
-                        android:ellipsize="end"></TextView>
+                        android:textColor="@color/white"></TextView>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

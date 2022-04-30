@@ -122,7 +122,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             @Override
             public void onClick(View view) {
                 YourAdverts.hashNumber = list.get(position).getHashnumber();
-                YourAdverts.deleteAdv();
+                YourAdverts.deleteAdv(context);
             }
         });
     }

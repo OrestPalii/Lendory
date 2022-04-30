@@ -20,12 +20,13 @@ import com.quaice.lendory.R;
 import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Account;
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
 
 public class Registration extends AppCompatActivity {
     private EditText login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
-    private RelativeLayout reg;
-    private CardView login;
+    private RelativeLayout reg, login;
     private CardView reg_but, log_but;
     private TextView reg_text, log_text;
     private DatabaseReference myRef;
@@ -126,9 +127,18 @@ public class Registration extends AppCompatActivity {
                                 editor.commit();
                                 name_str = activityPreferences.getString("user_name", "");
                                 phone_str = activityPreferences.getString("phone_number", "");
+                            }else{
+                                new SweetAlertDialog(Registration.this, SweetAlertDialog.ERROR_TYPE)
+                                        .setTitleText("Увага!")
+                                        .setContentText("Хибний номер телефону чи пароль")
+                                        .show();
                             }
                         }catch (NullPointerException e){
-                            Toasty.error(Registration.this, "Хибний номер телефону чи пароль", Toast.LENGTH_SHORT, true).show();
+                            new SweetAlertDialog(Registration.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Увага!")
+                                    .setContentText("Користувача з таким номером телефону не існує")
+                                    .show();
+                            //Toasty.error(Registration.this, "Хибний номер телефону чи пароль", Toast.LENGTH_SHORT, true).show();
                         }
                     }
 

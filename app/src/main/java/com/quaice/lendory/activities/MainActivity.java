@@ -39,6 +39,8 @@ import com.quaice.lendory.typeclass.Account;
 import com.quaice.lendory.typeclass.Adv;
 import com.quaice.lendory.typeclass.User;
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
@@ -202,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     new_adv.setVisibility(View.INVISIBLE);
                     images = new ArrayList<>();
                     canrefresh = true;
+                    advCreatroCleaner();
                     //Toasty.success(MainActivity.this, "Оголошння створено", Toast.LENGTH_SHORT, true).show();
                 }
             }
@@ -485,7 +488,11 @@ public class MainActivity extends AppCompatActivity {
             cur.setTime(System.currentTimeMillis());
             return cur;
         }else{
-            Toasty.error(this, "Заповніть усі поля!", Toast.LENGTH_SHORT, true).show();
+            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Увага!")
+                    .setContentText("Заповніть усі поля")
+                    .show();
+            //Toasty.error(this, "Заповніть усі поля!", Toast.LENGTH_SHORT, true).show();
             return  null;
         }
     }
@@ -693,6 +700,24 @@ public class MainActivity extends AppCompatActivity {
                 imageChooser(position);
             }
         });
+    }
+
+    public void advCreatroCleaner(){
+        for(int i = 0; i < photos.size(); i++) {
+            photos.get(photoposition).clearColorFilter();
+            photos.get(photoposition).setImageResource(R.drawable.plus_img);
+            photos.get(photoposition).setImageURI(null);
+        }
+        name_edit.setText("");
+        desc_edit.setText("");
+        lock_edit.setText("");
+        currency.setText("");
+        price_edit.setText("");
+        area_edit.setText("");
+        room_edit.setText("");
+        floor_edit.setText("");
+        yesbut.setChecked(false);
+        images = new ArrayList<>();
     }
 
 }
