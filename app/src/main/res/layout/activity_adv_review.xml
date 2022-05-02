@@ -24,6 +24,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginTop="150dp">
         <ImageView
+            android:id="@+id/infocardback"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/gradient"></ImageView>
@@ -32,10 +33,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="140dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="90dp">
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/namecard"
                     android:layout_width="match_parent"
@@ -43,6 +46,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     app:cardCornerRadius="10dp">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -77,61 +81,67 @@
                             android:textSize="20dp"></TextView>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
-            <ScrollView
-                android:id="@+id/descscroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lockcard">
-                <TextView
-                    android:id="@+id/description"
+
+                <ScrollView
+                    android:id="@+id/descscroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/name"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:fontFamily="@font/poppins"
-                    android:text="description sdfgsdfgsdgsdgsdgsdgsdgshjkbdfgjhsdflgjsdfghsfdhg/"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"></TextView>
-            </ScrollView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/lockcard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/namecard"
-                android:layout_marginLeft="10dp"
-                app:cardCornerRadius="10dp"
-                android:layout_marginTop="5dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lviv, sdfsdf"
-                android:id="@+id/location"
-                android:textColor="@color/purpleforicons"
-                android:textSize="16dp"
-                android:fontFamily="@font/poppins"
-                android:layout_margin="6dp"></TextView>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/floorcard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/lockcard"
-                android:layout_below="@id/namecard"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                app:cardCornerRadius="10dp">
-                <TextView
-                    android:layout_width="match_parent"
+                    android:layout_below="@+id/lockcard">
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/name"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="description sdfgsdfgsdgsdgsdgsdgsdgshjkbdfgjhsdflgjsdfghsfdhg/"
+                        android:textColor="@color/white"
+                        android:textSize="16dp"></TextView>
+                </ScrollView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/lockcard"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:id="@+id/floor"
-                    android:textColor="@color/purpleforicons"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/poppins"
-                    android:layout_margin="6dp"></TextView>
-            </androidx.cardview.widget.CardView>
+                    android:layout_below="@+id/namecard"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="Lviv, sdfsdf"
+                        android:textColor="@color/purpleforicons"
+                        android:textSize="16dp"></TextView>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/floorcard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/namecard"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/lockcard"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:id="@+id/floor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/poppins"
+                        android:text=""
+                        android:textColor="@color/purpleforicons"
+                        android:textSize="16dp"></TextView>
+                </androidx.cardview.widget.CardView>
             </RelativeLayout>
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -145,14 +155,15 @@
                         android:layout_width="230dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="10dp">
-                            <ImageView
-                                android:id="@+id/iconprof"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/user"
-                                android:tint="@color/purpleforicons"
-                                android:layout_marginLeft="10dp"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/iconprof"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/user"
+                            android:tint="@color/purpleforicons"></ImageView>
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -182,15 +193,15 @@
                         </RelativeLayout>
 
                         <ImageView
-                            android:layout_alignRight="@+id/profilephone"
                             android:id="@+id/callim"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_alignRight="@+id/profilephone"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
                             android:src="@drawable/call"
-                            android:tint="@color/purpleforicons"
-                            android:layout_alignParentRight="true"></ImageView>
+                            android:tint="@color/purpleforicons"></ImageView>
                     </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
@@ -221,6 +232,7 @@
                 android:layout_marginBottom="12dp"
                 android:id="@+id/sharecard">
                 <ImageView
+                    android:id="@+id/shareimage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -258,6 +270,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/backbackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/gradient"></ImageView>

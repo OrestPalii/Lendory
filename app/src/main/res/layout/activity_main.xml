@@ -509,7 +509,8 @@
         app:spanCount="2"
         android:clipToPadding="false"
         android:paddingBottom="100dp"
-        android:paddingTop="60dp"></androidx.recyclerview.widget.RecyclerView>
+        android:paddingTop="60dp"
+        android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/canceler"
@@ -521,7 +522,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/filterpanel"
         android:layout_width="match_parent"
-        android:layout_height="385dp"
+        android:layout_height="440dp"
         android:layout_marginTop="-20dp"
         android:visibility="invisible"
         app:cardCornerRadius="30dp"
@@ -614,6 +615,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/helprel"
                 android:elevation="100dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -667,6 +669,19 @@
                         android:textSize="18dp"
                         android:buttonTint="@color/purpleforicons"></CheckBox>
                 </RadioGroup>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/helprel"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:elevation="100dp">
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/sorttype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -815,7 +830,6 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:visibility="invisible"
         android:id="@+id/likedrecycler"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -826,8 +840,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"
-        android:paddingTop="60dp"></androidx.recyclerview.widget.RecyclerView>
-
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        android:paddingTop="60dp"
+        android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/panel"

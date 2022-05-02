@@ -8,6 +8,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.collection.LLRBNode;
 import com.quaice.lendory.adapters.MyRecyclerViewAdapter;
 import com.quaice.lendory.R;
 import com.quaice.lendory.adapters.ViewPagerAdapters;
@@ -27,7 +29,7 @@ import com.quaice.lendory.typeclass.Adv;
 
 public class AdvReview extends AppCompatActivity {
     private Adv cur;
-    private ImageView mainImage, like;
+    private ImageView mainImage, like, infocardback, backbackground, shareimage, profImg, callImg;
     private TextView name, description, location, floor, sellername, sellerphone, price;
     private CardView backcard, imagecard, infocard, profilecard, sharecard;
     private ViewPager viewPager;
@@ -36,9 +38,12 @@ public class AdvReview extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_CODE_CALL_PHONE = 555;
     public static ImageView HolderLike;
 
+    @SuppressLint("ResourceAsColor")
     private void init(){
         cur = MyRecyclerViewAdapter.current;
         MyRecyclerViewAdapter.current = null;
+        infocardback = findViewById(R.id.infocardback);
+        backbackground = findViewById(R.id.backbackground);
         name = findViewById(R.id.name);
         name.setText(cur.getName());
         description = findViewById(R.id.description);
@@ -61,6 +66,23 @@ public class AdvReview extends AppCompatActivity {
         profilecard = findViewById(R.id.profilecard);
         like = findViewById(R.id.heart);
         price.setText(cur.getPrice() + " " + cur.getCurrency());
+        shareimage = findViewById(R.id.shareimage);
+        profImg = findViewById(R.id.iconprof);
+        callImg = findViewById(R.id.callim);
+        if (cur.isVolunteering()){
+            backbackground.setImageResource(R.drawable.freegradient);
+            infocardback.setImageResource(R.drawable.freegradient);
+            name.setTextColor(getResources().getColor(R.color.freecolor));
+            price.setTextColor(getResources().getColor(R.color.freecolor));
+            location.setTextColor(getResources().getColor(R.color.freecolor));
+            floor.setTextColor(getResources().getColor(R.color.freecolor));
+            sellername.setTextColor(getResources().getColor(R.color.freecolor));
+            sellerphone.setTextColor(getResources().getColor(R.color.freecolor));
+            like.setColorFilter(getResources().getColor(R.color.freecolor));
+            shareimage.setColorFilter(getResources().getColor(R.color.freecolor));
+            profImg.setColorFilter(getResources().getColor(R.color.freecolor));
+            callImg.setColorFilter(getResources().getColor(R.color.freecolor));
+        }
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         acc = database.getReference("profiles");
         if(0 < cur.getImages().size())

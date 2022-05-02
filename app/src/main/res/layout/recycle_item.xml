@@ -60,6 +60,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <TextView
+                        android:id="@+id/more"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_alignParentBottom="true"
@@ -86,6 +87,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
+                        android:id="@+id/background"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/gradient"></ImageView>
@@ -95,17 +97,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
                         android:layout_marginTop="60dp"
-                        android:text="NAME"
-                        android:gravity="center_vertical"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeMinTextSize="18dp"
+                        android:layout_marginRight="8dp"
                         android:autoSizeMaxTextSize="25dp"
+                        android:autoSizeMinTextSize="18dp"
+                        android:autoSizeTextType="uniform"
                         android:ellipsize="end"
-                        android:lines="1"></TextView>
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:text="No0neW1llUseThis"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"></TextView>
 
                     <TextView
                         android:id="@+id/description"

@@ -10,9 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,10 +22,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.quaice.lendory.adapters.MyRecyclerViewAdapter;
 import com.quaice.lendory.R;
 import com.quaice.lendory.constants.Const;
@@ -39,6 +44,8 @@ import com.quaice.lendory.typeclass.Account;
 import com.quaice.lendory.typeclass.Adv;
 import com.quaice.lendory.typeclass.User;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
@@ -62,9 +69,11 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton yesbut;
     private CheckBox search_yes, search_no;
     private Button canceler;
+    private MaterialSpinner sorttype;
+    private FirebaseStorage storage;
+    private StorageReference ref;
     public static boolean canrefresh = true;
-    FirebaseStorage storage;
-    StorageReference ref;
+    private int sortTypeValue;
 
     private void init(){
         storage = FirebaseStorage.getInstance(Const.STORAGE_URL);;
@@ -117,6 +126,13 @@ public class MainActivity extends AppCompatActivity {
         your_phone.setText(Registration.phone_str);
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
+        sorttype = findViewById(R.id.sorttype);
+        sorttype.setItems("Найновіші", "Найстаріші", "Найдешевші", "Найдорожчі");
+        sorttype.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                sortTypeValue = position;
+            }
+        });
         name_edit.setHeight(0);
         canrefresh = true;
     }
@@ -150,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
                         downloaded.add(dataSnapshotchild.getValue(Adv.class));
                     }
-                    build_recycler(downloaded, recyclerView);
+                    build_recycler(sortTypeChanger(downloaded, 0), recyclerView);
                     canrefresh = false;
                 }
             }
@@ -387,7 +403,8 @@ public class MainActivity extends AppCompatActivity {
         search_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search();
+                //search();
+                build_recycler(sortTypeChanger(downloaded, sortTypeValue), recyclerView);
                 canceler.setVisibility(View.INVISIBLE);
                 filterview(0, -1000);
             }
@@ -644,6 +661,68 @@ public class MainActivity extends AppCompatActivity {
             sorted.addAll(downloaded);
         }
         sort(sorted);
+    }
+
+    private ArrayList<Adv> sortTypeChanger(ArrayList<Adv> sorted, int sorttype){
+        switch (sorttype) {
+            case 0:
+                Collections.sort(sorted, new Comparator<Adv>(){
+                    public int compare(Adv obj1, Adv obj2) {
+                        return Long.valueOf(obj1.getTime()).compareTo(Long.valueOf(obj2.getTime()));
+                    }
+                });
+                Collections.reverse(sorted);
+                break;
+            case 1:
+                Collections.sort(sorted, new Comparator<Adv>(){
+                    public int compare(Adv obj1, Adv obj2) {
+                        return Long.valueOf(obj1.getTime()).compareTo(Long.valueOf(obj2.getTime()));
+                    }
+                });
+                break;
+            case 2:
+                Collections.sort(sorted, new Comparator<Adv>(){
+                    public int compare(Adv obj1, Adv obj2) {
+                        int first = 0, second = 0;
+                        if(obj1.getCurrency().equals("$"))
+                            first = obj1.getPrice()*30;
+                        if(obj1.getCurrency().equals("€"))
+                            first = obj1.getPrice()*33;
+                        if(obj1.getCurrency().equals("₴"))
+                            first = obj1.getPrice();
+                        if(obj2.getCurrency().equals("$"))
+                            second = obj2.getPrice()*30;
+                        if(obj2.getCurrency().equals("€"))
+                            second = obj2.getPrice()*33;
+                        if(obj2.getCurrency().equals("₴"))
+                            second = obj2.getPrice();
+                        return Integer.valueOf(first).compareTo(Integer.valueOf(second));
+                    }
+                });
+                break;
+            case 3:
+                Collections.sort(sorted, new Comparator<Adv>(){
+                    public int compare(Adv obj1, Adv obj2) {
+                        int first = 0, second = 0;
+                        if(obj1.getCurrency().equals("$"))
+                            first = obj1.getPrice()*30;
+                        if(obj1.getCurrency().equals("€"))
+                            first = obj1.getPrice()*33;
+                        if(obj1.getCurrency().equals("₴"))
+                            first = obj1.getPrice();
+                        if(obj2.getCurrency().equals("$"))
+                            second = obj2.getPrice()*30;
+                        if(obj2.getCurrency().equals("€"))
+                            second = obj2.getPrice()*33;
+                        if(obj2.getCurrency().equals("₴"))
+                            second = obj2.getPrice();
+                        return Integer.valueOf(first).compareTo(Integer.valueOf(second));
+                    }
+                });
+                Collections.reverse(sorted);
+                break;
+        }
+        return sorted;
     }
 
     private void sort(ArrayList<Adv> sorted){

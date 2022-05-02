@@ -48,83 +48,96 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.name.setText(list.get(position).getName());
-        holder.description.setText(list.get(position).getDescription());
-        holder.location.setText(list.get(position).getLocation());
-        if(list.get(position).isVolunteering())
-            holder.price.setText("Безкоштовно");
-        else
-            holder.price.setText("" + list.get(position).getPrice() + " " + list.get(position).getCurrency());
+        //if (holder.name.getText().toString().equals("No0neW1llUseThis")) {
+            holder.name.setText(list.get(position).getName());
+            holder.description.setText(list.get(position).getDescription());
+            holder.location.setText(list.get(position).getLocation());
+            if (list.get(position).isVolunteering())
+                holder.price.setText("Безкоштовно");
+            else
+                holder.price.setText("" + list.get(position).getPrice() + " " + list.get(position).getCurrency());
 
-        if (yourlist){
-            holder.settcard.setVisibility(View.VISIBLE);
-            holder.delcard.setVisibility(View.VISIBLE);
-            holder.likecard.setVisibility(View.INVISIBLE);
-            holder.lockcard.setVisibility(View.INVISIBLE);
-            holder.pricecard.setVisibility(View.INVISIBLE);
-        }
-
-        if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
-            holder.like.setImageResource(R.drawable.liked_heart);
-        else
-            holder.like.setImageResource(R.drawable.heart);
-
-        try{
-            if(0 < list.get(position).getImages().size()) {
-                Glide.with(context).load(list.get(position).getImages().get(0).toString()).into(holder.image);
+            if (yourlist) {
+                holder.settcard.setVisibility(View.VISIBLE);
+                holder.delcard.setVisibility(View.VISIBLE);
+                holder.likecard.setVisibility(View.INVISIBLE);
+                holder.lockcard.setVisibility(View.INVISIBLE);
+                holder.pricecard.setVisibility(View.INVISIBLE);
             }
-            if(1 < list.get(position).getImages().size()) {
-                Glide.with(context).load(list.get(position).getImages().get(1).toString()).into(holder.second_image);
+
+            if (list.get(position).isVolunteering()) {
+                holder.background.setImageResource(R.drawable.freegradient);
+                holder.price.setTextColor(context.getResources().getColor(R.color.freecolor));
+                holder.location.setTextColor(context.getResources().getColor(R.color.freecolor));
+                holder.more.setTextColor(context.getResources().getColor(R.color.freecolor));
+                holder.like.setColorFilter(context.getResources().getColor(R.color.freecolor));
             }
-        }catch (Exception e){}
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                current = list.get(position);
-                AdvReview.HolderLike = holder.like;
-                Intent intent = new Intent(context, AdvReview.class);
-                context.startActivity(intent);
-            }
-        });
+            if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
+                holder.like.setImageResource(R.drawable.liked_heart);
+            else
+                holder.like.setImageResource(R.drawable.heart);
 
-        try {
-            int counter = list.get(position).getImages().size() - 1;
-            holder.count.setText("+" + counter);
-        }catch (Exception e){};
-
-        holder.like.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void onClick(View view) {
-                boolean liked = MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber());
-                if (liked) {
-                    MainActivity.yourAccount.removenewliked(list.get(position).getHashnumber());
-                    acc.child(MainActivity.yourAccount.getPhonenumber()).setValue( MainActivity.yourAccount);
-                    holder.like.setImageResource(R.drawable.heart);
-                }else{
-                    MainActivity.yourAccount.addnewliked(list.get(position).getHashnumber());
-                    acc.child(MainActivity.yourAccount.getPhonenumber()).setValue( MainActivity.yourAccount);
-                    holder.like.setImageResource(R.drawable.liked_heart);
+            try {
+                if (0 < list.get(position).getImages().size()) {
+                    Glide.with(context).load(list.get(position).getImages().get(0).toString()).into(holder.image);
                 }
+                if (1 < list.get(position).getImages().size()) {
+                    Glide.with(context).load(list.get(position).getImages().get(1).toString()).into(holder.second_image);
+                }
+            } catch (Exception e) {
+            }
 
-                MainActivity.animateView(holder.like);
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    current = list.get(position);
+                    AdvReview.HolderLike = holder.like;
+                    Intent intent = new Intent(context, AdvReview.class);
+                    context.startActivity(intent);
+                }
+            });
+
+            try {
+                int counter = list.get(position).getImages().size() - 1;
+                holder.count.setText("+" + counter);
+            } catch (Exception e) {
             }
-        });
-        holder.settcard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                YourAdverts.hashNumber = list.get(position).getHashnumber();
-                YourAdverts.showEditDialog(list.get(position), context);
-            }
-        });
-        holder.delcard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                YourAdverts.hashNumber = list.get(position).getHashnumber();
-                YourAdverts.deleteAdv(context);
-            }
-        });
+            ;
+
+            holder.like.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ResourceType")
+                @Override
+                public void onClick(View view) {
+                    boolean liked = MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber());
+                    if (liked) {
+                        MainActivity.yourAccount.removenewliked(list.get(position).getHashnumber());
+                        acc.child(MainActivity.yourAccount.getPhonenumber()).setValue(MainActivity.yourAccount);
+                        holder.like.setImageResource(R.drawable.heart);
+                    } else {
+                        MainActivity.yourAccount.addnewliked(list.get(position).getHashnumber());
+                        acc.child(MainActivity.yourAccount.getPhonenumber()).setValue(MainActivity.yourAccount);
+                        holder.like.setImageResource(R.drawable.liked_heart);
+                    }
+
+                    MainActivity.animateView(holder.like);
+                }
+            });
+            holder.settcard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    YourAdverts.hashNumber = list.get(position).getHashnumber();
+                    YourAdverts.showEditDialog(list.get(position), context);
+                }
+            });
+            holder.delcard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    YourAdverts.hashNumber = list.get(position).getHashnumber();
+                    YourAdverts.deleteAdv(context);
+                }
+            });
+        //}
     }
 
     @Override
@@ -132,9 +145,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return list.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView name, description, count, location, price;
-        private ImageView image, second_image, like;
+        private TextView name, description, count, location, price, more;
+        private ImageView image, second_image, like, background;
         private CardView cardView, settcard, likecard, delcard, lockcard, pricecard;
         ViewHolder(View itemView) {
             super(itemView);
@@ -145,21 +168,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             second_image = itemView.findViewById(R.id.image_more);
             count = itemView.findViewById(R.id.image_count);
             like = itemView.findViewById(R.id.heart);
+            background = itemView.findViewById(R.id.background);
             location = itemView.findViewById(R.id.location);
             settcard = itemView.findViewById(R.id.settings);
             likecard = itemView.findViewById(R.id.likecard);
             delcard = itemView.findViewById(R.id.delete);
             lockcard = itemView.findViewById(R.id.lockcard);
             price = itemView.findViewById(R.id.price);
+            more = itemView.findViewById(R.id.more);
             pricecard = itemView.findViewById(R.id.price_card);
         }
 
         @Override
         public void onClick(View view) {}
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 }
 
