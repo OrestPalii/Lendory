@@ -7,7 +7,15 @@ public class Adv{
     private String name, description, location, currency, hashnumber;
     private int price, area, numberOfRooms, floor;
     private long time;
-    private boolean volunteering;
+    private boolean volunteering, approved;
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
 
     public long getTime() {
         return time;
@@ -115,7 +123,7 @@ public class Adv{
         this.creator = creator;
     }
 
-    public Adv(String name, String description, String location, String currency, int price, int area, int numberOfRooms, int floor, boolean volunteering, ArrayList<String> images, User creator) {
+    public Adv(String name, String description, String location, String currency, int price, int area, int numberOfRooms, int floor, boolean volunteering, ArrayList<String> images, User creator, boolean approved) {
         this.name = name;
         this.description = description;
         this.location = location;
@@ -127,24 +135,10 @@ public class Adv{
         this.volunteering = volunteering;
         this.images = images;
         this.creator = creator;
+        this.approved = approved;
         if(volunteering)
             this.price = 0;
     }
-    public Adv(String name, String description, String location, String currency, String hashnumber, int price, int area, int numberOfRooms, int floor, boolean volunteering, ArrayList<String> images, User creator) {
-        this.name = name;
-        this.description = description;
-        this.location = location;
-        this.currency = currency;
-        this.hashnumber = hashnumber;
-        this.price = price;
-        this.area = area;
-        this.numberOfRooms = numberOfRooms;
-        this.floor = floor;
-        this.volunteering = volunteering;
-        this.images = images;
-        this.creator = creator;
-    }
-
 
     public Adv() {
         if(volunteering)

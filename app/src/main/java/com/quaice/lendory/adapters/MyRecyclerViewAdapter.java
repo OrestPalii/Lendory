@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -63,6 +64,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 holder.likecard.setVisibility(View.INVISIBLE);
                 holder.lockcard.setVisibility(View.INVISIBLE);
                 holder.pricecard.setVisibility(View.INVISIBLE);
+                if(!list.get(position).isApproved()) {
+                    holder.notApprovedlayout.setVisibility(View.VISIBLE);
+                    if(list.get(position).isVolunteering())
+                        holder.notApprovedBack.setImageResource(R.drawable.freegradient);
+                }
             }
 
             if (list.get(position).isVolunteering()) {
@@ -71,6 +77,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 holder.location.setTextColor(context.getResources().getColor(R.color.freecolor));
                 holder.more.setTextColor(context.getResources().getColor(R.color.freecolor));
                 holder.like.setColorFilter(context.getResources().getColor(R.color.freecolor));
+                holder.setImage.setColorFilter(context.getResources().getColor(R.color.freecolor));
+                holder.delImage.setColorFilter(context.getResources().getColor(R.color.freecolor));
             }
 
             if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
@@ -157,8 +165,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView name, description, count, location, price, more;
-        private ImageView image, second_image, like, background;
+        private ImageView image, second_image, like, background, notApprovedBack, setImage, delImage;
         private CardView cardView, settcard, likecard, delcard, lockcard, pricecard;
+        private RelativeLayout notApprovedlayout;
         ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
@@ -177,6 +186,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             price = itemView.findViewById(R.id.price);
             more = itemView.findViewById(R.id.more);
             pricecard = itemView.findViewById(R.id.price_card);
+            notApprovedlayout = itemView.findViewById(R.id.notApprovedlayout);
+            notApprovedBack = itemView.findViewById(R.id.notApprovedBack);
+            setImage = itemView.findViewById(R.id.settImage);
+            delImage = itemView.findViewById(R.id.delImage);
         }
 
         @Override

@@ -675,13 +675,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/helprel"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:elevation="100dp">
                 <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/sorttype"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp" />
             </RelativeLayout>
 
             <LinearLayout

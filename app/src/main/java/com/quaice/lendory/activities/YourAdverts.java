@@ -304,7 +304,7 @@ public class YourAdverts extends AppCompatActivity {
                     lock_edit.getText().toString(), currency.getText().toString(), price,
                     Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
                     Integer.parseInt(floor_edit.getText().toString()), vol, images,
-                    new User(MainActivity.yourAccount.getName(), MainActivity.yourAccount.getPhonenumber()));
+                    new User(MainActivity.yourAccount.getName(), MainActivity.yourAccount.getPhonenumber()), true);
             return cur;
         }else{
             new SweetAlertDialog(YourAdverts.this, SweetAlertDialog.ERROR_TYPE)

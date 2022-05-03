@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
-    private DatabaseReference myRef, acc;
+    private DatabaseReference myRef, acc, needToBeeApprovedRef;
     private ArrayList<String> images;
     private TextView your_name, your_phone, currency, search_cancel, search_use;
     private int photoposition;
@@ -164,7 +164,8 @@ public class MainActivity extends AppCompatActivity {
                 if(canrefresh) {
                     downloaded = new ArrayList<>();
                     for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
-                        downloaded.add(dataSnapshotchild.getValue(Adv.class));
+                        if(dataSnapshotchild.getValue(Adv.class).isApproved())
+                            downloaded.add(dataSnapshotchild.getValue(Adv.class));
                     }
                     build_recycler(sortTypeChanger(downloaded, 0), recyclerView);
                     canrefresh = false;
@@ -220,7 +221,12 @@ public class MainActivity extends AppCompatActivity {
                     new_adv.setVisibility(View.INVISIBLE);
                     images = new ArrayList<>();
                     canrefresh = true;
+                    needToBeeApprovedRef = database.getReference("needToBeeApproved");
+                    needToBeeApprovedRef.child("" + cur.hashCode()).setValue(cur.hashCode());
                     advCreatroCleaner();
+//                    new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+//                            .setContentText("Оголошення успішно створене й відправлене на перевірку. Очікуйте дзівка від адміністрації")
+//                            .show();
                     //Toasty.success(MainActivity.this, "Оголошння створено", Toast.LENGTH_SHORT, true).show();
                 }
             }
@@ -396,17 +402,16 @@ public class MainActivity extends AppCompatActivity {
                 search();
                 canceler.setVisibility(View.INVISIBLE);
                 filterview(0, -1000);
-                build_recycler(downloaded, recyclerView);
+                build_recycler(sortTypeChanger(downloaded, 0), recyclerView);
             }
         });
 
         search_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //search();
-                build_recycler(sortTypeChanger(downloaded, sortTypeValue), recyclerView);
-                canceler.setVisibility(View.INVISIBLE);
+                search();
                 filterview(0, -1000);
+                canceler.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -501,7 +506,7 @@ public class MainActivity extends AppCompatActivity {
                     lock_edit.getText().toString(), currency.getText().toString(), price,
                     Integer.parseInt(area_edit.getText().toString()), Integer.parseInt(room_edit.getText().toString()),
                     Integer.parseInt(floor_edit.getText().toString()), vol, images,
-                    new User(yourAccount.getName(), yourAccount.getPhonenumber()));
+                    new User(yourAccount.getName(), yourAccount.getPhonenumber()), false);
             cur.setTime(System.currentTimeMillis());
             return cur;
         }else{
@@ -727,49 +732,61 @@ public class MainActivity extends AppCompatActivity {
 
     private void sort(ArrayList<Adv> sorted){
         ArrayList<Adv> preSorted = new ArrayList<>();
+
+        //Vol
         if(search_yes.isChecked()){
-            preSorted = new ArrayList<>();
             for (int i = 0; i < sorted.size(); i++) {
                 if(sorted.get(i).isVolunteering())
                     preSorted.add(sorted.get(i));
             }
-            sorted = preSorted;
         }
         if(search_no.isChecked()){
-            preSorted = new ArrayList<>();
             for (int i = 0; i < sorted.size(); i++) {
                 if(!sorted.get(i).isVolunteering())
                     preSorted.add(sorted.get(i));
             }
-            sorted = preSorted;
         }
-        if(!areElementEmpty(search_lockation)) {
-            preSorted = new ArrayList<>();
-            for (int i = 0; i < sorted.size(); i++) {
-                if (sorted.get(i).getLocation().contains(search_lockation.getText().toString()))
+
+        //Lockation
+        sorted = preSorted;
+        preSorted = new ArrayList<>();
+        if(!areElementEmpty(search_lockation)){
+            for(int i = 0; i < sorted.size(); i++){
+                if(sorted.get(i).getLocation().contains(search_lockation.getText().toString()))
                     preSorted.add(sorted.get(i));
             }
-            sorted = preSorted;
+        }else{
+            preSorted = sorted;
         }
+
+        //Min Max Price
+        sorted = preSorted;
         preSorted = new ArrayList<>();
-        int min, max;
-        for (int i = 0; i < sorted.size(); i++) {
+        int min = 0, max = 999999999;
+        if(!areElementEmpty(search_min_price)) {
             try {
                 min = Integer.parseInt(search_min_price.getText().toString());
-            }catch (Exception e){
-                min = 0;
+            } catch (Exception e) {
             }
+        }
+        if(!areElementEmpty(search_max_price)){
             try {
                 max = Integer.parseInt(search_max_price.getText().toString());
-            }catch (Exception e){
-                max = 1000000000;
+            } catch (Exception e) {
             }
-            if(sorted.get(i).getPrice()>=min &
-                    sorted.get(i).getPrice()<=max)
+        }
+        int currprice = 0;
+        for(int i = 0; i < sorted.size(); i++){
+            if(sorted.get(i).getCurrency().equals("$"))
+                currprice = sorted.get(i).getPrice()*30;
+            if(sorted.get(i).getCurrency().equals("€"))
+                currprice = sorted.get(i).getPrice()*33;
+            if(sorted.get(i).getCurrency().equals("₴"))
+                currprice = sorted.get(i).getPrice();
+            if(currprice >= min && currprice <= max)
                 preSorted.add(sorted.get(i));
         }
-        sorted = preSorted;
-        build_recycler(sorted, recyclerView);
+        build_recycler(sortTypeChanger(preSorted, sortTypeValue), recyclerView);
     }
 
     private void photosOnClick(int position){

@@ -25,6 +25,10 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/reggrad"></ImageView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,13 +123,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="445dp"
+        android:layout_height="460dp"
         android:layout_centerInParent="true"
         android:visibility="visible"
         android:id="@+id/register">
         <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="370dp"
+        android:layout_height="380dp"
         android:layout_alignParentBottom="true"
         app:cardBackgroundColor="@color/purpleforicons"
         android:layout_marginLeft="30dp"
@@ -134,6 +138,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/reggrad"></ImageView>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -226,15 +234,16 @@
                 android:gravity="center"
                 android:textColor="@color/purpleforicons"></TextView>
         </androidx.cardview.widget.CardView>
+
         <TextView
             android:id="@+id/logtext"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="У мене вже є акаунт"
-            android:gravity="center"
-            android:textSize="16dp"
             android:layout_below="@id/reg_but"
-            android:textColor="@color/white"></TextView>
+            android:gravity="center"
+            android:text="У мене вже є акаунт"
+            android:textColor="@color/white"
+            android:textSize="16dp"></TextView>
     </RelativeLayout>
     </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
