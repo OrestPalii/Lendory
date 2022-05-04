@@ -30,7 +30,7 @@ import com.quaice.lendory.typeclass.Adv;
 public class AdvReview extends AppCompatActivity {
     private Adv cur;
     private ImageView mainImage, like, infocardback, backbackground, shareimage, profImg, callImg;
-    private TextView name, description, location, floor, sellername, sellerphone, price;
+    private TextView name, description, location, floor, area, sellername, sellerphone, price;
     private CardView backcard, imagecard, infocard, profilecard, sharecard;
     private ViewPager viewPager;
     private ViewPagerAdapters adapter;
@@ -52,6 +52,8 @@ public class AdvReview extends AppCompatActivity {
         location.setText(cur.getLocation());
         floor = findViewById(R.id.floor);
         floor.setText(cur.getFloor() + " Поверх");
+        area = findViewById(R.id.area);
+        area.setText(cur.getArea() + "кв.м");
         sellername = findViewById(R.id.profilename);
         sellername.setText(cur.getCreator().getName());
         sellerphone = findViewById(R.id.profilephone);

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,12 +56,13 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
     private RelativeLayout new_adv, rentcard;
     private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, helpcard, mailcard, settingscard, filtercard;
-    private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, help_edit, price_edit, floor_edit, search, search_lockation,
+    private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit, search, search_lockation,
         search_min_price, search_max_price;
     private ImageView homepagebut, likedpagebut, searchbutton, filterShow;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
+    private FirebaseDatabase database;
     private DatabaseReference myRef, acc, needToBeeApprovedRef;
     private ArrayList<String> images;
     private TextView your_name, your_phone, currency, search_cancel, search_use;
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton yesbut;
     private CheckBox search_yes, search_no;
     private Button canceler;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private MaterialSpinner sorttype;
     private FirebaseStorage storage;
     private StorageReference ref;
@@ -127,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
         sorttype = findViewById(R.id.sorttype);
+        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
+        database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         sorttype.setItems("Найновіші", "Найстаріші", "Найдешевші", "Найдорожчі");
         sorttype.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
@@ -142,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
-        myRef = database.getReference("advertisement");
         init();
         //setTheme(R.style.Dark);
         acc = database.getReference("profiles/"+your_phone.getText().toString());
@@ -158,23 +162,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {}
 
         });
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(canrefresh) {
-                    downloaded = new ArrayList<>();
-                    for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
-                        if(dataSnapshotchild.getValue(Adv.class).isApproved())
-                            downloaded.add(dataSnapshotchild.getValue(Adv.class));
-                    }
-                    build_recycler(sortTypeChanger(downloaded, 0), recyclerView);
-                    canrefresh = false;
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {}
-        });
+        recyclerRefresher();
 
         search.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -415,6 +403,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.purpleforicons, R.color.freecolor);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recyclerRefresher();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -798,7 +794,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void advCreatroCleaner(){
+    private void advCreatroCleaner(){
         for(int i = 0; i < photos.size(); i++) {
             photos.get(photoposition).clearColorFilter();
             photos.get(photoposition).setImageResource(R.drawable.plus_img);
@@ -816,4 +812,25 @@ public class MainActivity extends AppCompatActivity {
         images = new ArrayList<>();
     }
 
+    private void recyclerRefresher(){
+        canrefresh = true;
+        myRef = database.getReference("advertisement");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(canrefresh) {
+                    downloaded = new ArrayList<>();
+                    for (DataSnapshot dataSnapshotchild : dataSnapshot.getChildren()) {
+                        if(dataSnapshotchild.getValue(Adv.class).isApproved())
+                            downloaded.add(dataSnapshotchild.getValue(Adv.class));
+                    }
+                    build_recycler(sortTypeChanger(downloaded, 0), recyclerView);
+                    canrefresh = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
+    }
 }
