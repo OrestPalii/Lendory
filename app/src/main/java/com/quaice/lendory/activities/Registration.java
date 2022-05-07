@@ -1,5 +1,6 @@
 package com.quaice.lendory.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import android.app.Activity;
@@ -11,6 +12,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,9 +69,11 @@ public class Registration extends AppCompatActivity {
         if(activityPreferences.getBoolean("loggin", false)){
             name_str = activityPreferences.getString("user_name", "");
             phone_str = activityPreferences.getString("phone_number", "");
+            myRef = null;
             Intent intent = new Intent(Registration.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         }
 
         reg_text.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +99,6 @@ public class Registration extends AppCompatActivity {
                 likedEmpty.add("ThisHashCodeWillNeverBeUsed");
                 ArrayList<String> createdEmpty = new ArrayList<>();
                 createdEmpty.add("ThisHashCodeWillNeverBeUsedToo");
-                myRef = database.getReference("profiles");
                 if(!reg_name.getText().toString().equals("") && !reg_phonenumber.getText().toString().equals("") &&
                         !reg_password.getText().toString().equals("")) {
 
@@ -109,17 +114,13 @@ public class Registration extends AppCompatActivity {
         log_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myRef = database.getReference("profiles/"+login_phonenumber.getText().toString());
-                myRef.addValueEventListener(new ValueEventListener() {
+                database.getReference("profiles").child(""+login_phonenumber.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        you = dataSnapshot.getValue(Account.class);
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        you = task.getResult().getValue(Account.class);
                         try {
                             if (login_phonenumber.getText().toString().equals(you.getPhonenumber())
                                     && login_password.getText().toString().equals(you.getPassword())) {
-                                Intent intent = new Intent(Registration.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
                                 //Local save
                                 editor.putBoolean("loggin", true);
                                 editor.putString("user_name", reg_name.getText().toString());
@@ -127,6 +128,11 @@ public class Registration extends AppCompatActivity {
                                 editor.commit();
                                 name_str = activityPreferences.getString("user_name", "");
                                 phone_str = activityPreferences.getString("phone_number", "");
+                                myRef = null;
+                                Intent intent = new Intent(Registration.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }else{
                                 new SweetAlertDialog(Registration.this, SweetAlertDialog.ERROR_TYPE)
                                         .setTitleText("Увага!")
@@ -141,9 +147,6 @@ public class Registration extends AppCompatActivity {
                             //Toasty.error(Registration.this, "Хибний номер телефону чи пароль", Toast.LENGTH_SHORT, true).show();
                         }
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {}
                 });
             }
         });

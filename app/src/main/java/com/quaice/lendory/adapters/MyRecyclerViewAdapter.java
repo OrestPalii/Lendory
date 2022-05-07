@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.quaice.lendory.R;
 import com.quaice.lendory.activities.AdvReview;
 import com.quaice.lendory.activities.MainActivity;
+import com.quaice.lendory.activities.Registration;
 import com.quaice.lendory.activities.YourAdverts;
 import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Adv;
@@ -117,11 +118,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     boolean liked = MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber());
                     if (liked) {
                         MainActivity.yourAccount.removenewliked(list.get(position).getHashnumber());
-                        acc.child(MainActivity.yourAccount.getPhonenumber()).setValue(MainActivity.yourAccount);
+                        String str = Registration.phone_str;
+                        acc.child("" + str).setValue(MainActivity.yourAccount);
                         holder.like.setImageResource(R.drawable.heart);
                     } else {
                         MainActivity.yourAccount.addnewliked(list.get(position).getHashnumber());
-                        acc.child(MainActivity.yourAccount.getPhonenumber()).setValue(MainActivity.yourAccount);
+                        String str = Registration.phone_str;
+                        acc.child("" + str).setValue(MainActivity.yourAccount);
                         holder.like.setImageResource(R.drawable.liked_heart);
                     }
 

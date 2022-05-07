@@ -830,11 +830,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/lupsearch"
                 android:background="@null"
                 android:hint="Пошук"
+                android:textColor="@color/purpleforicons"
                 android:inputType="text"
                 android:maxLines="1"
-                android:layout_toLeftOf="@+id/lupsearch"
                 android:textColorHint="@color/purpleforicons"></EditText>
 
             <ImageView
@@ -972,6 +973,7 @@
             android:layout_marginLeft="30dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout new_adv, rentcard;
     private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, helpcard, mailcard, settingscard, filtercard;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit, search, search_lockation,
-        search_min_price, search_max_price;
+            search_min_price, search_max_price;
     private ImageView homepagebut, likedpagebut, searchbutton, filterShow;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
