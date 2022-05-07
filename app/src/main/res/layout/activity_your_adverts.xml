@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.YourAdverts"
-    android:background="#cbe5e4">
+    android:background="@drawable/reggrad">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/waves"
         android:scaleType="centerCrop"
-        android:tint="#87b7b7"></ImageView>
+        android:rotation="180"
+        android:tint="@android:color/white"></ImageView>
     <androidx.cardview.widget.CardView
         android:id="@+id/backcard"
         android:layout_width="65dp"

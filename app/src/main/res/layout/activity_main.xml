@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
-    android:background="#cbe5e4">
+    android:background="@drawable/freegradient">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/waves"
         android:scaleType="centerCrop"
-        android:tint="#87b7b7"></ImageView>
+        android:tint="@android:color/white"></ImageView>
 
     <RelativeLayout
         android:id="@+id/new_adw"
@@ -59,6 +59,10 @@
                         app:cardBackgroundColor="@color/green"
                         app:cardCornerRadius="15dp">
                         <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/freegradient"></ImageView>
+                        <ImageView
                             android:id="@+id/first_image"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -70,6 +74,10 @@
                         android:layout_height="70dp"
                         app:cardBackgroundColor="@color/green"
                         app:cardCornerRadius="15dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/freegradient"></ImageView>
                         <ImageView
                             android:id="@+id/second_image"
                             android:layout_width="match_parent"
@@ -83,6 +91,10 @@
                         app:cardBackgroundColor="@color/green"
                         app:cardCornerRadius="15dp">
                         <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/freegradient"></ImageView>
+                        <ImageView
                             android:id="@+id/third_image"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -94,6 +106,10 @@
                         android:layout_height="70dp"
                         app:cardBackgroundColor="@color/green"
                         app:cardCornerRadius="15dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/freegradient"></ImageView>
                         <ImageView
                             android:id="@+id/forth_image"
                             android:layout_width="match_parent"
@@ -122,6 +138,10 @@
                             android:layout_below="@+id/desccard"
                             android:layout_weight="1"
                             android:layout_marginRight="5dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/freegradient"></ImageView>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -139,6 +159,11 @@
                             android:layout_below="@+id/desccard"
                             android:layout_weight="1"
                             android:layout_marginLeft="5dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/reggrad"
+                                android:rotation="180"></ImageView>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -809,7 +834,8 @@
                 android:hint="Пошук"
                 android:inputType="text"
                 android:maxLines="1"
-                android:layout_toLeftOf="@+id/lupsearch"></EditText>
+                android:layout_toLeftOf="@+id/lupsearch"
+                android:textColorHint="@color/purpleforicons"></EditText>
 
             <ImageView
                 android:tint="@color/purpleforicons"

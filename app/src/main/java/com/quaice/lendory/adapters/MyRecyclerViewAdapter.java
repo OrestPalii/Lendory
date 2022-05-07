@@ -49,7 +49,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        //if (holder.name.getText().toString().equals("No0neW1llUseThis")) {
             holder.name.setText(list.get(position).getName());
             holder.description.setText(list.get(position).getDescription());
             holder.location.setText(list.get(position).getLocation());
@@ -109,9 +108,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             try {
                 int counter = list.get(position).getImages().size() - 1;
                 holder.count.setText("+" + counter);
-            } catch (Exception e) {
-            }
-            ;
+            } catch (Exception e) {}
 
             holder.like.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("ResourceType")
@@ -145,7 +142,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     YourAdverts.deleteAdv(context);
                 }
             });
-        //}
     }
 
     @Override

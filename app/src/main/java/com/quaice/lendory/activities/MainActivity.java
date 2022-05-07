@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
+    private ArrayList<Boolean> photos_clicker;
     private FirebaseDatabase database;
     private DatabaseReference myRef, acc, needToBeeApprovedRef;
     private ArrayList<String> images;
@@ -84,12 +85,16 @@ public class MainActivity extends AppCompatActivity {
         ref = storage.getReference();
         images = new ArrayList<>();
         photos = new ArrayList<>();
+        photos_clicker = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler);
         likerecycler = findViewById(R.id.likedrecycler);
         photos.add(findViewById(R.id.first_image));
         photos.add(findViewById(R.id.second_image));
         photos.add(findViewById(R.id.third_image));
         photos.add(findViewById(R.id.forth_image));
+        for(int i = 0; i < 4; i++)
+            photos_clicker.add(false);
+        photos_clicker.set(0, true);
         search = findViewById(R.id.search);
         send = findViewById(R.id.send_button);
         name_edit = findViewById(R.id.name_edit);
@@ -188,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new_adv.setVisibility(View.INVISIBLE);
+                advCreatroCleaner();
             }
         });
 
@@ -455,6 +461,8 @@ public class MainActivity extends AppCompatActivity {
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
+        if (pos != 3)
+            photos_clicker.set(pos+1, true);
     }
 
     private boolean areElementEmpty(EditText textView){
@@ -540,6 +548,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void hidepanel(){
+        canceler.setVisibility(View.INVISIBLE);
         TranslateAnimation animate = new TranslateAnimation(0, -1000, 0, 0);
         animate.setDuration(500);
         animate.setFillAfter(false);
@@ -789,7 +798,10 @@ public class MainActivity extends AppCompatActivity {
         photos.get(position).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageChooser(position);
+                if(photos_clicker.get(position))
+                    imageChooser(position);
+                else
+                    Toast.makeText(MainActivity.this, "Завантажте фото в правильному порядку", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -799,7 +811,9 @@ public class MainActivity extends AppCompatActivity {
             photos.get(photoposition).clearColorFilter();
             photos.get(photoposition).setImageResource(R.drawable.plus_img);
             photos.get(photoposition).setImageURI(null);
+            photos_clicker.set(i, false);
         }
+        photos_clicker.set(0, true);
         name_edit.setText("");
         desc_edit.setText("");
         lock_edit.setText("");

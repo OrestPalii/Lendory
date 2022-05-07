@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.AdvReview"
-    android:background="@color/white">
+    android:background="@drawable/freegradient"
+    android:id="@+id/reviewback">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/waves"
         android:scaleType="centerCrop"
-        android:tint="#87b7b7"></ImageView>
+        android:tint="@color/white"></ImageView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/infocard"
@@ -238,7 +239,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:background="@drawable/noimage"></ImageView>
+            android:src="@drawable/noimage"></ImageView>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

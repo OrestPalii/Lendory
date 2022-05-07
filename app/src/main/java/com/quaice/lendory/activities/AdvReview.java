@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +35,10 @@ public class AdvReview extends AppCompatActivity {
     private CardView backcard, imagecard, infocard, profilecard, sharecard;
     private ViewPager viewPager;
     private ViewPagerAdapters adapter;
+    private RelativeLayout reviewback;
     private DatabaseReference acc;
-    private static final int MY_PERMISSION_REQUEST_CODE_CALL_PHONE = 555;
     public static ImageView HolderLike;
+    private static final int MY_PERMISSION_REQUEST_CODE_CALL_PHONE = 555;
 
     @SuppressLint("ResourceAsColor")
     private void init(){
@@ -71,6 +73,7 @@ public class AdvReview extends AppCompatActivity {
         shareimage = findViewById(R.id.shareimage);
         profImg = findViewById(R.id.iconprof);
         callImg = findViewById(R.id.callim);
+        reviewback = findViewById(R.id.reviewback);
         if (cur.isVolunteering()){
             backbackground.setImageResource(R.drawable.freegradient);
             infocardback.setImageResource(R.drawable.freegradient);
@@ -80,10 +83,12 @@ public class AdvReview extends AppCompatActivity {
             floor.setTextColor(getResources().getColor(R.color.freecolor));
             sellername.setTextColor(getResources().getColor(R.color.freecolor));
             sellerphone.setTextColor(getResources().getColor(R.color.freecolor));
+            area.setTextColor(getResources().getColor(R.color.freecolor));
             like.setColorFilter(getResources().getColor(R.color.freecolor));
             shareimage.setColorFilter(getResources().getColor(R.color.freecolor));
             profImg.setColorFilter(getResources().getColor(R.color.freecolor));
             callImg.setColorFilter(getResources().getColor(R.color.freecolor));
+            reviewback.setBackgroundResource(R.drawable.reggrad);
         }
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         acc = database.getReference("profiles");
