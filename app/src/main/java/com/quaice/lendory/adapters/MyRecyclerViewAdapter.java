@@ -57,7 +57,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 holder.price.setText("Безкоштовно");
             else
                 holder.price.setText("" + list.get(position).getPrice() + " " + list.get(position).getCurrency());
-
+            if(MainActivity.loggedLikeViewer){
+                holder.likecard.setVisibility(View.INVISIBLE);
+            }
             if (yourlist) {
                 holder.settcard.setVisibility(View.VISIBLE);
                 holder.delcard.setVisibility(View.VISIBLE);
@@ -81,11 +83,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 holder.delImage.setColorFilter(context.getResources().getColor(R.color.freecolor));
             }
 
-            if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
-                holder.like.setImageResource(R.drawable.liked_heart);
-            else
-                holder.like.setImageResource(R.drawable.heart);
-
+            if(!MainActivity.loggedLikeViewer) {
+                if (MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber()))
+                    holder.like.setImageResource(R.drawable.liked_heart);
+                else
+                    holder.like.setImageResource(R.drawable.heart);
+            }
             try {
                 if (0 < list.get(position).getImages().size()) {
                     Glide.with(context).load(list.get(position).getImages().get(0).toString()).into(holder.image);
@@ -118,12 +121,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     boolean liked = MainActivity.yourAccount.checkifconsist(list.get(position).getHashnumber());
                     if (liked) {
                         MainActivity.yourAccount.removenewliked(list.get(position).getHashnumber());
-                        String str = Registration.phone_str;
+                        String str = MainActivity.phone_str;
                         acc.child("" + str).setValue(MainActivity.yourAccount);
                         holder.like.setImageResource(R.drawable.heart);
                     } else {
                         MainActivity.yourAccount.addnewliked(list.get(position).getHashnumber());
-                        String str = Registration.phone_str;
+                        String str = MainActivity.phone_str;
                         acc.child("" + str).setValue(MainActivity.yourAccount);
                         holder.like.setImageResource(R.drawable.liked_heart);
                     }

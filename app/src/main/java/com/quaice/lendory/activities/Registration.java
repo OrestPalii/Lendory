@@ -37,7 +37,7 @@ public class Registration extends AppCompatActivity {
     private Account you;
     private FirebaseDatabase database;
     public static SharedPreferences.Editor editor;
-    public static String name_str, phone_str;
+    //public static String name_str, phone_str;
 
     void init(){
         login_phonenumber = findViewById(R.id.loginphonenumber);
@@ -67,8 +67,8 @@ public class Registration extends AppCompatActivity {
 //        editor.commit();
 
         if(activityPreferences.getBoolean("loggin", false)){
-            name_str = activityPreferences.getString("user_name", "");
-            phone_str = activityPreferences.getString("phone_number", "");
+//            name_str = activityPreferences.getString("user_name", "");
+//            phone_str = activityPreferences.getString("phone_number", "");
             myRef = null;
             Intent intent = new Intent(Registration.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -126,8 +126,8 @@ public class Registration extends AppCompatActivity {
                                 editor.putString("user_name", reg_name.getText().toString());
                                 editor.putString("phone_number", login_phonenumber.getText().toString());
                                 editor.commit();
-                                name_str = activityPreferences.getString("user_name", "");
-                                phone_str = activityPreferences.getString("phone_number", "");
+//                                name_str = activityPreferences.getString("user_name", "");
+//                                phone_str = activityPreferences.getString("phone_number", "");
                                 myRef = null;
                                 Intent intent = new Intent(Registration.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

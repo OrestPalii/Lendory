@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -54,7 +56,7 @@ import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
-    private RelativeLayout new_adv, rentcard;
+    private RelativeLayout new_adv, rentcard, bigcontainer, mainlayout, reglayout;
     private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, helpcard, mailcard, settingscard, filtercard;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit, search, search_lockation,
             search_min_price, search_max_price;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef, acc, needToBeeApprovedRef;
     private ArrayList<String> images;
-    private TextView your_name, your_phone, currency, search_cancel, search_use;
+    private TextView your_name, your_phone, currency, search_cancel, search_use, logoutText;
     private int photoposition;
     public static Account yourAccount;
     private ArrayList<Adv> likedByYou;
@@ -77,7 +79,17 @@ public class MainActivity extends AppCompatActivity {
     private MaterialSpinner sorttype;
     private FirebaseStorage storage;
     private StorageReference ref;
+    private EditText login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
+    private RelativeLayout reg, login;
+    private CardView reg_but, log_but, loglikeviewer;
+    private TextView reg_text, log_text;
+    private DatabaseReference logref;
+    private Account you;
+    public static SharedPreferences.Editor editor;
+    public static String name_str, phone_str;
+    SharedPreferences activityPreferences;
     public static boolean canrefresh = true;
+    public static boolean loggedLikeViewer;
     private int sortTypeValue;
 
     private void init(){
@@ -132,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         search_no = findViewById(R.id.searchno);
         search_cancel = findViewById(R.id.seachcanel);
         search_use = findViewById(R.id.searchuse);
-        your_phone.setText(Registration.phone_str);
+        logoutText = findViewById(R.id.logoutText);
         homepagebut.setImageResource(R.drawable.selectedhome);
         likedpagebut.setImageResource(R.drawable.heart);
         sorttype = findViewById(R.id.sorttype);
@@ -146,6 +158,25 @@ public class MainActivity extends AppCompatActivity {
         });
         name_edit.setHeight(0);
         canrefresh = true;
+
+        login_phonenumber = findViewById(R.id.loginphonenumber);
+        login_password = findViewById(R.id.loginpassword);
+        reg_phonenumber = findViewById(R.id.regphonenumber);
+        reg_password = findViewById(R.id.regpassword);
+        reg_name = findViewById(R.id.reg_name);
+        reg = findViewById(R.id.register);
+        login = findViewById(R.id.login);
+        reg_but = findViewById(R.id.reg_but);
+        log_but = findViewById(R.id.logn_but);
+        reg_text = findViewById(R.id.regtext);
+        log_text = findViewById(R.id.logtext);
+        bigcontainer = findViewById(R.id.bigcontainer);
+        mainlayout = findViewById(R.id.mainLayout);
+        reglayout = findViewById(R.id.reglayout);
+        loglikeviewer = findViewById(R.id.loglikeviewer);
+        logref = database.getReference("profiles");
+        activityPreferences = getPreferences(Activity.MODE_PRIVATE);
+        editor = activityPreferences.edit();
     }
 
 
@@ -154,269 +185,384 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        //setTheme(R.style.Dark);
-        acc = database.getReference("profiles/"+your_phone.getText().toString());
-        acc.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                yourAccount = dataSnapshot.getValue(Account.class);
-                your_name.setText(yourAccount.getName());
+        if(activityPreferences.getBoolean("loggin", false) || activityPreferences.getBoolean("loglikeviewer", false)) {
+            loggedLikeViewer = activityPreferences.getBoolean("loglikeviewer", false);
+            if(loggedLikeViewer){
+                editor.putBoolean("loglikeviewer", false);
+                editor.putString("user_name", "");
+                editor.putString("phone_number", "");
+                editor.commit();
+                settingscard.setVisibility(View.INVISIBLE);
+                logoutText.setText("Увійти");
             }
+            //reglayout.setVisibility(View.INVISIBLE);
+            ViewGroup parent = (ViewGroup) reglayout.getParent();
+            parent.removeView(reglayout);
+            name_str = activityPreferences.getString("user_name", "");
+            phone_str = activityPreferences.getString("phone_number", "");
+            your_phone.setText(phone_str);
 
-            @Override
-            public void onCancelled(DatabaseError error) {}
+            if(!loggedLikeViewer) {
+                acc = database.getReference("profiles/" + your_phone.getText().toString());
+                acc.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        yourAccount = dataSnapshot.getValue(Account.class);
+                        your_name.setText(yourAccount.getName());
+                    }
 
-        });
-        recyclerRefresher();
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                    }
 
-        search.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(canceler.getVisibility() == View.INVISIBLE)
-                    canceler.setVisibility(View.VISIBLE);
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    search();
-                    return true;
+                });
+            }
+            recyclerRefresher();
+
+            search.setOnKeyListener(new View.OnKeyListener() {
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (canceler.getVisibility() == View.INVISIBLE)
+                        canceler.setVisibility(View.VISIBLE);
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                            (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        search();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
-        sender.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new_adv.setVisibility(View.VISIBLE);
-            }
-        });
+            sender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!loggedLikeViewer)
+                        new_adv.setVisibility(View.VISIBLE);
+                    else{
+                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                }
+            });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new_adv.setVisibility(View.INVISIBLE);
-                advCreatroCleaner();
-            }
-        });
-
-        photosOnClick(0);
-        photosOnClick(1);
-        photosOnClick(2);
-        photosOnClick(3);
-
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Adv cur = createNewAdv();
-                if(cur != null) {
-                    String hn = "" + cur.hashCode();
-                    cur.setHashnumber(hn);
-                    myRef.child("" + cur.hashCode()).setValue(cur);
-                    yourAccount.addnewAdv(hn);
-                    acc.setValue(yourAccount);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     new_adv.setVisibility(View.INVISIBLE);
-                    images = new ArrayList<>();
-                    canrefresh = true;
-                    needToBeeApprovedRef = database.getReference("needToBeeApproved");
-                    needToBeeApprovedRef.child("" + cur.hashCode()).setValue(cur.hashCode());
                     advCreatroCleaner();
+                }
+            });
+
+            photosOnClick(0);
+            photosOnClick(1);
+            photosOnClick(2);
+            photosOnClick(3);
+
+            send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Adv cur = createNewAdv();
+                    if (cur != null) {
+                        String hn = "" + cur.hashCode();
+                        cur.setHashnumber(hn);
+                        myRef.child("" + cur.hashCode()).setValue(cur);
+                        yourAccount.addnewAdv(hn);
+                        acc.setValue(yourAccount);
+                        new_adv.setVisibility(View.INVISIBLE);
+                        images = new ArrayList<>();
+                        canrefresh = true;
+                        needToBeeApprovedRef = database.getReference("needToBeeApproved");
+                        needToBeeApprovedRef.child("" + cur.hashCode()).setValue(cur.hashCode());
+                        advCreatroCleaner();
 //                    new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
 //                            .setContentText("Оголошення успішно створене й відправлене на перевірку. Очікуйте дзівка від адміністрації")
 //                            .show();
-                    //Toasty.success(MainActivity.this, "Оголошння створено", Toast.LENGTH_SHORT, true).show();
+                        //Toasty.success(MainActivity.this, "Оголошння створено", Toast.LENGTH_SHORT, true).show();
+                    }
                 }
-            }
-        });
+            });
 
 
-        menu_show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showpanel();
-            }
-        });
-
-        menu_hide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hidepanel();
-            }
-        });
-
-        homepagebut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                animateView(homepagebut, R.drawable.selectedhome);
-                likedpagebut.setImageResource(R.drawable.heart);
-                recyclerView.setVisibility(View.VISIBLE);
-                likerecycler.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        likedpagebut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                animateView(likedpagebut, R.drawable.liked_heart);
-                homepagebut.setImageResource(R.drawable.home);
-                showliked();
-            }
-        });
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Registration.editor.putBoolean("loggin", false);
-                Registration.editor.putString("user_name", "");
-                Registration.editor.putString("phone_number", "");
-                Registration.editor.commit();
-                Intent intent = new Intent(MainActivity.this, Registration.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
-
-        helpcard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://bank.gov.ua/ua/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi"));
-                startActivity(i);
-            }
-        });
-
-        mailcard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:"));
-                intent.putExtra(Intent.EXTRA_EMAIL, "lendory@gmail.com");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "");
-                startActivity(intent);
-            }
-        });
-
-        currency.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean can = true;
-                if(currency.getText().toString().equals("₴") && can) {
-                    currency.setText("$");
-                    can = false;
+            menu_show.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showpanel();
                 }
-                if(currency.getText().toString().equals("$") && can) {
-                    currency.setText("€");
-                    can = false;
-                }
-                if(currency.getText().toString().equals("€") && can) {
-                    currency.setText("₴");
-                }
-            }
-        });
+            });
 
-        yesbut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    Animation anim = new ScaleAnimation(
-                            1f, 1f,
-                            1f, 0f,
-                            Animation.RELATIVE_TO_SELF, 0.5f,
-                            Animation.RELATIVE_TO_SELF, 0f);
-                    anim.setFillAfter(true);
-                    anim.setDuration(250);
-                    rentcard.startAnimation(anim);
-                }else {
-                    Animation anim = new ScaleAnimation(
-                            1f, 1f,
-                            0f, 1f,
-                            Animation.RELATIVE_TO_SELF, 0.5f,
-                            Animation.RELATIVE_TO_SELF, 0f);
-                    anim.setFillAfter(true);
-                    anim.setDuration(250);
-                    rentcard.startAnimation(anim);
-                }
-            }
-        });
-
-        settingscard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hidepanel();
-                Intent intent = new Intent(MainActivity.this, YourAdverts.class);
-                startActivity(intent);
-            }
-        });
-
-        searchbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search();
-                animateView(searchbutton);
-            }
-        });
-
-        canceler.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(menu.getVisibility() == View.VISIBLE)
+            menu_hide.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     hidepanel();
-                else {
-                    search.setEnabled(false);
-                    search.setEnabled(true);
-                    if(filtercard.getVisibility() == View.VISIBLE)
-                        filterview(0, -1000);
                 }
-                view.setVisibility(View.INVISIBLE);
-            }
-        });
+            });
 
-        filterShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                animateView(filterShow);
-                if(filtercard.getVisibility() == View.INVISIBLE) {
-                    //Show hide anim method
-                    filterview(-1000, 0);
-                    canceler.setVisibility(View.VISIBLE);
+            homepagebut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    animateView(homepagebut, R.drawable.selectedhome);
+                    likedpagebut.setImageResource(R.drawable.heart);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    likerecycler.setVisibility(View.INVISIBLE);
                 }
-                else {
+            });
+
+            likedpagebut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!loggedLikeViewer) {
+                        animateView(likedpagebut, R.drawable.liked_heart);
+                        homepagebut.setImageResource(R.drawable.home);
+                        showliked();
+                    }
+                }
+            });
+
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    editor.putBoolean("loggin", false);
+                    editor.putString("user_name", "");
+                    editor.putString("phone_number", "");
+                    editor.commit();
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+            });
+
+            helpcard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse("https://bank.gov.ua/ua/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi"));
+                    startActivity(i);
+                }
+            });
+
+            mailcard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:"));
+                    intent.putExtra(Intent.EXTRA_EMAIL, "lendory@gmail.com");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "");
+                    startActivity(intent);
+                }
+            });
+
+            currency.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean can = true;
+                    if (currency.getText().toString().equals("₴") && can) {
+                        currency.setText("$");
+                        can = false;
+                    }
+                    if (currency.getText().toString().equals("$") && can) {
+                        currency.setText("€");
+                        can = false;
+                    }
+                    if (currency.getText().toString().equals("€") && can) {
+                        currency.setText("₴");
+                    }
+                }
+            });
+
+            yesbut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b) {
+                        Animation anim = new ScaleAnimation(
+                                1f, 1f,
+                                1f, 0f,
+                                Animation.RELATIVE_TO_SELF, 0.5f,
+                                Animation.RELATIVE_TO_SELF, 0f);
+                        anim.setFillAfter(true);
+                        anim.setDuration(250);
+                        rentcard.startAnimation(anim);
+                    } else {
+                        Animation anim = new ScaleAnimation(
+                                1f, 1f,
+                                0f, 1f,
+                                Animation.RELATIVE_TO_SELF, 0.5f,
+                                Animation.RELATIVE_TO_SELF, 0f);
+                        anim.setFillAfter(true);
+                        anim.setDuration(250);
+                        rentcard.startAnimation(anim);
+                    }
+                }
+            });
+
+            settingscard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    hidepanel();
+                    Intent intent = new Intent(MainActivity.this, YourAdverts.class);
+                    startActivity(intent);
+                }
+            });
+
+            searchbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    search();
+                    animateView(searchbutton);
+                }
+            });
+
+            canceler.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (menu.getVisibility() == View.VISIBLE)
+                        hidepanel();
+                    else {
+                        search.setEnabled(false);
+                        search.setEnabled(true);
+                        if (filtercard.getVisibility() == View.VISIBLE)
+                            filterview(0, -1000);
+                    }
+                    view.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            filterShow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    animateView(filterShow);
+                    if (filtercard.getVisibility() == View.INVISIBLE) {
+                        //Show hide anim method
+                        filterview(-1000, 0);
+                        canceler.setVisibility(View.VISIBLE);
+                    } else {
+                        filterview(0, -1000);
+                        canceler.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+
+            search_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    search.setText("");
+                    search_lockation.setText("");
+                    search_min_price.setText("");
+                    search_max_price.setText("");
+                    search_yes.setChecked(true);
+                    search_no.setChecked(true);
+                    search();
+                    canceler.setVisibility(View.INVISIBLE);
+                    filterview(0, -1000);
+                    build_recycler(sortTypeChanger(downloaded, 0), recyclerView);
+                }
+            });
+
+            search_use.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    search();
                     filterview(0, -1000);
                     canceler.setVisibility(View.INVISIBLE);
                 }
-            }
-        });
+            });
 
-        search_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search.setText("");
-                search_lockation.setText("");
-                search_min_price.setText("");
-                search_max_price.setText("");
-                search_yes.setChecked(true);
-                search_no.setChecked(true);
-                search();
-                canceler.setVisibility(View.INVISIBLE);
-                filterview(0, -1000);
-                build_recycler(sortTypeChanger(downloaded, 0), recyclerView);
-            }
-        });
+            mSwipeRefreshLayout.setColorSchemeResources(R.color.purpleforicons, R.color.freecolor);
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    recyclerRefresher();
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        }else{
+            reg_text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    loglikeviewer.setVisibility(View.VISIBLE);
+                    reg.setVisibility(View.VISIBLE);
+                    login.setVisibility(View.INVISIBLE);
+                }
+            });
 
-        search_use.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search();
-                filterview(0, -1000);
-                canceler.setVisibility(View.INVISIBLE);
-            }
-        });
+            log_text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    loglikeviewer.setVisibility(View.INVISIBLE);
+                    reg.setVisibility(View.INVISIBLE);
+                    login.setVisibility(View.VISIBLE);
+                }
+            });
 
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.purpleforicons, R.color.freecolor);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                recyclerRefresher();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
+            reg_but.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ArrayList<String> likedEmpty = new ArrayList<>();
+                    likedEmpty.add("ThisHashCodeWillNeverBeUsed");
+                    ArrayList<String> createdEmpty = new ArrayList<>();
+                    createdEmpty.add("ThisHashCodeWillNeverBeUsedToo");
+                    if(!reg_name.getText().toString().equals("") && !reg_phonenumber.getText().toString().equals("") &&
+                            !reg_password.getText().toString().equals("")) {
+
+                        myRef.child(reg_phonenumber.getText().toString()).setValue(new Account(
+                                reg_name.getText().toString(), reg_phonenumber.getText().toString(),
+                                reg_password.getText().toString(), likedEmpty, createdEmpty));
+                    }
+                    reg.setVisibility(View.INVISIBLE);
+                    login.setVisibility(View.VISIBLE);
+                }
+            });
+
+            log_but.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    database.getReference("profiles").child(""+login_phonenumber.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            you = task.getResult().getValue(Account.class);
+                            try {
+                                if (login_phonenumber.getText().toString().equals(you.getPhonenumber())
+                                        && login_password.getText().toString().equals(you.getPassword())) {
+                                    //Local save
+                                    editor.putBoolean("loggin", true);
+                                    editor.putString("user_name", reg_name.getText().toString());
+                                    editor.putString("phone_number", login_phonenumber.getText().toString());
+                                    editor.commit();
+                                    name_str = activityPreferences.getString("user_name", "");
+                                    phone_str = activityPreferences.getString("phone_number", "");
+                                    myRef = null;
+                                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }else{
+                                    new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                            .setTitleText("Увага!")
+                                            .setContentText("Хибний номер телефону чи пароль")
+                                            .show();
+                                }
+                            }catch (NullPointerException e){
+                                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                        .setTitleText("Увага!")
+                                        .setContentText("Користувача з таким номером телефону не існує")
+                                        .show();
+                            }
+                        }
+                    });
+                }
+            });
+            loglikeviewer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    editor.putBoolean("loglikeviewer", true);
+                    editor.putString("user_name", "Гість");
+                    editor.putString("phone_number", "Гість");
+                    editor.commit();
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.Registration"
-    android:background="@drawable/regbutton">
+    android:background="@drawable/regbutton"
+    android:id="@+id/reglayout">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -262,4 +263,26 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        app:cardCornerRadius="15dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/reggrad"
+            android:rotation="180"></ImageView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Увійти як гість"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textSize="20dp"></TextView>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

@@ -32,7 +32,7 @@ public class AdvReview extends AppCompatActivity {
     private Adv cur;
     private ImageView mainImage, like, infocardback, backbackground, shareimage, profImg, callImg;
     private TextView name, description, location, floor, area, sellername, sellerphone, price;
-    private CardView backcard, imagecard, infocard, profilecard, sharecard;
+    private CardView backcard, imagecard, infocard, profilecard, sharecard, likecard;
     private ViewPager viewPager;
     private ViewPagerAdapters adapter;
     private RelativeLayout reviewback;
@@ -69,6 +69,10 @@ public class AdvReview extends AppCompatActivity {
         sharecard = findViewById(R.id.sharecard);
         profilecard = findViewById(R.id.profilecard);
         like = findViewById(R.id.heart);
+        likecard = findViewById(R.id.likecard);
+        if(MainActivity.loggedLikeViewer){
+            likecard.setVisibility(View.INVISIBLE);
+        }
         price.setText(cur.getPrice() + " " + cur.getCurrency());
         shareimage = findViewById(R.id.shareimage);
         profImg = findViewById(R.id.iconprof);
@@ -94,7 +98,9 @@ public class AdvReview extends AppCompatActivity {
         acc = database.getReference("profiles");
         if(0 < cur.getImages().size())
             Glide.with(AdvReview.this).load(cur.getImages().get(0)).into(mainImage);
-        boolean liked = MainActivity.yourAccount.checkifconsist(cur.getHashnumber());
+        boolean liked = false;
+        if(!MainActivity.loggedLikeViewer)
+            liked = MainActivity.yourAccount.checkifconsist(cur.getHashnumber());
         if (!liked) {
             like.setImageResource(R.drawable.heart);
         }else{
