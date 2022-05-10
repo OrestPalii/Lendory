@@ -56,19 +56,20 @@ import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
-    private RelativeLayout new_adv, rentcard, bigcontainer, mainlayout, reglayout;
-    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, helpcard, mailcard, settingscard, filtercard;
+    private RelativeLayout new_adv, rentcard, bigcontainer, mainlayout, reglayout, reg, login;
+    private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, helpcard,
+            mailcard, settingscard, filtercard, loglikeviewer,reg_but, log_but;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit, search, search_lockation,
-            search_min_price, search_max_price;
+            search_min_price, search_max_price, login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
     private ImageView homepagebut, likedpagebut, searchbutton, filterShow;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
     private ArrayList<Boolean> photos_clicker;
     private FirebaseDatabase database;
-    private DatabaseReference myRef, acc, needToBeeApprovedRef;
+    private DatabaseReference myRef, acc, needToBeeApprovedRef,logref;
     private ArrayList<String> images;
-    private TextView your_name, your_phone, currency, search_cancel, search_use, logoutText;
+    private TextView your_name, your_phone, currency, search_cancel, search_use, logoutText, reg_text, log_text;
     private int photoposition;
     public static Account yourAccount;
     private ArrayList<Adv> likedByYou;
@@ -79,18 +80,13 @@ public class MainActivity extends AppCompatActivity {
     private MaterialSpinner sorttype;
     private FirebaseStorage storage;
     private StorageReference ref;
-    private EditText login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
-    private RelativeLayout reg, login;
-    private CardView reg_but, log_but, loglikeviewer;
-    private TextView reg_text, log_text;
-    private DatabaseReference logref;
     private Account you;
+    private SharedPreferences activityPreferences;
+    private int sortTypeValue;
     public static SharedPreferences.Editor editor;
     public static String name_str, phone_str;
-    SharedPreferences activityPreferences;
     public static boolean canrefresh = true;
     public static boolean loggedLikeViewer;
-    private int sortTypeValue;
 
     private void init(){
         storage = FirebaseStorage.getInstance(Const.STORAGE_URL);;
@@ -345,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_SENDTO);
                     intent.setData(Uri.parse("mailto:"));
-                    intent.putExtra(Intent.EXTRA_EMAIL, "lendory@gmail.com");
+                    intent.putExtra(Intent.EXTRA_EMAIL, "lendory.support@gmail.com");
                     intent.putExtra(Intent.EXTRA_SUBJECT, "");
                     startActivity(intent);
                 }

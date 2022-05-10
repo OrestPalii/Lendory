@@ -18,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.quaice.lendory.R;
 import com.quaice.lendory.activities.AdvReview;
 import com.quaice.lendory.activities.MainActivity;
-import com.quaice.lendory.activities.Registration;
 import com.quaice.lendory.activities.YourAdverts;
 import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Adv;
