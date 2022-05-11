@@ -12,6 +12,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,12 +59,12 @@ import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
-    private RelativeLayout new_adv, rentcard, bigcontainer, mainlayout, reglayout, reg, login;
+    private RelativeLayout new_adv, rentcard, bigcontainer, mainlayout, reglayout, reg, login, loglikeviewer;
     private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, helpcard,
-            mailcard, settingscard, filtercard, loglikeviewer,reg_but, log_but;
+            mailcard, settingscard, filtercard,reg_but, log_but;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit, search, search_lockation,
             search_min_price, search_max_price, login_phonenumber, login_password, reg_phonenumber, reg_password, reg_name;
-    private ImageView homepagebut, likedpagebut, searchbutton, filterShow;
+    private ImageView homepagebut, likedpagebut, searchbutton, filterShow, loglikeviewerbutton, regeye, logeye;
     private ArrayList<Adv> downloaded;
     private ArrayList<Adv> sorted;
     private ArrayList<ImageView> photos;
@@ -161,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
         reg_password = findViewById(R.id.regpassword);
         reg_name = findViewById(R.id.reg_name);
         reg = findViewById(R.id.register);
+        regeye = findViewById(R.id.regeye);
+        logeye = findViewById(R.id.logeye);
         login = findViewById(R.id.login);
         reg_but = findViewById(R.id.reg_but);
         log_but = findViewById(R.id.logn_but);
@@ -170,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         mainlayout = findViewById(R.id.mainLayout);
         reglayout = findViewById(R.id.reglayout);
         loglikeviewer = findViewById(R.id.loglikeviewer);
+        loglikeviewerbutton = findViewById(R.id.loglikeviewerbutton);
         logref = database.getReference("profiles");
         activityPreferences = getPreferences(Activity.MODE_PRIVATE);
         editor = activityPreferences.edit();
@@ -181,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+//        editor.putBoolean("loggin", false);
+//        editor.commit();
         if(activityPreferences.getBoolean("loggin", false) || activityPreferences.getBoolean("loglikeviewer", false)) {
             loggedLikeViewer = activityPreferences.getBoolean("loglikeviewer", false);
             if(loggedLikeViewer){
@@ -546,7 +554,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             });
-            loglikeviewer.setOnClickListener(new View.OnClickListener() {
+            loglikeviewerbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     editor.putBoolean("loglikeviewer", true);
@@ -556,6 +564,20 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                }
+            });
+
+            regeye.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    passwordmaker(reg_password, regeye);
+                }
+            });
+
+            logeye.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    passwordmaker(login_password, logeye);
                 }
             });
         }
@@ -588,6 +610,17 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             }
+        }
+    }
+
+    private void passwordmaker(EditText field, ImageView eye){
+        if(field.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+            eye.setImageResource(R.drawable.eyecrossed);
+            field.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        }
+        else{
+            eye.setImageResource(R.drawable.eye);
+            field.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
     }
 

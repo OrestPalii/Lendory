@@ -1267,13 +1267,27 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="140dp"
                         app:cardCornerRadius="10dp">
-                        <EditText
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:id="@+id/loginpassword"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:background="@null"></EditText>
+                            android:layout_height="match_parent">
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:id="@+id/loginpassword"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:background="@null"
+                                android:inputType="textPassword"></EditText>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:id="@+id/logeye"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/eye"
+                                android:tint="@color/purpleforicons"></ImageView>
+                        </RelativeLayout>
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                         android:id="@+id/logn_but"
@@ -1408,13 +1422,27 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="235dp"
                         app:cardCornerRadius="10dp">
-                        <EditText
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:id="@+id/regpassword"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:background="@null"></EditText>
+                            android:layout_height="match_parent">
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:id="@+id/regpassword"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:background="@null"
+                                android:inputType="textPassword"></EditText>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:id="@+id/regeye"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/eye"
+                                android:tint="@color/purpleforicons"></ImageView>
+                        </RelativeLayout>
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                         android:id="@+id/reg_but"
@@ -1465,19 +1493,17 @@
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
-        <androidx.cardview.widget.CardView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            app:cardCornerRadius="15dp"
             android:id="@+id/loglikeviewer"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardElevation="0dp"
             android:elevation="100dp">
             <ImageView
+                android:id="@+id/loglikeviewerbutton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/border"></ImageView>
@@ -1489,6 +1515,6 @@
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textSize="20dp"></TextView>
-        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>
