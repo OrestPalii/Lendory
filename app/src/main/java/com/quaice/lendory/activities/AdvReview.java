@@ -27,6 +27,8 @@ import com.quaice.lendory.adapters.ViewPagerAdapters;
 import com.quaice.lendory.constants.Const;
 import com.quaice.lendory.typeclass.Adv;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class AdvReview extends AppCompatActivity {
     private Adv cur;
@@ -59,7 +61,10 @@ public class AdvReview extends AppCompatActivity {
         sellername = findViewById(R.id.profilename);
         sellername.setText(cur.getCreator().getName());
         sellerphone = findViewById(R.id.profilephone);
-        sellerphone.setText(cur.getCreator().getPhoneNumber());
+        if(!MainActivity.loggedLikeViewer)
+            sellerphone.setText(cur.getCreator().getPhoneNumber());
+        else
+            sellerphone.setText("+380...");
         backcard = findViewById(R.id.backcard);
         imagecard = findViewById(R.id.imagecard);
         infocard = findViewById(R.id.infocard);
@@ -142,7 +147,13 @@ public class AdvReview extends AppCompatActivity {
         profilecard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                askPermissionAndCall();
+                if(!MainActivity.loggedLikeViewer)
+                    askPermissionAndCall();
+                else{
+                    new SweetAlertDialog(AdvReview.this, SweetAlertDialog.WARNING_TYPE)
+                            .setContentText("Для початку увійдіть в акаунт")
+                            .show();
+                }
             }
         });
 

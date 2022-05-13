@@ -18,6 +18,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
@@ -73,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference myRef, acc, needToBeeApprovedRef,logref;
     private ArrayList<String> images;
     private TextView your_name, your_phone, currency, search_cancel, search_use, logoutText, reg_text, log_text;
-    private int photoposition;
-    public static Account yourAccount;
     private ArrayList<Adv> likedByYou;
     private RadioButton yesbut;
     private CheckBox search_yes, search_no;
@@ -86,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     private Account you;
     private SharedPreferences activityPreferences;
     private int sortTypeValue;
+    private int photoposition;
+    public static Account yourAccount;
     public static SharedPreferences.Editor editor;
     public static String name_str, phone_str;
     public static boolean canrefresh = true;
@@ -180,7 +181,6 @@ public class MainActivity extends AppCompatActivity {
         activityPreferences = getPreferences(Activity.MODE_PRIVATE);
         editor = activityPreferences.edit();
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,10 +278,9 @@ public class MainActivity extends AppCompatActivity {
                         needToBeeApprovedRef = database.getReference("needToBeeApproved");
                         needToBeeApprovedRef.child("" + cur.hashCode()).setValue(cur.hashCode());
                         advCreatroCleaner();
-//                    new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-//                            .setContentText("Оголошення успішно створене й відправлене на перевірку. Очікуйте дзівка від адміністрації")
-//                            .show();
-                        //Toasty.success(MainActivity.this, "Оголошння створено", Toast.LENGTH_SHORT, true).show();
+                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setContentText("Оголошення успішно створене й відправлене на перевірку. Очікуйте дзвінка від адміністрації")
+                            .show();
                     }
                 }
             });
@@ -479,6 +478,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }else{
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
             reg_text.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -507,7 +507,7 @@ public class MainActivity extends AppCompatActivity {
                     if(!reg_name.getText().toString().equals("") && !reg_phonenumber.getText().toString().equals("") &&
                             !reg_password.getText().toString().equals("")) {
 
-                        myRef.child(reg_phonenumber.getText().toString()).setValue(new Account(
+                        logref.child(reg_phonenumber.getText().toString()).setValue(new Account(
                                 reg_name.getText().toString(), reg_phonenumber.getText().toString(),
                                 reg_password.getText().toString(), likedEmpty, createdEmpty));
                     }

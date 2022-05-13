@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
-    android:background="@drawable/freegradient"
+    android:background="@drawable/reggrad"
     android:id="@+id/bigcontainer">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -1013,7 +1013,7 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:fontFamily="@font/poppins"
-                    android:text="HashNova"
+                    android:text="Гість"
                     android:textStyle="bold"
                     android:layout_marginTop="205dp"
                     android:gravity="center"
