@@ -60,7 +60,7 @@ import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView, likerecycler;
-    private RelativeLayout new_adv, rentcard, bigcontainer, mainlayout, reglayout, reg, login, loglikeviewer;
+    private RelativeLayout new_adv, rentcard, bigcontainer, mainlayout, reglayout, reg, login, loglikeviewer, noadvlayout;
     private CardView cancel, send, menu_show, menu_hide, menu, sender, logout, helpcard,
             mailcard, settingscard, filtercard,reg_but, log_but;
     private EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit, search, search_lockation,
@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         mainlayout = findViewById(R.id.mainLayout);
         reglayout = findViewById(R.id.reglayout);
         loglikeviewer = findViewById(R.id.loglikeviewer);
+        noadvlayout = findViewById(R.id.noadvlayout);
         loglikeviewerbutton = findViewById(R.id.loglikeviewerbutton);
         logref = database.getReference("profiles");
         activityPreferences = getPreferences(Activity.MODE_PRIVATE);
@@ -307,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
                     likedpagebut.setImageResource(R.drawable.heart);
                     recyclerView.setVisibility(View.VISIBLE);
                     likerecycler.setVisibility(View.INVISIBLE);
+                    noadvlayout.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -506,13 +508,30 @@ public class MainActivity extends AppCompatActivity {
                     createdEmpty.add("ThisHashCodeWillNeverBeUsedToo");
                     if(!reg_name.getText().toString().equals("") && !reg_phonenumber.getText().toString().equals("") &&
                             !reg_password.getText().toString().equals("")) {
+                        DatabaseReference fdbRefer = logref.child(reg_phonenumber.getText().toString());
+                        fdbRefer.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(!snapshot.exists()) {
+                                    logref.child(reg_phonenumber.getText().toString()).setValue(new Account(
+                                            reg_name.getText().toString(), reg_phonenumber.getText().toString(),
+                                            reg_password.getText().toString(), likedEmpty, createdEmpty));
+                                    reg.setVisibility(View.INVISIBLE);
+                                    login.setVisibility(View.VISIBLE);
+                                }else{
+                                    new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                            .setTitleText("Увага!")
+                                            .setContentText("Користувач з таким номером телефону вже існує")
+                                            .show();
+                                }
+                            }
 
-                        logref.child(reg_phonenumber.getText().toString()).setValue(new Account(
-                                reg_name.getText().toString(), reg_phonenumber.getText().toString(),
-                                reg_password.getText().toString(), likedEmpty, createdEmpty));
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
-                    reg.setVisibility(View.INVISIBLE);
-                    login.setVisibility(View.VISIBLE);
                 }
             });
 
@@ -693,7 +712,6 @@ public class MainActivity extends AppCompatActivity {
                     .setTitleText("Увага!")
                     .setContentText("Заповніть усі поля")
                     .show();
-            //Toasty.error(this, "Заповніть усі поля!", Toast.LENGTH_SHORT, true).show();
             return  null;
         }
     }
@@ -712,6 +730,8 @@ public class MainActivity extends AppCompatActivity {
                         }catch (NullPointerException e){}
                     }
                 }
+                if(likedByYou.size() <= 0)
+                    noadvlayout.setVisibility(View.VISIBLE);
                 build_recycler(likedByYou, likerecycler);
             }
 
@@ -992,7 +1012,7 @@ public class MainActivity extends AppCompatActivity {
         name_edit.setText("");
         desc_edit.setText("");
         lock_edit.setText("");
-        currency.setText("");
+        currency.setText("₴");
         price_edit.setText("");
         area_edit.setText("");
         room_edit.setText("");

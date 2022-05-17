@@ -44,7 +44,7 @@ public class YourAdverts extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CardView backcard, cancel, send;
     private ArrayList<Adv> downloaded;
-    private RelativeLayout rentcard;
+    private RelativeLayout rentcard, noADVLayout;
     private int photoposition;
     public static DatabaseReference myRef;
     public static EditText name_edit, desc_edit, lock_edit, area_edit, room_edit, price_edit, floor_edit;
@@ -75,6 +75,7 @@ public class YourAdverts extends AppCompatActivity {
         rentcard = findViewById(R.id.rentcard);
         currency = findViewById(R.id.currency);
         send = findViewById(R.id.send_button);
+        noADVLayout = findViewById(R.id.noadvlayout);
         images = new ArrayList<>();
         photos = new ArrayList<>();
         photos.add(findViewById(R.id.first_image));
@@ -111,7 +112,10 @@ public class YourAdverts extends AppCompatActivity {
                         }catch (Exception e){break;}
                         //Toast.makeText(YourAdverts.this, "" + dataSnapshotchild.getValue(Adv.class).getName(), Toast.LENGTH_SHORT).show();
                     }
-                    build_recycler(downloaded, recyclerView);
+                    if(downloaded.size() != 0)
+                        build_recycler(downloaded, recyclerView);
+                    else
+                        noADVLayout.setVisibility(View.VISIBLE);
                     canupdate = false;
                 }
             }

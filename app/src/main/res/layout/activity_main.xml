@@ -13,6 +13,14 @@
         android:id="@+id/mainLayout"
         android:elevation="50dp"
         android:saveEnabled="false">
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:src="@drawable/mainback"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:rotation="90"-->
+<!--            android:scaleX="2"-->
+<!--            android:scaleY=""></ImageView>-->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -980,6 +988,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/navback"
                 android:alpha="0.6"></ImageView>
+
             <RelativeLayout
                 android:layout_marginLeft="30dp"
                 android:layout_width="match_parent"
@@ -1092,7 +1101,7 @@
                             android:layout_marginLeft="55dp"
                             android:layout_marginRight="10dp"
                             android:fontFamily="@font/poppins"
-                            android:text="Служба Підтримки"
+                            android:text="Служба підтримки"
                             android:layout_marginTop="13dp"
                             android:gravity="center_vertical"
                             android:textSize="16dp"
@@ -1124,7 +1133,7 @@
                             android:layout_marginLeft="55dp"
                             android:layout_marginRight="10dp"
                             android:fontFamily="@font/poppins"
-                            android:text="Ваші Оголошення"
+                            android:text="Ваші оголошення"
                             android:layout_marginTop="13dp"
                             android:gravity="center_vertical"
                             android:textSize="17dp"
@@ -1186,6 +1195,29 @@
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/noadvlayout"
+            android:visibility="invisible"
+            android:elevation="100dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#95000000"></ImageView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Ви ще не вподобали жодного оголошення"
+                android:layout_margin="16dp"
+                android:textSize="30dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textAllCaps="true"></TextView>
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -1248,7 +1280,8 @@
                             android:id="@+id/loginphonenumber"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:background="@null"></EditText>
+                            android:background="@null"
+                            android:textColor="@color/purpleforicons"></EditText>
                     </androidx.cardview.widget.CardView>
                     <TextView
                         android:layout_width="match_parent"
@@ -1277,7 +1310,8 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
                                 android:background="@null"
-                                android:inputType="textPassword"></EditText>
+                                android:inputType="textPassword"
+                                android:textColor="@color/purpleforicons"></EditText>
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
@@ -1379,7 +1413,8 @@
                             android:id="@+id/reg_name"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:background="@null"></EditText>
+                            android:background="@null"
+                            android:textColor="@color/purpleforicons"></EditText>
                     </androidx.cardview.widget.CardView>
                     <TextView
                         android:layout_width="match_parent"
@@ -1403,7 +1438,8 @@
                             android:id="@+id/regphonenumber"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:background="@null"></EditText>
+                            android:background="@null"
+                            android:textColor="@color/purpleforicons"></EditText>
                     </androidx.cardview.widget.CardView>
                     <TextView
                         android:layout_width="match_parent"
@@ -1432,7 +1468,8 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
                                 android:background="@null"
-                                android:inputType="textPassword"></EditText>
+                                android:inputType="textPassword"
+                                android:textColor="@color/purpleforicons"></EditText>
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
