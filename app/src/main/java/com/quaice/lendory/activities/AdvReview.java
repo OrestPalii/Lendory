@@ -32,7 +32,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AdvReview extends AppCompatActivity {
     private Adv cur;
-    private ImageView mainImage, like, infocardback, backbackground, shareimage, profImg, callImg;
+    private ImageView mainImage, like, infocardback, backbackground, shareimage, profImg, callImg, backarrow;
     private TextView name, description, location, floor, area, sellername, sellerphone, price;
     private CardView backcard, imagecard, infocard, profilecard, sharecard, likecard;
     private ViewPager viewPager;
@@ -83,8 +83,8 @@ public class AdvReview extends AppCompatActivity {
         profImg = findViewById(R.id.iconprof);
         callImg = findViewById(R.id.callim);
         reviewback = findViewById(R.id.reviewback);
+        backarrow = findViewById(R.id.backarrow);
         if (cur.isVolunteering()){
-            backbackground.setImageResource(R.drawable.freegradient);
             infocardback.setImageResource(R.drawable.freegradient);
             name.setTextColor(getResources().getColor(R.color.freecolor));
             price.setTextColor(getResources().getColor(R.color.freecolor));
@@ -97,8 +97,9 @@ public class AdvReview extends AppCompatActivity {
             shareimage.setColorFilter(getResources().getColor(R.color.freecolor));
             profImg.setColorFilter(getResources().getColor(R.color.freecolor));
             callImg.setColorFilter(getResources().getColor(R.color.freecolor));
+            backarrow.setColorFilter(getResources().getColor(R.color.freecolor));
+        }else
             reviewback.setBackgroundResource(R.drawable.reggrad);
-        }
         FirebaseDatabase database = FirebaseDatabase.getInstance(Const.DATABASE_URL);
         acc = database.getReference("profiles");
         if(0 < cur.getImages().size())

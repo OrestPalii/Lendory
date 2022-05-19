@@ -24,9 +24,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/waves"
-            android:scaleType="centerCrop"
-            android:tint="@android:color/white"></ImageView>
+            android:src="@drawable/mainpageback"
+            android:scaleType="centerCrop"></ImageView>
 
         <RelativeLayout
             android:id="@+id/new_adw"
@@ -981,13 +980,12 @@
             android:layout_height="match_parent"
             app:cardCornerRadius="30dp"
             android:layout_marginLeft="-30dp"
-            app:cardBackgroundColor="@color/purpleforicons"
-            app:cardElevation="10dp">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="20dp">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/navback"
-                android:alpha="0.6"></ImageView>
+                android:background="@drawable/reggrad"></ImageView>
 
             <RelativeLayout
                 android:layout_marginLeft="30dp"
@@ -1201,7 +1199,7 @@
             android:layout_height="match_parent"
             android:id="@+id/noadvlayout"
             android:visibility="invisible"
-            android:elevation="100dp">
+            android:elevation="10dp">
 
             <ImageView
                 android:layout_width="match_parent"
