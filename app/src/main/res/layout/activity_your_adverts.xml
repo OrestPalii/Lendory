@@ -8,13 +8,18 @@
     android:background="@drawable/reggrad">
 
 
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/waves"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:rotation="180"-->
+<!--        android:tint="@android:color/white"></ImageView>-->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/waves"
-        android:scaleType="centerCrop"
-        android:rotation="180"
-        android:tint="@android:color/white"></ImageView>
+        android:src="@drawable/mainpageback"
+        android:scaleType="centerCrop"></ImageView>
     <androidx.cardview.widget.CardView
         android:id="@+id/backcard"
         android:layout_width="65dp"

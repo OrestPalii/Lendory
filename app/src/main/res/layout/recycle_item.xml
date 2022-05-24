@@ -32,8 +32,8 @@
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginBottom="30dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginBottom="28dp"
                         app:cardCornerRadius="30dp">
 
                         <ImageView
@@ -62,8 +62,7 @@
                             android:text="+10"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
-                            android:textSize="50dp"
-                            android:textStyle="bold"></TextView>
+                            android:textSize="50dp"></TextView>
                     </androidx.cardview.widget.CardView>
 
                     <TextView

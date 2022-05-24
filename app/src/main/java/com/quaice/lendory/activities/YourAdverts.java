@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -183,7 +184,6 @@ public class YourAdverts extends AppCompatActivity {
                 new_adv.setVisibility(View.INVISIBLE);
             }
         });
-
     }
 
     @Override
@@ -344,10 +344,16 @@ public class YourAdverts extends AppCompatActivity {
         canupdate = true;
         MainActivity.canrefresh = true;
         myRef.child("" + hashNumber).removeValue();
-        new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("")
-                .setContentText("Оголошення успішно видалене")
-                .show();
+        SweetAlertDialog s = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
+        s.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                Intent intent = new Intent(context, YourAdverts.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context.startActivity(intent);
+            }
+        });
+        s.setTitleText("").setContentText("Оголошення успішно видалене").show();
     }
 
     private void photosOnClick(int position){
